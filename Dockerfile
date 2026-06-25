@@ -8,7 +8,7 @@ ENV DISPLAY=:100
 
 RUN dpkg --add-architecture i386 \
     && apt-get update \
-    && apt-get install -y --no-install-recommends \
+    && apt-get install -y --fix-missing --no-install-recommends \
         ca-certificates \
         wget \
         gnupg2 \
