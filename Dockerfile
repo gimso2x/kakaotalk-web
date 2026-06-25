@@ -10,6 +10,8 @@ RUN dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install -y --fix-missing --no-install-recommends \
         ca-certificates \
+        bzip2 \
+        xz-utils \
         wget \
         gnupg2 \
         locales \
@@ -23,6 +25,7 @@ RUN dpkg --add-architecture i386 \
         xdotool \
         wmctrl \
         openbox \
+        tint2 \
         fcitx5-hangul \
         fcitx5-module-dbus \
         fcitx5-frontend-gtk2 \
@@ -46,9 +49,14 @@ RUN dpkg --add-architecture i386 \
 COPY ["default_drive_c/Program Files/Kakao/KakaoTalk", "/opt/kakao/KakaoTalk"]
 COPY docker/entrypoint.sh /usr/local/bin/kakao-entrypoint
 COPY docker/run-kakao.sh /usr/local/bin/run-kakao
+COPY docker/run-firefox.sh /usr/local/bin/run-firefox
+COPY docker/tint2rc /etc/tint2/tint2rc
+COPY docker/firefox.desktop /usr/share/applications/firefox.desktop
+COPY docker/firefox.xpm /usr/share/pixmaps/firefox.xpm
 
-RUN chmod +x /usr/local/bin/kakao-entrypoint /usr/local/bin/run-kakao \
-    && mkdir -p /data
+RUN chmod +x /usr/local/bin/kakao-entrypoint /usr/local/bin/run-kakao /usr/local/bin/run-firefox \
+    && mkdir -p /data /opt/firefox \
+    && wget -q "https://download.mozilla.org/?product=firefox-esr-latest&os=win64&lang=ko" -O /opt/firefox/firefox-setup.exe
 
 VOLUME ["/data"]
 EXPOSE 14500
