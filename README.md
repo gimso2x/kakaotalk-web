@@ -27,14 +27,14 @@ cp .env.example .env
 KAKAO_SHARE_DIR=/mnt/c/Users/사용자이름/Desktop/kakao-share
 ```
 
-브라우저가 필요 없으면 `.env`에서 아래처럼 바꿉니다.
+브라우저는 기본으로 포함하지 않습니다. 카카오톡만 사용할 경우 그대로 두세요.
 
 ```env
 INSTALL_FIREFOX=false
 ENABLE_FIREFOX=false
 ```
 
-브라우저를 포함하려면 기본값 그대로 둡니다.
+브라우저까지 포함하려면 `.env`에서 아래처럼 바꾼 뒤 빌드합니다.
 
 ```env
 INSTALL_FIREFOX=true

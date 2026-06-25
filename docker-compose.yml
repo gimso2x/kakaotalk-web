@@ -3,7 +3,7 @@ services:
     build:
       context: .
       args:
-        INSTALL_FIREFOX: ${INSTALL_FIREFOX:-true}
+        INSTALL_FIREFOX: ${INSTALL_FIREFOX:-false}
     image: kakaotalk-wine:local
     container_name: kakaotalk-wine
     shm_size: "1gb"
@@ -17,7 +17,7 @@ services:
       WINEPREFIX: /data/wineprefix
       LANG: ko_KR.UTF-8
       LC_ALL: ko_KR.UTF-8
-      ENABLE_FIREFOX: ${ENABLE_FIREFOX:-true}
+      ENABLE_FIREFOX: ${ENABLE_FIREFOX:-false}
 
 volumes:
   kakao-wine-data:
