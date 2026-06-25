@@ -27,6 +27,20 @@ cp .env.example .env
 KAKAO_SHARE_DIR=/mnt/c/Users/사용자이름/Desktop/kakao-share
 ```
 
+브라우저가 필요 없으면 `.env`에서 아래처럼 바꿉니다.
+
+```env
+INSTALL_FIREFOX=false
+ENABLE_FIREFOX=false
+```
+
+브라우저를 포함하려면 기본값 그대로 둡니다.
+
+```env
+INSTALL_FIREFOX=true
+ENABLE_FIREFOX=true
+```
+
 공유 폴더를 생성합니다.
 
 ```bash

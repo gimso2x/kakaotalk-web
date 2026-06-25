@@ -13,6 +13,11 @@ export LIBGL_ALWAYS_SOFTWARE=1
 export GALLIUM_DRIVER=llvmpipe
 export WINEDEBUG=${WINEDEBUG:--all}
 
+if [ "${ENABLE_FIREFOX:-true}" != "true" ]; then
+  echo "Firefox is disabled. Set ENABLE_FIREFOX=true and INSTALL_FIREFOX=true, then rebuild." >&2
+  exit 1
+fi
+
 firefox_exe="$WINEPREFIX/drive_c/Program Files/Mozilla Firefox/firefox.exe"
 installer="/opt/firefox/firefox-setup.exe"
 

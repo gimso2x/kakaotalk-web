@@ -10,6 +10,7 @@ export XMODIFIERS=@im=fcitx
 export SDL_IM_MODULE=fcitx
 export DISPLAY="${DISPLAY:-:100}"
 export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp/runtime-root}"
+export ENABLE_FIREFOX="${ENABLE_FIREFOX:-true}"
 
 mkdir -p /data "$WINEPREFIX/drive_c/Program Files/Kakao"
 mkdir -p "$XDG_RUNTIME_DIR"
@@ -35,7 +36,14 @@ xvfb_pid=$!
 sleep 1
 openbox >/tmp/openbox.log 2>&1 &
 sleep 1
-tint2 -c /etc/tint2/tint2rc >/tmp/tint2.log 2>&1 &
+if [ "$ENABLE_FIREFOX" = "true" ]; then
+  tint2 -c /etc/tint2/tint2rc >/tmp/tint2.log 2>&1 &
+else
+  sed -e 's/^panel_items = .*/panel_items = TSC/' \
+      -e '/^launcher_item_app = /d' \
+      /etc/tint2/tint2rc > /tmp/tint2-no-browser.rc
+  tint2 -c /tmp/tint2-no-browser.rc >/tmp/tint2.log 2>&1 &
+fi
 /usr/local/bin/run-kakao >/tmp/run-kakao.log 2>&1 &
 
 x11vnc \

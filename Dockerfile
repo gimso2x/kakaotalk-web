@@ -5,6 +5,7 @@ ENV WINEPREFIX=/data/wineprefix
 ENV LANG=ko_KR.UTF-8
 ENV LC_ALL=ko_KR.UTF-8
 ENV DISPLAY=:100
+ARG INSTALL_FIREFOX=true
 
 RUN dpkg --add-architecture i386 \
     && apt-get update \
@@ -56,7 +57,11 @@ COPY docker/firefox.xpm /usr/share/pixmaps/firefox.xpm
 
 RUN chmod +x /usr/local/bin/kakao-entrypoint /usr/local/bin/run-kakao /usr/local/bin/run-firefox \
     && mkdir -p /data /opt/firefox \
-    && wget -q "https://download.mozilla.org/?product=firefox-esr-latest&os=win64&lang=ko" -O /opt/firefox/firefox-setup.exe
+    && if [ "$INSTALL_FIREFOX" = "true" ]; then \
+         wget -q "https://download.mozilla.org/?product=firefox-esr-latest&os=win64&lang=ko" -O /opt/firefox/firefox-setup.exe; \
+       else \
+         echo "Skipping Windows Firefox installer download"; \
+       fi
 
 VOLUME ["/data"]
 EXPOSE 14500
