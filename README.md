@@ -11,16 +11,29 @@ Windows Docker Desktop에서 KakaoTalk PC 버전을 Docker 컨테이너 안의 W
 - 이모지/특수문자 표시용 Noto 폰트 포함
 - 화면 깜박임 완화를 위한 소프트웨어 렌더링 설정 포함
 - 로그인 상태를 Docker volume에 저장
+- Windows 폴더 ↔ 컨테이너 파일 공유 지원
 
-## 실행 방법
+## 처음 설치
 
-저장소 폴더로 이동합니다.
+저장소를 클론한 뒤 공유 폴더 경로를 설정합니다.
 
 ```bash
-cd /mnt/c/tmp/kakaotalk-web
+cp .env.example .env
 ```
 
-처음 한 번 빌드합니다.
+`.env` 파일을 열어 본인 경로로 수정합니다.
+
+```
+KAKAO_SHARE_DIR=/mnt/c/Users/사용자이름/Desktop/kakao-share
+```
+
+공유 폴더를 생성합니다.
+
+```bash
+mkdir -p /mnt/c/Users/사용자이름/Desktop/kakao-share
+```
+
+빌드합니다.
 
 ```bash
 docker compose build --no-cache
@@ -38,19 +51,21 @@ docker compose up -d
 http://localhost:14500/vnc.html?autoconnect=true&resize=scale
 ```
 
-종료합니다.
-
-```bash
-docker compose down
-```
-
 ## 평소 실행
-
-한 번 빌드한 뒤에는 보통 아래 명령만 쓰면 됩니다.
 
 ```bash
 cd /mnt/c/tmp/kakaotalk-web
 docker compose up -d
+```
+
+## 파일 전송
+
+Windows 탐색기에서 `.env`에 설정한 공유 폴더에 파일을 넣으면, 카카오톡 파일 첨부창에서 `Z:\share` 폴더로 접근해 바로 선택할 수 있습니다.
+
+## 종료
+
+```bash
+docker compose down
 ```
 
 ## 완전 초기화
