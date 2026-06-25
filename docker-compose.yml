@@ -6,10 +6,16 @@ services:
     container_name: kakaotalk-wine
     shm_size: "1gb"
     ports:
-      - "14500:14500"
+      - "127.0.0.1:14500:14500"
     volumes:
       - kakao-wine-data:/data
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:14500/vnc.html"]
+      interval: 15s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
     environment:
       WINEPREFIX: /data/wineprefix
       LANG: ko_KR.UTF-8

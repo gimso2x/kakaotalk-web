@@ -17,12 +17,6 @@ if [ ! -d "$WINEPREFIX/drive_c/Program Files/Kakao/KakaoTalk" ]; then
   cp -a /opt/kakao/KakaoTalk "$WINEPREFIX/drive_c/Program Files/Kakao/"
 fi
 
-if [ ! -f "$WINEPREFIX/.initialized" ]; then
-  echo "Initializing Wine prefix at $WINEPREFIX"
-  wineboot -u || true
-  touch "$WINEPREFIX/.initialized"
-fi
-
 rm -f /tmp/.X100-lock /tmp/.X11-unix/X100 2>/dev/null || true
 
 Xvfb "$DISPLAY" -screen 0 1280x800x24 -ac +extension GLX +render -noreset &
@@ -30,6 +24,11 @@ xvfb_pid=$!
 
 sleep 1
 openbox >/tmp/openbox.log 2>&1 &
+if [ ! -f "$WINEPREFIX/.initialized" ]; then
+  echo "Initializing Wine prefix at $WINEPREFIX"
+  WINEDEBUG=-all wineboot -u || true
+  touch "$WINEPREFIX/.initialized"
+fi
 /usr/local/bin/run-kakao >/tmp/run-kakao.log 2>&1 &
 
 x11vnc \
