@@ -32,4 +32,4 @@ if [ ! -f "$firefox_exe" ]; then
 fi
 
 cd "$(dirname "$firefox_exe")"
-exec wine "$(basename "$firefox_exe")"
+exec wine "$(basename "$firefox_exe")" "$@"

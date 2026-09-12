@@ -6,6 +6,7 @@ services:
         INSTALL_FIREFOX: ${INSTALL_FIREFOX:-false}
     image: kakaotalk-wine:local
     container_name: kakaotalk-wine
+    init: true
     shm_size: "1gb"
     ports:
       - "14500:14500"
@@ -19,6 +20,9 @@ services:
       LC_ALL: ko_KR.UTF-8
       TZ: ${TZ:-Asia/Seoul}
       ENABLE_FIREFOX: ${ENABLE_FIREFOX:-false}
+      RESOLUTION: ${RESOLUTION:-1280x800}
+      DPI: ${DPI:-96}
+      VNC_PASSWORD: ${VNC_PASSWORD:-}
 
 volumes:
   kakao-wine-data:

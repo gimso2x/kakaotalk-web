@@ -1,0 +1,36 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Control Panel\Desktop]
+"FontSmoothing"="2"
+"FontSmoothingOrientation"=dword:00000001
+"FontSmoothingType"=dword:00000002
+"FontSmoothingGamma"=dword:00000578
+
+[HKEY_CURRENT_USER\Software\Wine\Fonts\Replacements]
+"Malgun Gothic"="NanumGothic"
+"맑은 고딕"="NanumGothic"
+"Gulim"="NanumGothic"
+"굴림"="NanumGothic"
+"Dotum"="NanumGothic"
+"돋움"="NanumGothic"
+"Batang"="NanumMyeongjo"
+"바탕"="NanumMyeongjo"
+
+[HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\FontSubstitutes]
+"Malgun Gothic"="NanumGothic"
+"맑은 고딕"="NanumGothic"
+"Gulim"="NanumGothic"
+"굴림"="NanumGothic"
+"Dotum"="NanumGothic"
+"돋움"="NanumGothic"
+"Batang"="NanumMyeongjo"
+"바탕"="NanumMyeongjo"
+
+[HKEY_CURRENT_USER\Software\Wine\WineDbg]
+"ShowCrashDialog"=dword:00000000
+
+[HKEY_CLASSES_ROOT\http\shell\open\command]
+@="\"C:\\windows\\system32\\winebrowser.exe\" -nohome \"%1\""
+
+[HKEY_CLASSES_ROOT\https\shell\open\command]
+@="\"C:\\windows\\system32\\winebrowser.exe\" -nohome \"%1\""

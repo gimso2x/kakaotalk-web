@@ -4,14 +4,16 @@ Windows Docker Desktop 또는 WSL(Windows Subsystem for Linux) 환경의 Docker 
 
 ## 기능
 
-- KakaoTalk PC 버전 포함
-- WineHQ staging 기반 실행
-- 브라우저 접속 화면 제공: noVNC
-- 한글 입력 지원: fcitx5-hangul
-- 이모지/특수문자 표시용 Noto 폰트 포함
-- 화면 깜박임 완화를 위한 소프트웨어 렌더링 설정 포함
-- 로그인 상태를 Docker volume에 저장
-- Windows 폴더 ↔ 컨테이너 파일 공유 지원
+- **KakaoTalk PC 버전 포함**: WineHQ staging 기반 64비트 Wine 환경 실행
+- **브라우저 접속 화면**: noVNC 기반, 루트 URL(`http://localhost:14500`) 접속 시 자동 연결 및 크기 맞춤(scale)
+- **한글 입력 지원**: fcitx5-hangul 기반 한영 전환 지원
+- **선명한 폰트 렌더링**: NanumGothic 및 Noto CJK, Wine ClearType 서브픽셀 폰트 스무딩 적용
+- **해상도 및 DPI 조절**: `RESOLUTION`(기본 1280x800) 및 `DPI`(기본 96, 고해상도 배율 지원) 환경변수 제공
+- **스마트 링크 처리**: 카카오톡 내 링크 클릭 시 공유 폴더(`opened_urls.txt`)에 자동 기록되어 호스트 브라우저에서 바로 열람 가능 (Firefox 활성화 시 컨테이너 브라우저로 실행)
+- **보안 강화**: VNC 내부 루프백 바인딩 및 선택적 VNC 비밀번호(`VNC_PASSWORD`) 설정 지원
+- **안정적인 프로세스 라이프사이클**: `wineserver -k` 종료 트랩을 통한 Wine 레지스트리/데이터 손상 방지
+- **볼륨 자동 동기화**: 이미지 업데이트 시 `/data` 볼륨 내 바이너리 버전 비교 후 자동 업데이트
+- **Windows 폴더 ↔ 컨테이너 파일 공유 지원** (`Z:\share`)
 
 ## 설치 및 실행 환경
 
@@ -81,10 +83,43 @@ docker compose up -d
 ```
 
 ### 5. 브라우저로 접속
-아래 주소로 접속하면 브라우저 안에서 카카오톡 화면이 나타납니다.
+웹 브라우저를 열고 아래 주소로 접속하면 카카오톡 화면이 자동으로 연결되고 창 크기에 맞춰 조절됩니다.
+
 ```text
-http://localhost:14500/vnc.html?autoconnect=true&resize=scale
+http://localhost:14500
 ```
+
+*(기존 쿼리 파라미터 URL인 `http://localhost:14500/vnc.html?autoconnect=true&resize=scale`도 계속 사용 가능합니다.)*
+
+---
+
+## 고급 설정 (.env)
+
+`.env` 파일에서 다양한 옵션을 변경할 수 있습니다.
+
+### 해상도 및 고해상도(HiDPI) 배율 조절
+```env
+# 가상 디스플레이 해상도 설정 (기본값: 1280x800)
+RESOLUTION=1920x1080
+
+# Wine UI 배율 / DPI 설정 (기본값: 96)
+# 96: 100% (기본 모니터)
+# 120: 125% (QHD 또는 작은 글씨 확대)
+# 144: 150% (4K 모니터 권장)
+DPI=120
+```
+
+### VNC 접속 비밀번호 설정
+```env
+# 비밀번호를 설정하면 웹 접속 시 인증 창이 뜹니다. (미설정 시 무인증)
+VNC_PASSWORD=mysecretpassword
+```
+
+### 링크 클릭 처리 방식
+카카오톡 채팅창이나 알림톡의 링크를 클릭하면:
+- **기본 모드 (`ENABLE_FIREFOX=false`)**: 클릭한 URL이 공유 폴더 내 `opened_urls.txt`에 실시간으로 기록됩니다. 사용자는 Windows/WSL 호스트의 기본 브라우저(Chrome, Edge 등)에서 해당 링크를 바로 열 수 있습니다.
+- **브라우저 모드 (`ENABLE_FIREFOX=true`)**: 컨테이너 내부에 설치된 Firefox 브라우저로 직접 URL이 열립니다.
+
 ## 평소 실행
 
 ```bash

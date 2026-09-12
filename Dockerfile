@@ -5,7 +5,7 @@ ENV WINEPREFIX=/data/wineprefix
 ENV LANG=ko_KR.UTF-8
 ENV LC_ALL=ko_KR.UTF-8
 ENV DISPLAY=:100
-ARG INSTALL_FIREFOX=true
+ARG INSTALL_FIREFOX=false
 
 RUN dpkg --add-architecture i386 \
     && apt-get update \
@@ -32,11 +32,14 @@ RUN dpkg --add-architecture i386 \
         fcitx5-frontend-gtk2 \
         fcitx5-frontend-gtk3 \
         fcitx5-frontend-qt5 \
+        fonts-nanum \
         fonts-noto-cjk \
         fonts-noto-color-emoji \
         fonts-noto-core \
         winbind \
         procps \
+        xdg-utils \
+        tzdata \
     && locale-gen ko_KR.UTF-8 \
     && update-locale LANG=ko_KR.UTF-8 \
     && mkdir -pm755 /etc/apt/keyrings \
@@ -45,7 +48,7 @@ RUN dpkg --add-architecture i386 \
     && apt-get update \
     && apt-get install -y --install-recommends winehq-staging \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/apt/*
 
 COPY ["default_drive_c/Program Files/Kakao/KakaoTalk", "/opt/kakao/KakaoTalk"]
 COPY docker/entrypoint.sh /usr/local/bin/kakao-entrypoint
@@ -54,8 +57,12 @@ COPY docker/run-firefox.sh /usr/local/bin/run-firefox
 COPY docker/tint2rc /etc/tint2/tint2rc
 COPY docker/firefox.desktop /usr/share/applications/firefox.desktop
 COPY docker/firefox.xpm /usr/share/pixmaps/firefox.xpm
+COPY docker/wine-tuning.reg /etc/wine/wine-tuning.reg
+COPY docker/novnc-index.html /usr/share/novnc/index.html
+COPY docker/open-url.sh /usr/local/bin/open-url
 
-RUN chmod +x /usr/local/bin/kakao-entrypoint /usr/local/bin/run-kakao /usr/local/bin/run-firefox \
+RUN chmod +x /usr/local/bin/kakao-entrypoint /usr/local/bin/run-kakao /usr/local/bin/run-firefox /usr/local/bin/open-url \
+    && ln -sf /usr/local/bin/open-url /usr/local/bin/xdg-open \
     && mkdir -p /data /opt/firefox \
     && if [ "$INSTALL_FIREFOX" = "true" ]; then \
          wget -q "https://download.mozilla.org/?product=firefox-esr-latest&os=win64&lang=ko" -O /opt/firefox/firefox-setup.exe; \

@@ -30,9 +30,21 @@ export LIBGL_ALWAYS_SOFTWARE=1
 export GALLIUM_DRIVER=llvmpipe
 
 fcitx5 -d --replace >/tmp/fcitx5-kakao.log 2>&1 || true
-sleep 5
+for i in $(seq 1 25); do
+  if fcitx5-remote >/dev/null 2>&1; then
+    break
+  fi
+  sleep 0.2
+done
 fcitx5-remote -s hangul >/tmp/fcitx5-remote.log 2>&1 || true
 fcitx5-remote -o >>/tmp/fcitx5-remote.log 2>&1 || true
+
+cleanup() {
+  if [ -n "${wine_pid:-}" ]; then
+    kill -TERM "$wine_pid" 2>/dev/null || true
+  fi
+}
+trap cleanup SIGTERM SIGINT
 
 cd "$(dirname "$KAKAOTALK_EXE")"
 WINEDEBUG=-all wine "$(basename "$KAKAOTALK_EXE")" &
@@ -42,15 +54,15 @@ wine_pid=$!
 # causes Wine rendering flicker in noVNC, so do not keep forcing geometry.
 (
   for i in $(seq 1 30); do
-    ids=$(xwininfo -root -tree 2>/dev/null | awk '\''/"카카오톡"|\("kakaotalk\.exe" "kakaotalk\.exe"\)/ { print $1 }'\'' || true)
+    ids=$(xwininfo -root -tree 2>/dev/null | awk '\''/"카카오톡"|"KakaoTalk"|\("kakaotalk\.exe" "kakaotalk\.exe"\)/ { print $1 }'\'' || true)
     if [ -n "$ids" ]; then
       for id in $ids; do
         xdotool windowmap "$id" 2>/dev/null || true
         xdotool windowmove "$id" 60 60 2>/dev/null || true
         xdotool windowraise "$id" 2>/dev/null || true
       done
-      wmctrl -r "카카오톡" -e 0,60,60,-1,-1 2>/dev/null || true
-      wmctrl -a "카카오톡" 2>/dev/null || true
+      wmctrl -r "카카오톡" -e 0,60,60,-1,-1 2>/dev/null || wmctrl -r "KakaoTalk" -e 0,60,60,-1,-1 2>/dev/null || true
+      wmctrl -a "카카오톡" 2>/dev/null || wmctrl -a "KakaoTalk" 2>/dev/null || true
       break
     fi
     sleep 1
