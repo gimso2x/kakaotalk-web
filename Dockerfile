@@ -57,6 +57,10 @@ COPY docker/run-firefox.sh /usr/local/bin/run-firefox
 COPY docker/tint2rc /etc/tint2/tint2rc
 COPY docker/firefox.desktop /usr/share/applications/firefox.desktop
 COPY docker/firefox.xpm /usr/share/pixmaps/firefox.xpm
+COPY docker/kakaotalk.desktop /usr/share/applications/kakaotalk.desktop
+COPY docker/kakaotalk.png /usr/share/pixmaps/kakaotalk.png
+COPY docker/openbox-menu.xml /etc/openbox/menu.xml
+COPY docker/openbox-menu.xml /etc/xdg/openbox/menu.xml
 COPY docker/wine-tuning.reg /etc/wine/wine-tuning.reg
 COPY docker/novnc-index.html /usr/share/novnc/index.html
 COPY docker/open-url.sh /usr/local/bin/open-url

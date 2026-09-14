@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_menu xmlns="http://openbox.org/"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://openbox.org/
+                file:///usr/share/openbox/menu.xsd">
+
+<menu id="root-menu" label="KakaoTalk Desktop">
+  <item label="카카오톡 열기 / 실행 (KakaoTalk)">
+    <action name="Execute"><execute>/usr/local/bin/run-kakao</execute></action>
+  </item>
+  <separator />
+  <item label="웹 브라우저 (Firefox)">
+    <action name="Execute"><execute>/usr/local/bin/run-firefox</execute></action>
+  </item>
+  <separator />
+  <item label="화면 다시 정렬 (Reconfigure)">
+    <action name="Reconfigure" />
+  </item>
+  <item label="창 관리자 재시작 (Restart Openbox)">
+    <action name="Restart" />
+  </item>
+</menu>
+
+</openbox_menu>

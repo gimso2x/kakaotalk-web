@@ -21,17 +21,33 @@ chmod 700 "$XDG_RUNTIME_DIR"
 
 # 1. Sync KakaoTalk application files to persistent volume
 KAKAO_TARGET_DIR="$WINEPREFIX/drive_c/Program Files/Kakao/KakaoTalk"
-IMAGE_VERSION_FILE="/opt/kakao/KakaoTalk/version.info"
-INSTALLED_VERSION_FILE="$KAKAO_TARGET_DIR/version.info"
+IMAGE_CHANGELOG="/opt/kakao/KakaoTalk/ChangeLogs_ko.md"
+INSTALLED_CHANGELOG="$KAKAO_TARGET_DIR/ChangeLogs_ko.md"
+
+get_kakao_version() {
+  local changelog="$1"
+  if [ -f "$changelog" ]; then
+    grep -m 1 -oP '(?<=### )\d+\.\d+\.\d+' "$changelog" 2>/dev/null || echo "0.0.0"
+  else
+    echo "0.0.0"
+  fi
+}
 
 if [ ! -d "$KAKAO_TARGET_DIR" ]; then
   echo "Initializing KakaoTalk files in $WINEPREFIX"
   cp -a /opt/kakao/KakaoTalk "$WINEPREFIX/drive_c/Program Files/Kakao/"
-elif [ -f "$IMAGE_VERSION_FILE" ]; then
-  if [ ! -f "$INSTALLED_VERSION_FILE" ] || ! cmp -s "$IMAGE_VERSION_FILE" "$INSTALLED_VERSION_FILE"; then
-    echo "Image KakaoTalk version differs from persistent volume; updating binaries..."
+elif [ -f "$IMAGE_CHANGELOG" ] && [ -f "$INSTALLED_CHANGELOG" ]; then
+  IMAGE_VER=$(get_kakao_version "$IMAGE_CHANGELOG")
+  INSTALLED_VER=$(get_kakao_version "$INSTALLED_CHANGELOG")
+  if [ "$IMAGE_VER" != "$INSTALLED_VER" ] && [ "$(printf '%s\n%s\n' "$IMAGE_VER" "$INSTALLED_VER" | sort -V | head -n 1)" = "$INSTALLED_VER" ]; then
+    echo "Image KakaoTalk version ($IMAGE_VER) is newer than installed version ($INSTALLED_VER); updating binaries..."
     cp -a /opt/kakao/KakaoTalk/* "$KAKAO_TARGET_DIR/"
+  else
+    echo "Installed KakaoTalk version ($INSTALLED_VER) is up to date (image version: $IMAGE_VER). Skipping binary sync."
   fi
+elif [ -d /opt/kakao/KakaoTalk ] && [ ! -f "$KAKAO_TARGET_DIR/KakaoTalk.exe" ]; then
+  echo "KakaoTalk binaries missing in volume; copying from image..."
+  cp -a /opt/kakao/KakaoTalk/* "$KAKAO_TARGET_DIR/"
 fi
 
 # 2. Initialize Wine prefix
@@ -84,6 +100,9 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CLASSES_ROOT\https\shell\open\command]
 @="\"C:\\windows\\system32\\winebrowser.exe\" -nohome \"%1\""
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run]
+"KakaoTalk"=-
 EOF
   fi
 
@@ -132,6 +151,9 @@ if ! xdpyinfo -display "$DISPLAY" >/dev/null 2>&1; then
 fi
 
 # 6. Start Window Manager & Panel
+mkdir -p "$HOME/.config/openbox"
+cp -f /etc/xdg/openbox/menu.xml "$HOME/.config/openbox/menu.xml" 2>/dev/null || true
+cp -f /etc/xdg/openbox/rc.xml "$HOME/.config/openbox/rc.xml" 2>/dev/null || true
 openbox >/tmp/openbox.log 2>&1 &
 openbox_pid=$!
 
@@ -139,10 +161,9 @@ if [ "$ENABLE_FIREFOX" = "true" ]; then
   tint2 -c /etc/tint2/tint2rc >/tmp/tint2.log 2>&1 &
   tint2_pid=$!
 else
-  sed -e 's/^panel_items = .*/panel_items = TSC/' \
-      -e '/^launcher_item_app = /d' \
-      /etc/tint2/tint2rc > /tmp/tint2-no-browser.rc
-  tint2 -c /tmp/tint2-no-browser.rc >/tmp/tint2.log 2>&1 &
+  sed -e '/firefox\.desktop/d' \
+      /etc/tint2/tint2rc > /tmp/tint2-kakao-only.rc
+  tint2 -c /tmp/tint2-kakao-only.rc >/tmp/tint2.log 2>&1 &
   tint2_pid=$!
 fi
 

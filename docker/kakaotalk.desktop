@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=카카오톡 (KakaoTalk)
+Comment=KakaoTalk Messenger
+Exec=/usr/local/bin/run-kakao
+Icon=/usr/share/pixmaps/kakaotalk.png
+Terminal=false
+Type=Application
+Categories=Network;InstantMessaging;
