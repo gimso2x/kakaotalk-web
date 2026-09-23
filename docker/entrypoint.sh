@@ -168,6 +168,8 @@ else
 fi
 
 # 7. Launch KakaoTalk
+chmod +x /usr/local/bin/run-kakao 2>/dev/null || true
+rm -f /data/wineprefix/drive_c/users/root/AppData/Local/Kakao/KakaoTalk/.sentry-native/*.lock 2>/dev/null || true
 /usr/local/bin/run-kakao >/tmp/run-kakao.log 2>&1 &
 kakao_pid=$!
 
@@ -191,7 +193,6 @@ if [ -n "${VNC_PASSWORD:-}" ]; then
   echo "Enabling VNC password authentication..."
   mkdir -pm 700 /tmp/.vnc
   echo "$VNC_PASSWORD" | x11vnc -storepasswd - /tmp/.vnc/passwd
-  unset VNC_PASSWORD
   VNC_ARGS+=(-rfbauth /tmp/.vnc/passwd)
 else
   VNC_ARGS+=(-nopw)
@@ -200,13 +201,63 @@ fi
 x11vnc "${VNC_ARGS[@]}" >/tmp/x11vnc.log 2>&1 &
 x11vnc_pid=$!
 
-# 9. Start noVNC websockify proxy
-echo "Starting noVNC websockify on port 14500..."
+# 9. Start noVNC (websockify)
 websockify \
   --web=/usr/share/novnc \
   0.0.0.0:14500 \
   127.0.0.1:5900 >/tmp/websockify.log 2>&1 &
 websockify_pid=$!
+
+# 9.5. Configure and start xrdp (RDP support for mstsc with UTF-8 clipboard)
+configure_and_start_xrdp() {
+  if ! command -v xrdp >/dev/null 2>&1; then
+    return 0
+  fi
+
+  echo "Configuring and starting xrdp on port 3389..."
+  rm -f /var/run/xrdp/xrdp.pid /run/xrdp/xrdp.pid /tmp/.xrdp/xrdp.pid 2>/dev/null || true
+  mkdir -p /run/xrdp /run/xrdp/sockdir /tmp/.xrdp
+  chmod 755 /run/xrdp /run/xrdp/sockdir /tmp/.xrdp
+
+  local xrdp_ini="/etc/xrdp/xrdp.ini"
+  if [ -f "$xrdp_ini" ]; then
+    sed -i 's/^autorun=.*/autorun=KakaoTalk/' "$xrdp_ini" || true
+    sed -i '/\[KakaoTalk\]/,$d' "$xrdp_ini" || true
+
+    local vnc_pw_setting=""
+    if [ -n "${VNC_PASSWORD:-}" ]; then
+      vnc_pw_setting="password=${VNC_PASSWORD}"
+    else
+      vnc_pw_setting="password="
+    fi
+
+    cat <<EOF >> "$xrdp_ini"
+
+[KakaoTalk]
+name=KakaoTalk
+lib=libvnc.so
+ip=127.0.0.1
+port=5900
+username=na
+$vnc_pw_setting
+chansrvport=DISPLAY(100)
+EOF
+  fi
+
+  DISPLAY="$DISPLAY" xrdp-chansrv >/tmp/xrdp-chansrv.log 2>&1 &
+  chansrv_pid=$!
+
+  sleep 1
+  # Ensure socket compatibility across different xrdp versions
+  if [ -S /run/xrdp/sockdir/xrdp_chansrv_socket_100 ] && [ ! -e /tmp/.xrdp/xrdp_chansrv_socket_100 ]; then
+    ln -sf /run/xrdp/sockdir/xrdp_chansrv_socket_100 /tmp/.xrdp/xrdp_chansrv_socket_100 2>/dev/null || true
+  fi
+
+  xrdp >/tmp/xrdp.log 2>&1 &
+  xrdp_pid=$!
+}
+
+configure_and_start_xrdp
 
 # 10. Graceful shutdown handler
 cleanup() {
@@ -215,6 +266,8 @@ cleanup() {
   wineserver -k 2>/dev/null || true
   wineserver -w 2>/dev/null || true
   # Terminate processes
+  [ -n "${xrdp_pid:-}" ] && kill -TERM "$xrdp_pid" 2>/dev/null || true
+  [ -n "${chansrv_pid:-}" ] && kill -TERM "$chansrv_pid" 2>/dev/null || true
   [ -n "${kakao_pid:-}" ] && kill -TERM "$kakao_pid" 2>/dev/null || true
   [ -n "${websockify_pid:-}" ] && kill -TERM "$websockify_pid" 2>/dev/null || true
   [ -n "${x11vnc_pid:-}" ] && kill -TERM "$x11vnc_pid" 2>/dev/null || true
@@ -229,6 +282,7 @@ cleanup() {
 trap cleanup SIGTERM SIGINT
 
 echo "KakaoTalk Web is ready at http://localhost:14500"
+echo "KakaoTalk RDP is ready at localhost:13389"
 
 # Keep entrypoint alive to handle signals and supervise
 wait "$websockify_pid" 2>/dev/null || wait

@@ -10,6 +10,7 @@ services:
     shm_size: "1gb"
     ports:
       - "14500:14500"
+      - "13389:3389"
     volumes:
       - kakao-wine-data:/data
       - ${KAKAO_SHARE_DIR:-/mnt/c/Users/$USER/Desktop/kakao-share}:/share

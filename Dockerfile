@@ -40,6 +40,8 @@ RUN dpkg --add-architecture i386 \
         procps \
         xdg-utils \
         tzdata \
+        xrdp \
+        xclip \
     && locale-gen ko_KR.UTF-8 \
     && update-locale LANG=ko_KR.UTF-8 \
     && mkdir -pm755 /etc/apt/keyrings \
@@ -75,6 +77,6 @@ RUN chmod +x /usr/local/bin/kakao-entrypoint /usr/local/bin/run-kakao /usr/local
        fi
 
 VOLUME ["/data"]
-EXPOSE 14500
+EXPOSE 14500 3389
 
 ENTRYPOINT ["/usr/local/bin/kakao-entrypoint"]

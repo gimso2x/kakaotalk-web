@@ -5,6 +5,7 @@ Windows Docker Desktop 또는 WSL(Windows Subsystem for Linux) 환경의 Docker 
 ## 기능
 
 - **KakaoTalk PC 버전 포함**: WineHQ staging 기반 64비트 Wine 환경 실행
+- **Windows RDP 원격 데스크톱 지원**: xrdp를 통한 무손실 UTF-8 한글 양방향 클립보드 동기화 (`localhost:13389`)
 - **브라우저 접속 화면**: noVNC 기반, 루트 URL(`http://localhost:14500`) 접속 시 자동 연결 및 크기 맞춤(scale)
 - **한글 입력 지원**: fcitx5-hangul 기반 한영 전환 지원
 - **선명한 폰트 렌더링**: NanumGothic 및 Noto CJK, Wine ClearType 서브픽셀 폰트 스무딩 적용
@@ -82,13 +83,22 @@ docker compose build --no-cache
 docker compose up -d
 ```
 
-### 5. 브라우저로 접속
-웹 브라우저를 열고 아래 주소로 접속하면 카카오톡 화면이 자동으로 연결되고 창 크기에 맞춰 조절됩니다.
+### 5. 화면 접속 방법
 
+#### 방법 A: Windows 원격 데스크톱 (RDP, 권장)
+Windows 클라이언트와 카카오톡 간의 **완벽한 한글 클립보드 양방향 복사/붙여넣기**를 지원합니다.
+
+1. Windows `실행`(Win + R) 창에서 `mstsc`를 실행하거나, 프로젝트 루트에 있는 `KakaoTalk-RDP.rdp` 파일을 더블클릭합니다.
+2. 컴퓨터 주소에 아래와 같이 입력하고 연결합니다:
+   ```text
+   localhost:13389
+   ```
+
+#### 방법 B: 웹 브라우저 (noVNC)
+별도 클라이언트 없이 웹 브라우저를 열고 아래 주소로 접속하면 카카오톡 화면이 자동으로 연결됩니다:
 ```text
 http://localhost:14500
 ```
-
 *(기존 쿼리 파라미터 URL인 `http://localhost:14500/vnc.html?autoconnect=true&resize=scale`도 계속 사용 가능합니다.)*
 
 ---
