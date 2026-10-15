@@ -1,0 +1,1401 @@
+{
+  "task": "manifest",
+  "schema": 2,
+  "generated_at": "2026-10-15T06:41:13Z",
+  "evidence_dir": "doc/evidence/kakaotalk-runtime-reliability/91cff7e",
+  "tested_source": {
+    "revision": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+    "short": "91cff7e",
+    "branch": "feature/202610-kakaotalk-runtime-reliability",
+    "git_diff_binary_sha256": "76d6e8df23995459b53ee27be1faa410ef8127f012dfd6566e6a69f44c722316",
+    "git_diff_note": "hash of tracked changes only (git diff --binary); new files are bound by untracked_files below",
+    "untracked_files_combined_sha256": "a653d8a890d83359d9fb0d002fd98dcc32fa245d75f70da0871efa13d72db101",
+    "worktree_status_excluding_evidence": [
+      " M Dockerfile",
+      " M docker-compose.yml",
+      " M docker/entrypoint.sh",
+      " M docker/run-kakao.sh",
+      "?? docker-compose.qa.yml",
+      "?? docker/healthcheck.sh",
+      "?? scripts/"
+    ]
+  },
+  "untracked_files": [
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-1-baseline.json",
+      "sha256": "2f0c885ea436a56e309e67a822ea79c6e558e064ad84244fb3d8f967be646ef7",
+      "bytes": 28392
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-1-browser.json",
+      "sha256": "d74cc828ca8564e8036e987939f3ac430266bbd29d3bc04e6eb2148c720ee565",
+      "bytes": 2625
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-1-cleanup.json",
+      "sha256": "f1b9c78e80a4b8065696eb15edabde6747a7a8eafb9589f5461043f6e00c9495",
+      "bytes": 5050
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-1-verify-orchestrator.json",
+      "sha256": "81b1ad14d8958a9a6efcf8f4b6a5de80e423d96ff0734b1187983c347665346e",
+      "bytes": 1602
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-boot-deadline.json",
+      "sha256": "7f6856a31b448d0e445b027b9ffcf9ad09575550c438acc2276e2830efeb8472",
+      "bytes": 17088
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-build.json",
+      "sha256": "b8e1fc50648e6a6c019c76d7d36c451a00199ccdf58d92e2b6c82e0e0df12c81",
+      "bytes": 5610
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-circuit.json",
+      "sha256": "9de0e2a723274416e7108478ed0cf48d0afa69804aa823654e47077cb7a924ff",
+      "bytes": 39375
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-cleanup-f.json",
+      "sha256": "2a9d26716add3d857ce2ef695b08476243d3baec30e1c3ac28874291370e14c6",
+      "bytes": 5050
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-cleanup-g.json",
+      "sha256": "3f831f0170f5f6cb0289213edeb3d76a8dd38c42dbd5280cfef93d9cebe0c9d7",
+      "bytes": 5190
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-healthy.json",
+      "sha256": "690765b862dd911abcfdbe5c1399aa7c892c25e8daff2efbc58fa7770d110e74",
+      "bytes": 15973
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-init-failure.json",
+      "sha256": "87218a7577db2f6a1ece598521089642431e1e3e0079e1bfe2cad0160b310f76",
+      "bytes": 16539
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-mutation.json",
+      "sha256": "79f139bde1c6893ca00d88b1a7ab901ce953899a92059202199815642c0b56ba",
+      "bytes": 40558
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-nonfaults-a-repeat.json",
+      "sha256": "2844a1eb9dac7492176c5e326bd973fe2becc6cab5bb8ace4988ee25c9d99db3",
+      "bytes": 25468
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-nonfaults-b-repeat.json",
+      "sha256": "6e4019eb74cec3e33aa7d99e98a96e5cd814834209331fd0103beca5ce472aed",
+      "bytes": 39658
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-nonfaults.json",
+      "sha256": "f5664848f8293cb4e506516bb5d370e72c4841ee577063d65d141edbbba5e20b",
+      "bytes": 88274
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-probe.json",
+      "sha256": "d05ed63fd840e2539fc3c1786ab2249995d7f36230c91fbf900809492cf84207",
+      "bytes": 12087
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-recovery-app-repeat.json",
+      "sha256": "c4cdc532ffde28f32c15c9d756dc05319641340bb5faa43cb783295c625ce9e0",
+      "bytes": 24789
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-recovery.json",
+      "sha256": "0d114f5c20cee6139c9dc6f9690dd4efdfbb68ace70d8e78741c5be3c5800474",
+      "bytes": 78559
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-ui-survey-baseline.json",
+      "sha256": "378eb4f232caaf2b1aefbf640df27b592375cd52e52a6daa00947c321da9b9e9",
+      "bytes": 1077
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/task-2-ui-survey-candidate.json",
+      "sha256": "072437a622846da48867a30e7716b02a5f0d9df6ccdb1b597fce3e3ab8e648c5",
+      "bytes": 1544
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/ui-survey/root-baseline.png",
+      "sha256": "9f8df31bbbc0491476a949d0b425ac910d3cd6cc95169b4e171c719ce3621624",
+      "bytes": 5265
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/ui-survey/root-candidate-fontsubst.png",
+      "sha256": "52237ba1194ccb03bf41d2c9d45290f5312efa80c630bb7d8d6a2d7b01c181e2",
+      "bytes": 18796
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/ui-survey/root-candidate.png",
+      "sha256": "b77cae5e2b7a6950eb886017b1c03854e69fbc73f7614c53890f9f85bbbc897e",
+      "bytes": 12529
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/91cff7e/ui-survey/root-fresh-prefix-with-prod-app-version.png",
+      "sha256": "605cd0ac6a508bc8bcdc85b5744dffef0bf50e927aa7bc9efd1389464d007257",
+      "bytes": 24781
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/ui-dialog/healthy-unseeded-expected-fail.json",
+      "sha256": "4f32c9d5702852f627003bff311fc7e318e63e4808b09562c8a50729cfff181c",
+      "bytes": 15396
+    },
+    {
+      "path": "doc/evidence/kakaotalk-runtime-reliability/ui-dialog/root-candidate-fresh.png",
+      "sha256": "fae8a9d0b099aca8c28af46e5b06a244f94df0685f2efc68ec1e2241d5a78311",
+      "bytes": 12512
+    },
+    {
+      "path": "docker-compose.qa.yml",
+      "sha256": "6a6cb04dbcb35432d62b9fb17e3d495f00735b501eae596f2aff8dd16c7d12bb",
+      "bytes": 3295
+    },
+    {
+      "path": "docker/healthcheck.sh",
+      "sha256": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5",
+      "bytes": 4097
+    },
+    {
+      "path": "scripts/qa-runtime.sh",
+      "sha256": "be8eeaeb0f7f5fe442f72f134b85f9fbf690a351b03a645530f6acb841c3475c",
+      "bytes": 175857
+    }
+  ],
+  "untracked_files_note": "sha256 of every new/untracked file at manifest time; manifest.json itself excluded",
+  "source_verification": {
+    "revision": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+    "short": "91cff7e",
+    "branch": "feature/202610-kakaotalk-runtime-reliability",
+    "git_diff_binary_sha256": "76d6e8df23995459b53ee27be1faa410ef8127f012dfd6566e6a69f44c722316",
+    "plan_expected": {
+      "entrypoint": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+      "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+    },
+    "worktree": {
+      "entrypoint": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420"
+    },
+    "production_source_repo": {
+      "entrypoint": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+      "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+    },
+    "production_container": {
+      "entrypoint": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+      "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+    },
+    "all_match_plan": false
+  },
+  "images": {
+    "baseline_tag": {
+      "tag": "kakaotalk-wine:reliability-baseline",
+      "id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3"
+    },
+    "production_tag": {
+      "tag": "kakaotalk-wine:local",
+      "id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3"
+    },
+    "production_container_image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+    "candidate_tag": {
+      "tag": "kakaotalk-wine:reliability-qa",
+      "id": "sha256:e1127c8af53ccda982c27025660317f1bc7b742cf50b298ef41bc4ddcd6f5a26"
+    },
+    "baseline_identical_to_production": true
+  },
+  "baseline_image_facts": {
+    "wine": {
+      "version": "wine-11.18 (Staging)"
+    },
+    "kakaotalk": {
+      "exe_path": "/opt/kakao/KakaoTalk/KakaoTalk.exe",
+      "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125",
+      "exe_size": "35817064",
+      "version_from_changelog": "26.1.2"
+    },
+    "scripts_in_container": {
+      "entrypoint": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+      "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+    },
+    "packages": [
+      "novnc=1:1.3.0-2",
+      "openbox=3.6.1-12build5",
+      "websockify=0.10.0+dfsg1-5build2",
+      "wine-staging=11.18~noble-1",
+      "wine-staging-amd64=11.18~noble-1",
+      "wine-staging-i386=11.18~noble-1",
+      "winehq-staging=11.18~noble-1",
+      "x11vnc=0.9.16-10",
+      "xvfb=2:21.1.12-1ubuntu1.6"
+    ]
+  },
+  "candidate_vs_baseline_image_facts": {
+    "baseline": {
+      "wine": {
+        "version": "wine-11.18 (Staging)"
+      },
+      "kakaotalk": {
+        "exe_path": "/opt/kakao/KakaoTalk/KakaoTalk.exe",
+        "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125",
+        "exe_size": "35817064",
+        "version_from_changelog": "26.1.2"
+      },
+      "scripts_in_container": {
+        "entrypoint": "0c57bceaef99a45f5ca1016494d159c12c69a600c59782b5f61bb22d43c360c9",
+        "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+      },
+      "packages": [
+        "novnc=1:1.3.0-2",
+        "openbox=3.6.1-12build5",
+        "websockify=0.10.0+dfsg1-5build2",
+        "wine-staging=11.18~noble-1",
+        "wine-staging-amd64=11.18~noble-1",
+        "wine-staging-i386=11.18~noble-1",
+        "winehq-staging=11.18~noble-1",
+        "x11vnc=0.9.16-10",
+        "xvfb=2:21.1.12-1ubuntu1.6"
+      ]
+    },
+    "candidate": {
+      "wine": {
+        "version": "wine-11.18 (Staging)"
+      },
+      "kakaotalk": {
+        "exe_path": "/opt/kakao/KakaoTalk/KakaoTalk.exe",
+        "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125",
+        "exe_size": "35817064",
+        "version_from_changelog": "26.1.2"
+      },
+      "scripts_in_container": {
+        "entrypoint": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+        "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420"
+      },
+      "packages": [
+        "novnc=1:1.3.0-2",
+        "openbox=3.6.1-12build5",
+        "websockify=0.10.0+dfsg1-5build2",
+        "wine-staging=11.18~noble-1",
+        "wine-staging-amd64=11.18~noble-1",
+        "wine-staging-i386=11.18~noble-1",
+        "winehq-staging=11.18~noble-1",
+        "x11vnc=0.9.16-10",
+        "xvfb=2:21.1.12-1ubuntu1.6"
+      ]
+    },
+    "comparison": {
+      "wine_version_same": true,
+      "kakaotalk_exe_sha256_same": true,
+      "kakaotalk_version_same": true,
+      "packages_same": true,
+      "wine": {
+        "baseline": "wine-11.18 (Staging)",
+        "candidate": "wine-11.18 (Staging)"
+      },
+      "kakaotalk": {
+        "baseline": {
+          "version": "26.1.2",
+          "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125"
+        },
+        "candidate": {
+          "version": "26.1.2",
+          "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125"
+        }
+      },
+      "lifecycle_scripts_differ_as_expected": true
+    }
+  },
+  "versions": {
+    "docker_client": "29.6.0",
+    "docker_server": "29.6.0",
+    "docker_compose": "5.2.0",
+    "jq": "jq-1.7",
+    "bash": "5.2.21(1)-release",
+    "python": "Python 3.12.3"
+  },
+  "commands": [
+    {
+      "command": "bash -n scripts/qa-runtime.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "bash -n docker/entrypoint.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "bash -n docker/run-kakao.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "bash -n docker/healthcheck.sh",
+      "exit_code": 0
+    },
+    {
+      "command": "docker compose -p kakao-reliability-qa -f docker-compose.qa.yml config --quiet",
+      "exit_code": 0
+    },
+    {
+      "command": "docker compose -f docker-compose.yml config --quiet",
+      "exit_code": 0
+    },
+    {
+      "command": "bash scripts/qa-runtime.sh guard-selftest",
+      "exit_code": 0
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh baseline",
+      "exit_code": 0,
+      "started_at": "2026-10-15T00:19:05Z",
+      "finished_at": "2026-10-15T00:21:27Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": null,
+      "exit_code": null,
+      "started_at": null,
+      "finished_at": null
+    },
+    {
+      "file": "<stdin>",
+      "command": "docker compose -p kakao-reliability-qa -f docker-compose.qa.yml down -v",
+      "exit_code": 0,
+      "started_at": "2026-10-15T05:47:28Z",
+      "finished_at": "2026-10-15T05:47:31Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": null,
+      "exit_code": null,
+      "started_at": null,
+      "finished_at": null
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh boot-deadline",
+      "exit_code": 0,
+      "started_at": "2026-10-15T05:20:32Z",
+      "finished_at": "2026-10-15T05:26:16Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh build",
+      "exit_code": 0,
+      "started_at": "2026-10-15T05:45:36Z",
+      "finished_at": "2026-10-15T05:45:38Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh circuit",
+      "exit_code": 0,
+      "started_at": "2026-10-15T05:13:35Z",
+      "finished_at": "2026-10-15T05:17:02Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "docker compose -p kakao-reliability-qa -f docker-compose.qa.yml down -v",
+      "exit_code": 0,
+      "started_at": "2026-10-15T05:44:31Z",
+      "finished_at": "2026-10-15T05:44:33Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "docker compose -p kakao-reliability-qa -f docker-compose.qa.yml down -v",
+      "exit_code": 0,
+      "started_at": "2026-10-15T06:41:07Z",
+      "finished_at": "2026-10-15T06:41:09Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh healthy",
+      "exit_code": 0,
+      "started_at": "2026-10-15T06:11:40Z",
+      "finished_at": "2026-10-15T06:12:49Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh init-failure",
+      "exit_code": 0,
+      "started_at": "2026-10-15T05:17:02Z",
+      "finished_at": "2026-10-15T05:18:20Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh mutation",
+      "exit_code": 0,
+      "started_at": "2026-10-15T05:18:20Z",
+      "finished_at": "2026-10-15T05:19:59Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh nonfaults a",
+      "exit_code": 0,
+      "started_at": "2026-10-15T05:30:43Z",
+      "finished_at": "2026-10-15T05:33:54Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh nonfaults b",
+      "exit_code": 0,
+      "started_at": "2026-10-15T06:26:25Z",
+      "finished_at": "2026-10-15T06:30:45Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh nonfaults",
+      "exit_code": 0,
+      "started_at": "2026-10-15T06:30:49Z",
+      "finished_at": "2026-10-15T06:41:00Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh probe-selftest",
+      "exit_code": 0,
+      "started_at": "2026-10-15T05:19:59Z",
+      "finished_at": "2026-10-15T05:20:32Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh recovery app",
+      "exit_code": 0,
+      "started_at": "2026-10-15T06:12:53Z",
+      "finished_at": "2026-10-15T06:13:33Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": "bash scripts/qa-runtime.sh recovery",
+      "exit_code": 0,
+      "started_at": "2026-10-15T04:56:01Z",
+      "finished_at": "2026-10-15T05:03:35Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": null,
+      "exit_code": null,
+      "started_at": "2026-10-15T06:02:30Z",
+      "finished_at": "2026-10-15T06:05:05Z"
+    },
+    {
+      "file": "<stdin>",
+      "command": null,
+      "exit_code": null,
+      "started_at": "2026-10-15T05:57:49Z",
+      "finished_at": "2026-10-15T06:00:07Z"
+    }
+  ],
+  "guard_selftest": {
+    "task": "guard-selftest",
+    "all_refused_before_any_docker_call": true,
+    "stub_detector_control": {
+      "mutating_call_logged_and_blocked": true,
+      "stub_exit_code": 97,
+      "logged_calls": 1
+    },
+    "positive_control_real_config_passes_guard": true,
+    "evidence_dir_untouched_by_refusals": true,
+    "refusal_exit_code_expected": 3,
+    "cases": [
+      {
+        "case": "container_name_kakaotalk-wine",
+        "subcommand": "baseline",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine intersects production",
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "container_name_kakaotalk-wine",
+        "subcommand": "cleanup",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine intersects production",
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "container_name_kakaotalk-wine",
+        "subcommand": "up",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine intersects production",
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "container_name_kakaotalk-wine",
+        "subcommand": "build",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine intersects production",
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "container_name_kakaotalk-wine",
+        "subcommand": "healthy",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine intersects production",
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "container_name_kakaotalk-wine",
+        "subcommand": "recovery",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine intersects production",
+          "[qa-runtime 2026-10-15T06:41:09Z]   - container_name kakaotalk-wine is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "container_name_kakaotalk-web",
+        "subcommand": "baseline",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "container_name_kakaotalk-web",
+        "subcommand": "cleanup",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "container_name_kakaotalk-web",
+        "subcommand": "up",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "container_name_kakaotalk-web",
+        "subcommand": "build",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "container_name_kakaotalk-web",
+        "subcommand": "healthy",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "container_name_kakaotalk-web",
+        "subcommand": "recovery",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - container_name kakaotalk-web is not the QA container kakaotalk-reliability-qa"
+        ]
+      },
+      {
+        "case": "volume_kakaotalk-web_kakao-wine-data",
+        "subcommand": "baseline",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "volume kakaotalk-web_kakao-wine-data intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      },
+      {
+        "case": "volume_kakaotalk-web_kakao-wine-data",
+        "subcommand": "cleanup",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "volume kakaotalk-web_kakao-wine-data intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      },
+      {
+        "case": "volume_kakaotalk-web_kakao-wine-data",
+        "subcommand": "up",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "volume kakaotalk-web_kakao-wine-data intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      },
+      {
+        "case": "volume_kakaotalk-web_kakao-wine-data",
+        "subcommand": "build",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "volume kakaotalk-web_kakao-wine-data intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      },
+      {
+        "case": "volume_kakaotalk-web_kakao-wine-data",
+        "subcommand": "healthy",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "volume kakaotalk-web_kakao-wine-data intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      },
+      {
+        "case": "volume_kakaotalk-web_kakao-wine-data",
+        "subcommand": "recovery",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "volume kakaotalk-web_kakao-wine-data intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:10Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      },
+      {
+        "case": "mount_source_production_volume",
+        "subcommand": "baseline",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "mount source kakaotalk-web_kakao-wine-data intersects production volume",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - mount source kakaotalk-web_kakao-wine-data intersects production volume"
+        ]
+      },
+      {
+        "case": "mount_source_production_volume",
+        "subcommand": "cleanup",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "mount source kakaotalk-web_kakao-wine-data intersects production volume",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - mount source kakaotalk-web_kakao-wine-data intersects production volume"
+        ]
+      },
+      {
+        "case": "mount_source_production_volume",
+        "subcommand": "up",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "mount source kakaotalk-web_kakao-wine-data intersects production volume",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - mount source kakaotalk-web_kakao-wine-data intersects production volume"
+        ]
+      },
+      {
+        "case": "mount_source_production_volume",
+        "subcommand": "build",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "mount source kakaotalk-web_kakao-wine-data intersects production volume",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - mount source kakaotalk-web_kakao-wine-data intersects production volume"
+        ]
+      },
+      {
+        "case": "mount_source_production_volume",
+        "subcommand": "healthy",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "mount source kakaotalk-web_kakao-wine-data intersects production volume",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:10Z]   - mount source kakaotalk-web_kakao-wine-data intersects production volume"
+        ]
+      },
+      {
+        "case": "mount_source_production_volume",
+        "subcommand": "recovery",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "mount source kakaotalk-web_kakao-wine-data intersects production volume",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - mount source kakaotalk-web_kakao-wine-data intersects production volume"
+        ]
+      },
+      {
+        "case": "published_port_14500",
+        "subcommand": "baseline",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 14500 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 is not a QA port"
+        ]
+      },
+      {
+        "case": "published_port_14500",
+        "subcommand": "cleanup",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 14500 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 is not a QA port"
+        ]
+      },
+      {
+        "case": "published_port_14500",
+        "subcommand": "up",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 14500 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 is not a QA port"
+        ]
+      },
+      {
+        "case": "published_port_14500",
+        "subcommand": "build",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 14500 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 is not a QA port"
+        ]
+      },
+      {
+        "case": "published_port_14500",
+        "subcommand": "healthy",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 14500 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 is not a QA port"
+        ]
+      },
+      {
+        "case": "published_port_14500",
+        "subcommand": "recovery",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 14500 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 14500 is not a QA port"
+        ]
+      },
+      {
+        "case": "published_port_13389",
+        "subcommand": "baseline",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 13389 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 is not a QA port"
+        ]
+      },
+      {
+        "case": "published_port_13389",
+        "subcommand": "cleanup",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 13389 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 is not a QA port"
+        ]
+      },
+      {
+        "case": "published_port_13389",
+        "subcommand": "up",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 13389 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 is not a QA port"
+        ]
+      },
+      {
+        "case": "published_port_13389",
+        "subcommand": "build",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 13389 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 is not a QA port"
+        ]
+      },
+      {
+        "case": "published_port_13389",
+        "subcommand": "healthy",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 13389 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 is not a QA port"
+        ]
+      },
+      {
+        "case": "published_port_13389",
+        "subcommand": "recovery",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "published port 13389 intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 intersects production",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - published port 13389 is not a QA port"
+        ]
+      },
+      {
+        "case": "image_kakaotalk-wine:local",
+        "subcommand": "baseline",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "image kakaotalk-wine:local intersects production tag",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - image kakaotalk-wine:local intersects production tag",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - image kakaotalk-wine:local is not a QA image tag"
+        ]
+      },
+      {
+        "case": "image_kakaotalk-wine:local",
+        "subcommand": "cleanup",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "image kakaotalk-wine:local intersects production tag",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - image kakaotalk-wine:local intersects production tag",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - image kakaotalk-wine:local is not a QA image tag"
+        ]
+      },
+      {
+        "case": "image_kakaotalk-wine:local",
+        "subcommand": "up",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "image kakaotalk-wine:local intersects production tag",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:11Z]   - image kakaotalk-wine:local intersects production tag",
+          "[qa-runtime 2026-10-15T06:41:11Z]   - image kakaotalk-wine:local is not a QA image tag"
+        ]
+      },
+      {
+        "case": "image_kakaotalk-wine:local",
+        "subcommand": "build",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "image kakaotalk-wine:local intersects production tag",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - image kakaotalk-wine:local intersects production tag",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - image kakaotalk-wine:local is not a QA image tag"
+        ]
+      },
+      {
+        "case": "image_kakaotalk-wine:local",
+        "subcommand": "healthy",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "image kakaotalk-wine:local intersects production tag",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - image kakaotalk-wine:local intersects production tag",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - image kakaotalk-wine:local is not a QA image tag"
+        ]
+      },
+      {
+        "case": "image_kakaotalk-wine:local",
+        "subcommand": "recovery",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "image kakaotalk-wine:local intersects production tag",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - image kakaotalk-wine:local intersects production tag",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - image kakaotalk-wine:local is not a QA image tag"
+        ]
+      },
+      {
+        "case": "project_kakaotalk-web",
+        "subcommand": "baseline",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "project name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa"
+        ]
+      },
+      {
+        "case": "project_kakaotalk-web",
+        "subcommand": "cleanup",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "project name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa"
+        ]
+      },
+      {
+        "case": "project_kakaotalk-web",
+        "subcommand": "up",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "project name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa"
+        ]
+      },
+      {
+        "case": "project_kakaotalk-web",
+        "subcommand": "build",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "project name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa"
+        ]
+      },
+      {
+        "case": "project_kakaotalk-web",
+        "subcommand": "healthy",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "project name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa"
+        ]
+      },
+      {
+        "case": "project_kakaotalk-web",
+        "subcommand": "recovery",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "project name kakaotalk-web intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa"
+        ]
+      },
+      {
+        "case": "host_bind_mount_added",
+        "subcommand": "baseline",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "non-volume mount (bind)",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - non-volume mount (bind) -> /share is not allowed in QA"
+        ]
+      },
+      {
+        "case": "host_bind_mount_added",
+        "subcommand": "cleanup",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "non-volume mount (bind)",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - non-volume mount (bind) -> /share is not allowed in QA"
+        ]
+      },
+      {
+        "case": "host_bind_mount_added",
+        "subcommand": "up",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "non-volume mount (bind)",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - non-volume mount (bind) -> /share is not allowed in QA"
+        ]
+      },
+      {
+        "case": "host_bind_mount_added",
+        "subcommand": "build",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "non-volume mount (bind)",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - non-volume mount (bind) -> /share is not allowed in QA"
+        ]
+      },
+      {
+        "case": "host_bind_mount_added",
+        "subcommand": "healthy",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "non-volume mount (bind)",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - non-volume mount (bind) -> /share is not allowed in QA"
+        ]
+      },
+      {
+        "case": "host_bind_mount_added",
+        "subcommand": "recovery",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "non-volume mount (bind)",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - non-volume mount (bind) -> /share is not allowed in QA"
+        ]
+      },
+      {
+        "case": "all_production_names_combined",
+        "subcommand": "baseline",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      },
+      {
+        "case": "all_production_names_combined",
+        "subcommand": "cleanup",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:12Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      },
+      {
+        "case": "all_production_names_combined",
+        "subcommand": "up",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:13Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      },
+      {
+        "case": "all_production_names_combined",
+        "subcommand": "build",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:13Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      },
+      {
+        "case": "all_production_names_combined",
+        "subcommand": "healthy",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:13Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      },
+      {
+        "case": "all_production_names_combined",
+        "subcommand": "recovery",
+        "exit_code": 3,
+        "refused": true,
+        "docker_calls_before_refusal": 0,
+        "expected_reason": "container_name kakaotalk-wine intersects production",
+        "expected_reason_seen": true,
+        "violations_excerpt": [
+          "[qa-runtime 2026-10-15T06:41:13Z]   - project name kakaotalk-web intersects production",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - project name kakaotalk-web is not the QA project kakao-reliability-qa",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - volume kakaotalk-web_kakao-wine-data intersects production",
+          "[qa-runtime 2026-10-15T06:41:13Z]   - volume kakaotalk-web_kakao-wine-data is not QA-owned (prefix kakao-reliability-qa_)"
+        ]
+      }
+    ]
+  },
+  "production_comparison": {
+    "before": {
+      "found": true,
+      "id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+      "image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-14T23:41:51.739301308Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "after": {
+      "found": true,
+      "id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+      "image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-14T23:41:51.739301308Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "unchanged": true
+  },
+  "evidence_files": [
+    "task-1-baseline.json",
+    "task-1-browser.json",
+    "task-1-cleanup.json",
+    "task-1-verify-orchestrator.json",
+    "task-2-boot-deadline.json",
+    "task-2-build.json",
+    "task-2-circuit.json",
+    "task-2-cleanup-f.json",
+    "task-2-cleanup-g.json",
+    "task-2-healthy.json",
+    "task-2-init-failure.json",
+    "task-2-mutation.json",
+    "task-2-nonfaults-a-repeat.json",
+    "task-2-nonfaults-b-repeat.json",
+    "task-2-nonfaults.json",
+    "task-2-probe.json",
+    "task-2-recovery-app-repeat.json",
+    "task-2-recovery.json",
+    "task-2-ui-survey-baseline.json",
+    "task-2-ui-survey-candidate.json",
+    "manifest.json"
+  ]
+}

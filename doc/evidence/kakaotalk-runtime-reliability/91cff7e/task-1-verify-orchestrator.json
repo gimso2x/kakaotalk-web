@@ -1,0 +1,22 @@
+{
+  "AdversarialVerify": {
+    "verdict": "confirmed",
+    "verifier": "orchestrator (did not implement todo 1)",
+    "revision": "91cff7e + untracked harness files",
+    "evidence": [
+      "bash scripts/qa-runtime.sh guard-selftest -> rc 0 (30 production-intersecting configs refused, exit 3, zero docker calls)",
+      "bash scripts/qa-runtime.sh up -> ready after 18s",
+      "Aside browser real page http://localhost:24500/vnc.html?autoconnect=true&resize=scale -> html.noVNC_connected, canvas 1280x800, connect dialog hidden",
+      "docker exec kakaotalk-reliability-qa kill -TERM <x11vnc pid 163> -> curl vnc.html http=200, pgrep x11vnc none, RestartCount 0",
+      "browser reload after fault -> class '' , status '서버에 연결하지 못했습니다.', connect dialog visible (no recovery)",
+      "bash scripts/qa-runtime.sh cleanup -> QA container 0, volume 0, ports 24500/23389 listeners 0; browser tab closed",
+      "production kakaotalk-wine StartedAt 2026-10-14T23:41:51.739301308Z RestartCount 0 running (unchanged)"
+    ],
+    "repro": "bash scripts/qa-runtime.sh up; open noVNC; docker exec kakaotalk-reliability-qa sh -c 'kill -TERM $(pgrep -x x11vnc)'; reload page",
+    "confidence": 0.9,
+    "notes": [
+      "Finding: production scripts live in the container layer (docker diff); image entrypoint 0c57bcea differs from running 0ab63fb8. Baseline harness injects the plan-pinned worktree scripts. Todo 2/3 must not rebuild from the plain image scripts.",
+      "Deviation accepted: baseline image is pure docker tag; scripts injected via docker cp before start."
+    ]
+  }
+}

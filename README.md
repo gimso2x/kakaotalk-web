@@ -155,6 +155,54 @@ docker compose down
 docker compose down -v
 ```
 
+## 자가 복구와 운영 점검
+
+컨테이너 안의 모니터가 10초마다 X 화면, VNC, noVNC 웹, `KakaoTalk.exe` 프로세스를 같은 probe(`kakao-healthcheck`)로 확인하고, 죽은 계층만 다시 띄웁니다. Docker `HEALTHCHECK`도 같은 probe를 씁니다.
+
+- **복구 한도**: 10분 안에 자동 재실행·전체 종료 3회까지만 허용합니다. 한도를 넘으면 `blocked`가 되어 자동 조치를 멈추고 이유를 남깁니다(재시작 폭주 방지).
+- **고장으로 보지 않는 것**: 창 최소화, 로그인 화면 대기, 수동 `docker stop`은 복구 대상이 아니며 한도에도 세지 않습니다.
+- **한도 초기화**: 10분 연속 `ready`, `kakaoctl.sh restart`, 새 이미지 배포 중 하나.
+- **데이터**: 복구·재시작은 `/data` 볼륨(Wine prefix, 로그인 데이터)을 지우거나 초기화하지 않습니다.
+
+### 상태 표시
+
+| phase | 의미 |
+| --- | --- |
+| `starting` | 부팅 또는 시작 유예 시간 중 |
+| `ready` | X·VNC·웹·카카오톡 프로세스가 모두 응답 |
+| `degraded` | 한 계층이 응답하지 않음(`layer`, `reason`에 표시), 모니터가 복구 시도 중 |
+| `blocked` | 복구 한도 소진, 자동 조치 중단 — 수동 복구 필요 |
+
+### kakaoctl 명령
+
+```bash
+bash scripts/kakaoctl.sh status                  # 읽기 전용: docker 상태/health, 이미지 ID, phase/layer/reason, 복구 예산
+bash scripts/kakaoctl.sh diagnose                # status + 프로세스 목록, last-failure.log, 최근 런타임 로그
+bash scripts/kakaoctl.sh restart                 # 진단 스냅샷 저장 → 복구 예산 초기화 표식 → docker restart
+```
+
+기본 대상은 `--project kakaotalk-web --container kakaotalk-wine`이며 다른 대상은 `--project`, `--container`로 지정합니다. 컨테이너가 없거나 Compose project 라벨이 다르면 아무것도 하지 않고 종료 코드 3으로 거부합니다. 비밀값(`VNC_PASSWORD` 등)과 환경변수는 출력하지 않으며, `docker` 명령이 실패하면 그 종료 코드를 그대로 돌려줍니다.
+
+### 한계: UI 멈춤은 자동 감지하지 않음
+
+`ready`는 네 계층이 응답한다는 뜻일 뿐 카카오톡 화면이 반응한다는 보장이 아닙니다. 프로세스는 살아 있는데 화면이 멈추거나 비어 있으면 자동으로 알 수 없으므로 `kakaoctl.sh restart`로 직접 복구하세요. 창이 숨겨졌을 뿐이라면 기존 runner가 다시 앞으로 올립니다.
+
+```bash
+docker exec kakaotalk-wine run-kakao
+```
+
+### 롤백
+
+배포 전에 실행 중인 컨테이너를 그대로 이미지로 보존해 둡니다. 기존 컨테이너는 이미지(`dcdc7a66…`) 밖에서 고친 실행 스크립트를 쓰고 있었으므로, 원래 이미지 ID로 되돌리면 옛 스크립트로 돌아갑니다. 2026-10-15 배포 때 보존한 이미지는 `kakaotalk-wine:rollback-20261015`입니다. 문제가 있으면 이 이미지와 **같은 볼륨**(`kakaotalk-web_kakao-wine-data`)으로 되돌립니다.
+
+```bash
+docker stop -t 30 kakaotalk-wine && docker commit kakaotalk-wine kakaotalk-wine:rollback-$(date +%Y%m%d)   # 배포 전 보존
+docker tag kakaotalk-wine:rollback-20261015 kakaotalk-wine:local                                          # 되돌릴 때
+docker compose -p kakaotalk-web up -d --no-build --force-recreate
+```
+
+`--build`나 `docker compose down -v`는 쓰지 마세요(볼륨 삭제). 볼륨의 `runtime-state`는 이전 이미지가 무시하므로 그대로 둡니다.
+
 ## 주의
 
 - 로컬/개인용으로만 사용하세요.

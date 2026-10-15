@@ -15,6 +15,7 @@ services:
       - kakao-wine-data:/data
       - ${KAKAO_SHARE_DIR:-/mnt/c/Users/$USER/Desktop/kakao-share}:/share
     restart: unless-stopped
+    stop_grace_period: 30s
     environment:
       WINEPREFIX: /data/wineprefix
       LANG: ko_KR.UTF-8

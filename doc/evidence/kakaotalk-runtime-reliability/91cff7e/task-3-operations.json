@@ -1,0 +1,360 @@
+{
+  "task": "task-3-operations",
+  "schema": 1,
+  "command": "bash scripts/qa-runtime.sh operations",
+  "started_at": "2026-10-15T06:53:30Z",
+  "finished_at": "2026-10-15T06:54:17Z",
+  "source": {
+    "revision": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+    "short": "91cff7e",
+    "branch": "feature/202610-kakaotalk-runtime-reliability",
+    "git_diff_binary_sha256": "0556235c2c934dfb56e9e6abcbad7ccfef49b709653f545b756e04659070be1d",
+    "untracked_files_combined_sha256": "bd7fc23291b93ee296064086ccac6c989dc501836467d7013a07b49071413441",
+    "scripts_worktree": {
+      "entrypoint": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "scripts_embedded_in_candidate": {
+      "entrypoint": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "candidate_embeds_worktree_scripts": true,
+    "qa_app_seed": {
+      "used": false,
+      "note": "image-bundled KakaoTalk (stale on a fresh volume: error dialog, not login)"
+    }
+  },
+  "image": {
+    "qa_tag": "kakaotalk-wine:reliability-qa",
+    "id": "sha256:e1127c8af53ccda982c27025660317f1bc7b742cf50b298ef41bc4ddcd6f5a26"
+  },
+  "setup_error": null,
+  "checks": [
+    {
+      "name": "sentinel_reached_container",
+      "passed": true,
+      "detail": "container VNC_PASSWORD hash equals the sentinel hash (value never printed)"
+    },
+    {
+      "name": "status_output",
+      "passed": true,
+      "detail": "exit=0; target, docker state, image ID, probe phase=ready, runtime phase=ready, budget 0/3"
+    },
+    {
+      "name": "diagnose_output",
+      "passed": true,
+      "detail": "exit=0; sections, process names and runtime log lines present"
+    },
+    {
+      "name": "wrong_project_status_refused",
+      "passed": true,
+      "detail": "exit=3 (QA container with the production project name)"
+    },
+    {
+      "name": "wrong_project_restart_refused",
+      "passed": true,
+      "detail": "exit=3; QA container StartedAt unchanged, no marker created"
+    },
+    {
+      "name": "production_with_qa_project_refused",
+      "passed": true,
+      "detail": "exit=3 (read-only status of the production container with the QA project name)"
+    },
+    {
+      "name": "missing_container_refused",
+      "passed": true,
+      "detail": "exit=3"
+    },
+    {
+      "name": "usage_errors_64",
+      "passed": true,
+      "detail": "unknown command exit=64; invalid container name exit=64"
+    },
+    {
+      "name": "status_shows_used_budget",
+      "passed": true,
+      "detail": "exit=0; budget used_in_window=2/3 and monitor recovery_count=2/3"
+    },
+    {
+      "name": "failed_restart_exit_code_propagated",
+      "passed": true,
+      "detail": "exit=17 (expected 17); container not restarted, marker removed again"
+    },
+    {
+      "name": "failed_inspect_exit_code_propagated",
+      "passed": true,
+      "detail": "exit=23 (expected 23)"
+    },
+    {
+      "name": "restart_exit_and_output",
+      "passed": true,
+      "detail": "exit=0; snapshot written, marker created, restarted"
+    },
+    {
+      "name": "restart_really_restarted",
+      "passed": true,
+      "detail": "StartedAt 2026-10-15T06:53:34.388280758Z -> 2026-10-15T06:54:10.686089897Z"
+    },
+    {
+      "name": "restart_snapshot_content",
+      "passed": true,
+      "detail": "snapshot taken before the restart shows budget 2/3"
+    },
+    {
+      "name": "restart_budget_reset",
+      "passed": true,
+      "detail": "budget.log empty, recovery_count 0, last_budget_reset manual_recovery, failure log records cleared_entries=2"
+    },
+    {
+      "name": "restart_marker_consumed",
+      "passed": true,
+      "detail": "manual-recovery marker removed by the boot"
+    },
+    {
+      "name": "restart_ready_again",
+      "passed": true,
+      "detail": "probe ready + HTTP 200 + WS RFB banner after the restart"
+    },
+    {
+      "name": "restart_data_preserved",
+      "passed": true,
+      "detail": "persistence sentinel intact; .initialized stat unchanged (1792047235 0)"
+    },
+    {
+      "name": "status_after_restart",
+      "passed": true,
+      "detail": "exit=0; ready, budget 0/3"
+    },
+    {
+      "name": "secret_sentinel_absent",
+      "passed": true,
+      "detail": "sentinel occurrences in all kakaoctl outputs + snapshot: 0"
+    },
+    {
+      "name": "kakaoctl_source_no_env_access",
+      "passed": true,
+      "detail": "no env/Config.Env/VNC_PASSWORD references in code lines; bash -n ok"
+    },
+    {
+      "name": "kakaoctl_defaults",
+      "passed": true,
+      "detail": "defaults kakaotalk-web / kakaotalk-wine"
+    }
+  ],
+  "secret_sentinel": {
+    "sha256": "73d8ab4fb7e30425e431e418466164ff5b9d285e7c1e74b73d3da18694c3f8de",
+    "length": 36,
+    "occurrences_in_kakaoctl_outputs_and_snapshot": 0,
+    "note": "random per run, supplied as QA VNC_PASSWORD through a temp compose override; only its hash is recorded"
+  },
+  "outputs": {
+    "status": [
+      "== kakaoctl status ==",
+      "target:   project=kakao-reliability-qa container=kakaotalk-reliability-qa",
+      "docker:   status=running health=healthy restart_count=0 exit_code=0 started_at=2026-10-15T06:53:34.388280758Z",
+      "image:    id=sha256:e1127c8af53ccda982c27025660317f1bc7b742cf50b298ef41bc4ddcd6f5a26 ref=kakaotalk-wine:reliability-qa",
+      "probe:    phase=ready layer=app reason=ok ts=2026-10-15T06:53:59Z probe_ms=116 recovery_count=0 (exit=0)",
+      "runtime:  phase=ready layer=app reason=ok stage=running blocked=0 ui=unconfirmed ui_windows=0 state_age_s=3",
+      "monitor:  recovery_count=0/3 window_s=600 last_budget_reset= image_fingerprint=fp:4b285ea014dd2ba6",
+      "budget:   used_in_window=0/3",
+      "recovery: last_automatic_action=none",
+      "          manual_recovery_marker=absent",
+      ""
+    ],
+    "diagnose": [
+      "== kakaoctl diagnose ==",
+      "target:   project=kakao-reliability-qa container=kakaotalk-reliability-qa",
+      "docker:   status=running health=healthy restart_count=0 exit_code=0 started_at=2026-10-15T06:53:34.388280758Z",
+      "image:    id=sha256:e1127c8af53ccda982c27025660317f1bc7b742cf50b298ef41bc4ddcd6f5a26 ref=kakaotalk-wine:reliability-qa",
+      "probe:    phase=ready layer=app reason=ok ts=2026-10-15T06:54:00Z probe_ms=186 recovery_count=0 (exit=0)",
+      "runtime:  phase=ready layer=app reason=ok stage=running blocked=0 ui=unconfirmed ui_windows=0 state_age_s=4",
+      "monitor:  recovery_count=0/3 window_s=600 last_budget_reset= image_fingerprint=fp:4b285ea014dd2ba6",
+      "budget:   used_in_window=0/3",
+      "recovery: last_automatic_action=none",
+      "          manual_recovery_marker=absent",
+      "",
+      "--- processes (pid state comm; no arguments) ---",
+      "1 S docker-init",
+      "1038 S lsass.exe",
+      "1071 S xrdp",
+      "1115 S sleep",
+      "1418 S sh",
+      "146 S wineserver",
+      "150 S services.exe",
+      "156 S explorer.exe",
+      "231 S winedevice.exe",
+      "360 S svchost.exe",
+      "365 S plugplay.exe",
+      "50 S Xvfb",
+      "607 S winedevice.exe",
+      "616 S dbus-launch",
+      "617 S dbus-daemon",
+      "7 S bash",
+      "799 S openbox",
+      "801 S tint2",
+      "804 S dbus-run-sessio",
+      "813 S x11vnc",
+      "814 S websockify",
+      "822 S xrdp-chansrv",
+      "830 S dbus-daemon",
+      "836 S bash",
+      "843 S fcitx5",
+      "875 S start.exe",
+      "891 S KakaoTalk.exe",
+      "",
+      "--- last-failure.log (tail 30) ---",
+      "(empty or absent)",
+      "",
+      "--- recent [kakao-runtime] container log lines (tail 15) ---",
+      "[kakao-runtime] ts=2026-10-15T06:53:35Z event=boot image=fp:4b285ea014dd2ba6 budget_used=0/3",
+      "[kakao-runtime] ts=2026-10-15T06:53:56Z event=ui_unconfirmed layer=app reason=ui_unconfirmed windows=0 action=none",
+      "[kakao-runtime] ts=2026-10-15T06:53:56Z phase=ready layer=app reason=ok recovery_count=0 consecutive_failures=0",
+      "",
+      "note: ready = X, VNC, web and the KakaoTalk.exe process answer. A frozen UI is not detected automatically:",
+      "      use 'kakaoctl.sh restart'. A merely hidden window is raised by: docker exec kakaotalk-reliability-qa run-kakao",
+      ""
+    ],
+    "restart": [
+      "== kakaoctl restart: project=kakao-reliability-qa container=kakaotalk-reliability-qa ==",
+      "snapshot: /data/runtime-state/manual-restart.snapshot written",
+      "marker:   /data/runtime-state/manual-recovery created (budget is reset at boot)",
+      "kakaotalk-reliability-qa",
+      "restarted: kakaotalk-reliability-qa. Check progress with: kakaoctl.sh status --project kakao-reliability-qa --container kakaotalk-reliability-qa",
+      ""
+    ],
+    "status_after_restart": [
+      "== kakaoctl status ==",
+      "target:   project=kakao-reliability-qa container=kakaotalk-reliability-qa",
+      "docker:   status=running health=starting restart_count=0 exit_code=0 started_at=2026-10-15T06:54:10.686089897Z",
+      "image:    id=sha256:e1127c8af53ccda982c27025660317f1bc7b742cf50b298ef41bc4ddcd6f5a26 ref=kakaotalk-wine:reliability-qa",
+      "probe:    phase=ready layer=app reason=ok ts=2026-10-15T06:54:16Z probe_ms=295 recovery_count=0 (exit=0)",
+      "runtime:  phase=ready layer=app reason=ok stage=running blocked=0 ui=unconfirmed ui_windows=0 state_age_s=3",
+      "monitor:  recovery_count=0/3 window_s=600 last_budget_reset=1792047251:manual_recovery image_fingerprint=fp:4b285ea014dd2ba6",
+      "budget:   used_in_window=0/3",
+      "recovery: last_automatic_action=none",
+      "          manual_recovery_marker=absent",
+      ""
+    ],
+    "restart_snapshot": [
+      "# kakaoctl restart snapshot ts=2026-10-15T06:54:08Z",
+      "target:   project=kakao-reliability-qa container=kakaotalk-reliability-qa",
+      "docker:   status=running health=healthy restart_count=0 exit_code=0 started_at=2026-10-15T06:53:34.388280758Z",
+      "image:    id=sha256:e1127c8af53ccda982c27025660317f1bc7b742cf50b298ef41bc4ddcd6f5a26 ref=kakaotalk-wine:reliability-qa",
+      "probe:    phase=ready layer=app reason=ok ts=2026-10-15T06:54:09Z probe_ms=157 recovery_count=2 (exit=0)",
+      "runtime:  phase=ready layer=app reason=ok stage=running blocked=0 ui=unconfirmed ui_windows=0 state_age_s=3",
+      "monitor:  recovery_count=2/3 window_s=600 last_budget_reset= image_fingerprint=fp:4b285ea014dd2ba6",
+      "budget:   used_in_window=2/3",
+      "           - 9s ago: qa_injected ops_test_1",
+      "           - 9s ago: qa_injected ops_test_2",
+      "recovery: last_automatic_action=qa_injected ops_test_2 (9s ago)",
+      "          manual_recovery_marker=absent",
+      "--- last-failure.log (tail 20) ---",
+      "(empty or absent)",
+      ""
+    ]
+  },
+  "production": {
+    "before": {
+      "found": true,
+      "id": "dd57b30b534847c4ba5185d2bc8397bc2c8de3b7fe7594c78e8b82c4223e5006",
+      "image_id": "sha256:6aaf2d6d452b06f76b930abe7afea2f66563adba508b03339036bab5926588d0",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-15T06:51:21.846204208Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml,/home/root1/kakao-backup/compose.rollback.yml",
+        "config_hash": "5339e578676f9a9eb1c24cb579d50bb9a754f966199bf44747309b2078255bc9",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "after": {
+      "found": true,
+      "id": "dd57b30b534847c4ba5185d2bc8397bc2c8de3b7fe7594c78e8b82c4223e5006",
+      "image_id": "sha256:6aaf2d6d452b06f76b930abe7afea2f66563adba508b03339036bab5926588d0",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-15T06:51:21.846204208Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml,/home/root1/kakao-backup/compose.rollback.yml",
+        "config_hash": "5339e578676f9a9eb1c24cb579d50bb9a754f966199bf44747309b2078255bc9",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "unchanged": true,
+    "note": "production was only inspected; a change here (e.g. orchestrator redeploy) is noted, not a QA failure"
+  },
+  "result": {
+    "checks_total": 22,
+    "checks_passed": 22,
+    "passed": true
+  },
+  "exit_code": 0
+}

@@ -1,0 +1,344 @@
+{
+  "task": "task-2-probe",
+  "schema": 1,
+  "command": "bash scripts/qa-runtime.sh probe-selftest",
+  "started_at": "2026-10-15T05:19:59Z",
+  "finished_at": "2026-10-15T05:20:32Z",
+  "source": {
+    "revision": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+    "short": "91cff7e",
+    "branch": "feature/202610-kakaotalk-runtime-reliability",
+    "git_diff_binary_sha256": "76d6e8df23995459b53ee27be1faa410ef8127f012dfd6566e6a69f44c722316",
+    "untracked_files_combined_sha256": "515574409b0d3794492abac6761ef03ed208996900f05ef1947f9195d8d08e0f",
+    "scripts_worktree": {
+      "entrypoint": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "scripts_embedded_in_candidate": {
+      "entrypoint": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "candidate_embeds_worktree_scripts": true
+  },
+  "images": {
+    "baseline_tag_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+    "candidate_tag_id": "sha256:bc2aed54f32c84ff0c6c9247a9c0a31887b46a3bc32656c96df65b2aca8fd435"
+  },
+  "cases": [
+    {
+      "case": "probe_selftest",
+      "started_at": "2026-10-15T05:20:00Z",
+      "finished_at": "2026-10-15T05:20:32Z",
+      "fault": {
+        "kind": "incomplete / foreign RFB banner on the probed VNC port",
+        "injection": "python listener inside the QA container on 127.0.0.1:5901, probe run with KAKAO_VNC_PORT=5901 (override of the probe only)",
+        "port": 5901
+      },
+      "probe_before": {
+        "rc": 0,
+        "phase": "ready",
+        "layer": "app",
+        "reason": "ok",
+        "record": "phase=ready layer=app reason=ok ts=2026-10-15T05:20:23Z probe_ms=308 recovery_count=0"
+      },
+      "variants": [
+        {
+          "rc": 1,
+          "record": "phase=starting layer=vnc reason=vnc_short_banner ts=2026-10-15T05:20:23Z probe_ms=9 recovery_count=0",
+          "elapsed_s": 0.01,
+          "stdout_lines": 1,
+          "variant": "short_banner_then_eof",
+          "listener": "fake",
+          "sent_bytes": 8,
+          "held_open": false,
+          "parsed": {
+            "phase": "starting",
+            "layer": "vnc",
+            "reason": "vnc_short_banner",
+            "ts": "2026-10-15T05:20:23Z",
+            "probe_ms": "9",
+            "recovery_count": "0"
+          }
+        },
+        {
+          "rc": 1,
+          "record": "phase=starting layer=vnc reason=vnc_short_banner ts=2026-10-15T05:20:25Z probe_ms=2513 recovery_count=0",
+          "elapsed_s": 2.52,
+          "stdout_lines": 1,
+          "variant": "short_banner_then_hold",
+          "listener": "fake",
+          "sent_bytes": 8,
+          "held_open": true,
+          "parsed": {
+            "phase": "starting",
+            "layer": "vnc",
+            "reason": "vnc_short_banner",
+            "ts": "2026-10-15T05:20:25Z",
+            "probe_ms": "2513",
+            "recovery_count": "0"
+          }
+        },
+        {
+          "rc": 1,
+          "record": "phase=starting layer=vnc reason=vnc_short_banner ts=2026-10-15T05:20:27Z probe_ms=8 recovery_count=0",
+          "elapsed_s": 0.01,
+          "stdout_lines": 1,
+          "variant": "empty_then_eof",
+          "listener": "fake",
+          "sent_bytes": 0,
+          "held_open": false,
+          "parsed": {
+            "phase": "starting",
+            "layer": "vnc",
+            "reason": "vnc_short_banner",
+            "ts": "2026-10-15T05:20:27Z",
+            "probe_ms": "8",
+            "recovery_count": "0"
+          }
+        },
+        {
+          "rc": 1,
+          "record": "phase=starting layer=vnc reason=vnc_bad_banner ts=2026-10-15T05:20:27Z probe_ms=8 recovery_count=0",
+          "elapsed_s": 0.01,
+          "stdout_lines": 1,
+          "variant": "twelve_bytes_not_rfb",
+          "listener": "fake",
+          "sent_bytes": 12,
+          "held_open": false,
+          "parsed": {
+            "phase": "starting",
+            "layer": "vnc",
+            "reason": "vnc_bad_banner",
+            "ts": "2026-10-15T05:20:27Z",
+            "probe_ms": "8",
+            "recovery_count": "0"
+          }
+        },
+        {
+          "rc": 0,
+          "record": "phase=ready layer=app reason=ok ts=2026-10-15T05:20:28Z probe_ms=13 recovery_count=0",
+          "elapsed_s": 0.02,
+          "stdout_lines": 1,
+          "variant": "full_banner_then_eof",
+          "listener": "fake",
+          "sent_bytes": 12,
+          "held_open": false,
+          "parsed": {
+            "phase": "ready",
+            "layer": "app",
+            "reason": "ok",
+            "ts": "2026-10-15T05:20:28Z",
+            "probe_ms": "13",
+            "recovery_count": "0"
+          }
+        },
+        {
+          "rc": 0,
+          "record": "phase=ready layer=app reason=ok ts=2026-10-15T05:20:28Z probe_ms=13 recovery_count=0",
+          "elapsed_s": 0.02,
+          "stdout_lines": 1,
+          "variant": "full_banner_then_hold",
+          "listener": "fake",
+          "sent_bytes": 12,
+          "held_open": true,
+          "parsed": {
+            "phase": "ready",
+            "layer": "app",
+            "reason": "ok",
+            "ts": "2026-10-15T05:20:28Z",
+            "probe_ms": "13",
+            "recovery_count": "0"
+          }
+        },
+        {
+          "rc": 0,
+          "record": "phase=ready layer=app reason=ok ts=2026-10-15T05:20:32Z probe_ms=114 recovery_count=0",
+          "elapsed_s": 0.12,
+          "stdout_lines": 1,
+          "variant": "real_vnc_port_5900",
+          "listener": "real",
+          "sent_bytes": null,
+          "held_open": false,
+          "parsed": {
+            "phase": "ready",
+            "layer": "app",
+            "reason": "ok",
+            "ts": "2026-10-15T05:20:32Z",
+            "probe_ms": "114",
+            "recovery_count": "0"
+          }
+        }
+      ],
+      "healthcheck_sha256": {
+        "in_container": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5",
+        "worktree": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+      },
+      "assertions": {
+        "short_banner_then_eof_is_vnc_not_ready": true,
+        "short_banner_then_hold_is_vnc_not_ready": true,
+        "empty_then_eof_is_vnc_not_ready": true,
+        "twelve_bytes_not_rfb_is_vnc_not_ready": true,
+        "full_banner_then_eof_is_ready": true,
+        "full_banner_then_hold_is_ready": true,
+        "real_vnc_banner_is_ready": true,
+        "every_probe_within_12s": true,
+        "container_probe_was_ready_before": true,
+        "container_runs_worktree_healthcheck": true
+      },
+      "passed": true
+    }
+  ],
+  "result": {
+    "cases_total": 1,
+    "cases_passed": 1,
+    "passed": true
+  },
+  "production": {
+    "before": {
+      "found": true,
+      "id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+      "image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-15T04:12:03.33004814Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "after": {
+      "found": true,
+      "id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+      "image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-15T04:12:03.33004814Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "unchanged": true,
+    "matches_expected_started_at_and_zero_restarts": true
+  },
+  "worktree": {
+    "before": {
+      "head": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+      "status_excluding_evidence": [
+        " M Dockerfile",
+        " M docker-compose.yml",
+        " M docker/entrypoint.sh",
+        " M docker/run-kakao.sh",
+        "?? docker-compose.qa.yml",
+        "?? docker/healthcheck.sh",
+        "?? scripts/"
+      ],
+      "status_sha256": "IE0gRG9ja2VyZmlsZQogTSBkb2NrZXItY29tcG9zZS55bWwKIE0gZG9ja2VyL2VudHJ5cG9pbnQuc2gKIE0gZG9ja2VyL3J1bi1rYWthby5zaAo/PyBkb2NrZXItY29tcG9zZS5xYS55bWwKPz8gZG9ja2VyL2hlYWx0aGNoZWNrLnNoCj8/IHNjcmlwdHMv",
+      "diff_binary_sha256": "76d6e8df23995459b53ee27be1faa410ef8127f012dfd6566e6a69f44c722316"
+    },
+    "after": {
+      "head": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+      "status_excluding_evidence": [
+        " M Dockerfile",
+        " M docker-compose.yml",
+        " M docker/entrypoint.sh",
+        " M docker/run-kakao.sh",
+        "?? docker-compose.qa.yml",
+        "?? docker/healthcheck.sh",
+        "?? scripts/"
+      ],
+      "status_sha256": "IE0gRG9ja2VyZmlsZQogTSBkb2NrZXItY29tcG9zZS55bWwKIE0gZG9ja2VyL2VudHJ5cG9pbnQuc2gKIE0gZG9ja2VyL3J1bi1rYWthby5zaAo/PyBkb2NrZXItY29tcG9zZS5xYS55bWwKPz8gZG9ja2VyL2hlYWx0aGNoZWNrLnNoCj8/IHNjcmlwdHMv",
+      "diff_binary_sha256": "76d6e8df23995459b53ee27be1faa410ef8127f012dfd6566e6a69f44c722316"
+    },
+    "unchanged_excluding_evidence": true
+  },
+  "adversarial": {
+    "flaky_tests": {
+      "probed": true,
+      "finding": "no fixed sleeps as synchronization: every wait is a deadline-bounded state predicate; the observation windows are time-as-behavior and the asserted minimum is checked against the measured elapsed seconds"
+    },
+    "hung_commands": {
+      "probed": true,
+      "finding": "every docker exec/logs/events/curl/python call is wrapped in timeout; all loops carry a deadline"
+    },
+    "stale_state": {
+      "probed": true,
+      "finding": "prep_fresh removes any QA-owned container/volume first: every scenario starts on a fresh QA volume (and fresh runtime-state/budget)"
+    },
+    "misleading_success_output": {
+      "probed": true,
+      "finding": "a banner only counts when read -N 12 succeeded with exactly 12 bytes starting RFB 003.; the 8-byte prefix followed by EOF or by a hold-open listener is vnc_short_banner (non-ready), a full banner stays ready"
+    }
+  },
+  "exit_code": 0
+}

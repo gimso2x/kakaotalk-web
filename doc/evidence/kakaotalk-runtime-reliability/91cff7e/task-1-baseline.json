@@ -1,0 +1,1023 @@
+{
+  "task": "task-1-baseline",
+  "schema": 1,
+  "command": "bash scripts/qa-runtime.sh baseline",
+  "started_at": "2026-10-15T00:19:05Z",
+  "finished_at": "2026-10-15T00:21:27Z",
+  "exit_code": 0,
+  "result": {
+    "defect_reproduced": true,
+    "system_healthy": false,
+    "harness_status": "defect_reproduced",
+    "reason": "HTTP 200 persisted while RFB handshake failed in every sample; x11vnc not respawned; RestartCount unchanged",
+    "note": "defect_reproduced=true means the BASELINE BUG was observed (harness PASS); system_healthy is always false after the fault."
+  },
+  "exit_code_convention": {
+    "0": "defect reproduced (harness PASS)",
+    "1": "defect NOT reproduced",
+    "2": "precondition/environment failure",
+    "3": "guard refusal (no side effects)",
+    "64": "usage"
+  },
+  "source": {
+    "revision": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+    "short": "91cff7e",
+    "branch": "feature/202610-kakaotalk-runtime-reliability",
+    "git_diff_binary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan_expected": {
+      "entrypoint": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+      "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+    },
+    "worktree": {
+      "entrypoint": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+      "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+    },
+    "production_source_repo": {
+      "entrypoint": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+      "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+    },
+    "production_container": {
+      "entrypoint": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+      "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+    },
+    "all_match_plan": true,
+    "qa_container_scripts": {
+      "entrypoint": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+      "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+    }
+  },
+  "image": {
+    "qa_image_tag": "kakaotalk-wine:reliability-baseline",
+    "qa_image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+    "created": "2026-09-23T13:08:04.192984543+09:00",
+    "production_image": {
+      "tag": "kakaotalk-wine:local",
+      "id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "matches_plan_image_id": true
+    },
+    "same_as_production_image": true,
+    "scripts": {
+      "image_embedded_facts": {
+        "image_embedded": {
+          "entrypoint": "0c57bceaef99a45f5ca1016494d159c12c69a600c59782b5f61bb22d43c360c9",
+          "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+        },
+        "entrypoint_matches_plan_production_runtime": false,
+        "runner_matches_plan_production_runtime": true,
+        "entrypoint_diff_lines_vs_production_runtime": 7,
+        "finding": "production runtime scripts live in the container layer (docker cp), not in the image; the image alone does not reproduce production runtime"
+      },
+      "applied_to_qa_container": {
+        "mode": "production-runtime",
+        "entrypoint_sha256": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+        "runner_sha256": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b",
+        "method": "tar stream (mode 0755) via docker cp into the created, not yet started QA container"
+      }
+    }
+  },
+  "image_facts_baseline": {
+    "wine": {
+      "version": "wine-11.18 (Staging)"
+    },
+    "kakaotalk": {
+      "exe_path": "/opt/kakao/KakaoTalk/KakaoTalk.exe",
+      "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125",
+      "exe_size": "35817064",
+      "version_from_changelog": "26.1.2"
+    },
+    "scripts_in_container": {
+      "entrypoint": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+      "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+    },
+    "packages": [
+      "novnc=1:1.3.0-2",
+      "openbox=3.6.1-12build5",
+      "websockify=0.10.0+dfsg1-5build2",
+      "wine-staging=11.18~noble-1",
+      "wine-staging-amd64=11.18~noble-1",
+      "wine-staging-i386=11.18~noble-1",
+      "winehq-staging=11.18~noble-1",
+      "x11vnc=0.9.16-10",
+      "xvfb=2:21.1.12-1ubuntu1.6"
+    ]
+  },
+  "pre_fault": {
+    "ready": true,
+    "at": "2026-10-15T00:19:25Z",
+    "container_id": "7164847bbc3b552a30a01df07b25e6e52f213988b7545453cd650dd46e890b72",
+    "seconds_to_ready": 13,
+    "http_status": 200,
+    "rfb": {
+      "ok": true,
+      "banner": "RFB 003.008",
+      "error": null,
+      "elapsed_ms": 170
+    },
+    "restart_count": 0,
+    "started_at": "2026-10-15T00:19:08.64958398Z",
+    "x11vnc": {
+      "pid": 165,
+      "cmdline": "x11vnc -display :100 -forever -shared -listen 127.0.0.1 -rfbport 5900 -xkb -noxdamage -repeat -cursor arrow -fixscreen V=3 -wait 20 -defer 20 -nopw "
+    },
+    "websockify_pids": [
+      166
+    ],
+    "fresh_volume": {
+      "qa_volume": "kakao-reliability-qa_kakao-qa-data",
+      "stale_leftovers_removed_first": true
+    }
+  },
+  "fault": {
+    "signal": "TERM",
+    "target": "x11vnc",
+    "pid": 165,
+    "container": "kakaotalk-reliability-qa",
+    "injected_at": "2026-10-15T00:19:25Z",
+    "pid_gone_within_20s": true
+  },
+  "observation": {
+    "window_requested_s": 120,
+    "window_observed_s": 122,
+    "sample_count": 35,
+    "recovered": false,
+    "recovery_reason": "",
+    "summary": {
+      "http_always_200": true,
+      "rfb_failed_every_sample": true,
+      "x11vnc_never_respawned": true,
+      "restart_count_unchanged": true,
+      "container_running_throughout": true,
+      "websockify_alive_throughout": true
+    },
+    "docker_events_during_window": {
+      "exec_events_omitted": 119,
+      "lifecycle_events": []
+    },
+    "samples": [
+      {
+        "t_s": 1,
+        "at": "2026-10-15T00:19:26Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 4,
+        "at": "2026-10-15T00:19:29Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 10,
+        "at": "2026-10-15T00:19:35Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 13,
+        "at": "2026-10-15T00:19:38Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 16,
+        "at": "2026-10-15T00:19:41Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 19,
+        "at": "2026-10-15T00:19:44Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 22,
+        "at": "2026-10-15T00:19:47Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 26,
+        "at": "2026-10-15T00:19:51Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 29,
+        "at": "2026-10-15T00:19:54Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 32,
+        "at": "2026-10-15T00:19:57Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 35,
+        "at": "2026-10-15T00:20:00Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 38,
+        "at": "2026-10-15T00:20:03Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 44,
+        "at": "2026-10-15T00:20:09Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 47,
+        "at": "2026-10-15T00:20:12Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 50,
+        "at": "2026-10-15T00:20:15Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 54,
+        "at": "2026-10-15T00:20:19Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 57,
+        "at": "2026-10-15T00:20:22Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 60,
+        "at": "2026-10-15T00:20:25Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 64,
+        "at": "2026-10-15T00:20:29Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 67,
+        "at": "2026-10-15T00:20:32Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 71,
+        "at": "2026-10-15T00:20:36Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 74,
+        "at": "2026-10-15T00:20:39Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 80,
+        "at": "2026-10-15T00:20:45Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 83,
+        "at": "2026-10-15T00:20:48Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 86,
+        "at": "2026-10-15T00:20:51Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 89,
+        "at": "2026-10-15T00:20:54Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 93,
+        "at": "2026-10-15T00:20:58Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 96,
+        "at": "2026-10-15T00:21:01Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 99,
+        "at": "2026-10-15T00:21:04Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 102,
+        "at": "2026-10-15T00:21:07Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 106,
+        "at": "2026-10-15T00:21:11Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 109,
+        "at": "2026-10-15T00:21:14Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 115,
+        "at": "2026-10-15T00:21:20Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 118,
+        "at": "2026-10-15T00:21:23Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      },
+      {
+        "t_s": 122,
+        "at": "2026-10-15T00:21:27Z",
+        "http_status": 200,
+        "rfb_ok": false,
+        "rfb_error": "unexpected first frame",
+        "rfb_banner": "",
+        "x11vnc_live_pids": [],
+        "websockify_live_pids": [
+          166
+        ],
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-15T00:19:08.64958398Z"
+      }
+    ]
+  },
+  "processes_before_fault": [
+    {
+      "pid": 1,
+      "comm": "docker-init",
+      "state": "S"
+    },
+    {
+      "pid": 107,
+      "comm": "winedevice.exe",
+      "state": "S"
+    },
+    {
+      "pid": 14,
+      "comm": "wineserver",
+      "state": "S"
+    },
+    {
+      "pid": 148,
+      "comm": "Xvfb",
+      "state": "S"
+    },
+    {
+      "pid": 159,
+      "comm": "openbox",
+      "state": "S"
+    },
+    {
+      "pid": 161,
+      "comm": "tint2",
+      "state": "S"
+    },
+    {
+      "pid": 164,
+      "comm": "dbus-run-sessio",
+      "state": "S"
+    },
+    {
+      "pid": 165,
+      "comm": "x11vnc",
+      "state": "S"
+    },
+    {
+      "pid": 166,
+      "comm": "websockify",
+      "state": "S"
+    },
+    {
+      "pid": 176,
+      "comm": "xrdp-chansrv",
+      "state": "S"
+    },
+    {
+      "pid": 178,
+      "comm": "dbus-daemon",
+      "state": "S"
+    },
+    {
+      "pid": 18,
+      "comm": "services.exe",
+      "state": "S"
+    },
+    {
+      "pid": 182,
+      "comm": "bash",
+      "state": "S"
+    },
+    {
+      "pid": 189,
+      "comm": "fcitx5",
+      "state": "S"
+    },
+    {
+      "pid": 202,
+      "comm": "start.exe",
+      "state": "S"
+    },
+    {
+      "pid": 204,
+      "comm": "bash",
+      "state": "S"
+    },
+    {
+      "pid": 217,
+      "comm": "KakaoTalk.exe",
+      "state": "R"
+    },
+    {
+      "pid": 227,
+      "comm": "xrdp",
+      "state": "S"
+    },
+    {
+      "pid": 230,
+      "comm": "lsass.exe",
+      "state": "S"
+    },
+    {
+      "pid": 24,
+      "comm": "explorer.exe",
+      "state": "S"
+    },
+    {
+      "pid": 257,
+      "comm": "sleep",
+      "state": "S"
+    },
+    {
+      "pid": 275,
+      "comm": "sh",
+      "state": "S"
+    },
+    {
+      "pid": 66,
+      "comm": "winedevice.exe",
+      "state": "S"
+    },
+    {
+      "pid": 7,
+      "comm": "bash",
+      "state": "S"
+    },
+    {
+      "pid": 82,
+      "comm": "svchost.exe",
+      "state": "S"
+    },
+    {
+      "pid": 87,
+      "comm": "plugplay.exe",
+      "state": "S"
+    }
+  ],
+  "processes_after_observation": [
+    {
+      "pid": 1,
+      "comm": "docker-init",
+      "state": "S"
+    },
+    {
+      "pid": 148,
+      "comm": "Xvfb",
+      "state": "S"
+    },
+    {
+      "pid": 159,
+      "comm": "openbox",
+      "state": "S"
+    },
+    {
+      "pid": 161,
+      "comm": "tint2",
+      "state": "S"
+    },
+    {
+      "pid": 166,
+      "comm": "websockify",
+      "state": "S"
+    },
+    {
+      "pid": 176,
+      "comm": "xrdp-chansrv",
+      "state": "S"
+    },
+    {
+      "pid": 227,
+      "comm": "xrdp",
+      "state": "S"
+    },
+    {
+      "pid": 2817,
+      "comm": "sh",
+      "state": "S"
+    },
+    {
+      "pid": 7,
+      "comm": "bash",
+      "state": "S"
+    }
+  ],
+  "production": {
+    "before": {
+      "found": true,
+      "id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+      "image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-14T23:41:51.739301308Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "after": {
+      "found": true,
+      "id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+      "image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-14T23:41:51.739301308Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "unchanged": true
+  },
+  "worktree": {
+    "before": {
+      "head": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+      "status_excluding_evidence": [
+        "?? docker-compose.qa.yml",
+        "?? scripts/"
+      ],
+      "status_sha256": "Pz8gZG9ja2VyLWNvbXBvc2UucWEueW1sCj8/IHNjcmlwdHMv",
+      "diff_binary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "after": {
+      "head": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+      "status_excluding_evidence": [
+        "?? docker-compose.qa.yml",
+        "?? scripts/"
+      ],
+      "status_sha256": "Pz8gZG9ja2VyLWNvbXBvc2UucWEueW1sCj8/IHNjcmlwdHMv",
+      "diff_binary_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "unchanged_excluding_evidence": true
+  },
+  "bounds": {
+    "ready_timeout_s": 300,
+    "observe_window_s": 120,
+    "fixed_sleep_synchronization": false,
+    "note": "all waits are deadline-bounded predicate polls; the observation window is the one place where elapsed time itself is the behavior under test"
+  },
+  "adversarial": {
+    "misleading_success_output": {
+      "probed": true,
+      "finding": "HTTP 200 on the websockify/noVNC static path stays true while the RFB handshake through the same path fails; readiness and verdicts require the RFB banner, never HTTP alone."
+    },
+    "dirty_worktree": {
+      "probed": true,
+      "finding": "worktree status (excluding doc/evidence) and tracked diff hash recorded before and after; see worktree.unchanged_excluding_evidence"
+    },
+    "hung_commands": {
+      "probed": true,
+      "finding": "every curl/docker/python call is wrapped in timeout/max-time; wait loops have deadlines"
+    },
+    "stale_state": {
+      "probed": true,
+      "finding": "any QA-owned leftover container/volume is removed first; run starts on a freshly created QA volume"
+    },
+    "flaky_tests": {
+      "probed": true,
+      "finding": "no fixed sleeps for synchronization; state predicates with deadlines, repeated samples over the observation window"
+    },
+    "production_interference": {
+      "probed": true,
+      "finding": "production only inspected; before/after snapshot compared (production.unchanged)"
+    },
+    "secrets_leak": {
+      "probed": true,
+      "finding": "N/A: QA uses empty VNC_PASSWORD, no account data, no share bind mount"
+    },
+    "data_loss": {
+      "probed": true,
+      "finding": "N/A: only the QA-only volume is created/removed; production volume never referenced"
+    },
+    "network_exposure": {
+      "probed": true,
+      "finding": "QA ports bound to 127.0.0.1 only (guard-enforced)"
+    }
+  }
+}

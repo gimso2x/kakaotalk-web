@@ -1,0 +1,1135 @@
+{
+  "task": "task-2-circuit",
+  "schema": 1,
+  "command": "bash scripts/qa-runtime.sh circuit",
+  "started_at": "2026-10-15T05:13:35Z",
+  "finished_at": "2026-10-15T05:17:02Z",
+  "source": {
+    "revision": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+    "short": "91cff7e",
+    "branch": "feature/202610-kakaotalk-runtime-reliability",
+    "git_diff_binary_sha256": "76d6e8df23995459b53ee27be1faa410ef8127f012dfd6566e6a69f44c722316",
+    "untracked_files_combined_sha256": "515574409b0d3794492abac6761ef03ed208996900f05ef1947f9195d8d08e0f",
+    "scripts_worktree": {
+      "entrypoint": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "scripts_embedded_in_candidate": {
+      "entrypoint": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "candidate_embeds_worktree_scripts": true
+  },
+  "images": {
+    "baseline_tag_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+    "candidate_tag_id": "sha256:bc2aed54f32c84ff0c6c9247a9c0a31887b46a3bc32656c96df65b2aca8fd435"
+  },
+  "cases": [
+    {
+      "part": "unit",
+      "method": "real budget_consume/budget_count/budget_exhausted/budget_reset/ready_streak_update/check_manual_recovery/check_image_change/on_signal sourced from /usr/local/bin/kakao-entrypoint with KAKAO_FAKE_NOW (fake clock); throwaway container of the candidate image",
+      "started_at": "2026-10-15T05:13:36Z",
+      "finished_at": "2026-10-15T05:13:36Z",
+      "image": "kakaotalk-wine:reliability-qa",
+      "docker_run_exit_code": 0,
+      "sourced_file_sha256": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+      "worktree_entrypoint_sha256": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+      "sourced_file_equals_worktree": true,
+      "config": "max=3 window_s=600 ready_reset_s=600",
+      "script_finished": true,
+      "checks": [
+        {
+          "name": "three_allowed",
+          "passed": true,
+          "detail": "rc=0,0,0 count=3 max=3"
+        },
+        {
+          "name": "fourth_denied",
+          "passed": true,
+          "detail": "rc=1 count=3 file_unchanged=yes"
+        },
+        {
+          "name": "expiry_after_10_min",
+          "passed": true,
+          "detail": "t+599: count=3 consume_rc=1; t+600: count=2 consume_rc=0 count_after=3; t+601 consume_rc=1"
+        },
+        {
+          "name": "entries_expire_individually",
+          "passed": true,
+          "detail": "t+610: 2 t+620: 1 t+1300: 0 (entries at +10,+20,+600 dropped one by one)"
+        },
+        {
+          "name": "ready_600s_resets_budget",
+          "passed": true,
+          "detail": "t+599: count=1 blocked=1; t+600: count=0 blocked=0 last_reset=1800005600:ready_600s"
+        },
+        {
+          "name": "reset_event_logged",
+          "passed": true,
+          "detail": "stdout and last-failure.log carry event=budget_reset reason=ready_600s cleared_entries=1"
+        },
+        {
+          "name": "interrupted_ready_streak_does_not_reset",
+          "passed": true,
+          "detail": "ready,notready@+300,ready@+301: blocked at +601=1 (601s since first ready, 300s continuous) +900=1, lifted at +901=0 (600s continuous)"
+        },
+        {
+          "name": "manual_marker_resets",
+          "passed": true,
+          "detail": "no marker: rc=1 count=3; with marker: rc=0 count=0 marker_removed=yes last_reset=1800000002:manual_recovery"
+        },
+        {
+          "name": "new_image_id_resets",
+          "passed": true,
+          "detail": "same id keeps count=3 exhausted=1; changed id: count=0 exhausted=0 stored=id:img-B reason=new_image cleared_entries=3"
+        },
+        {
+          "name": "fingerprint_when_no_image_id_given",
+          "passed": true,
+          "detail": "fingerprint format ok: fp:<16 hex>"
+        },
+        {
+          "name": "docker_stop_not_counted",
+          "passed": true,
+          "detail": "on_signal TERM: exit=0 count 1 -> 1; stdout: event=manual_stop signal=TERM counted=0"
+        },
+        {
+          "name": "stop_path_never_touches_budget",
+          "passed": true,
+          "detail": "on_signal/on_exit/cleanup_all contain no budget_* call; main traps TERM -> on_signal"
+        }
+      ],
+      "passed": true,
+      "case": "unit"
+    },
+    {
+      "part": "real",
+      "started_at": "2026-10-15T05:13:36Z",
+      "finished_at": "2026-10-15T05:17:02Z",
+      "method": "fresh QA volume; KakaoTalk.exe is KILLed 3x (each only after the previous recovery was ready AND the monitor reported ready again), then a 4th time with the shared budget (3 per 10 min) used up",
+      "failures": [
+        {
+          "n": 1,
+          "killed_pids": [
+            763
+          ],
+          "recovered_ready_and_new_app_pid": true,
+          "seconds_to_ready": 11,
+          "monitor_ack_ready": true,
+          "recovery_count_after": "1",
+          "budget_entries_after": [
+            "1792041246 app_relaunch app_process_absent"
+          ]
+        },
+        {
+          "n": 2,
+          "killed_pids": [
+            1882
+          ],
+          "recovered_ready_and_new_app_pid": true,
+          "seconds_to_ready": 16,
+          "monitor_ack_ready": true,
+          "recovery_count_after": "2",
+          "budget_entries_after": [
+            "1792041246 app_relaunch app_process_absent",
+            "1792041268 app_relaunch app_process_absent"
+          ]
+        },
+        {
+          "n": 3,
+          "killed_pids": [
+            3235
+          ],
+          "recovered_ready_and_new_app_pid": true,
+          "seconds_to_ready": 19,
+          "monitor_ack_ready": true,
+          "recovery_count_after": "3",
+          "budget_entries_after": [
+            "1792041246 app_relaunch app_process_absent",
+            "1792041268 app_relaunch app_process_absent",
+            "1792041288 app_relaunch app_process_absent"
+          ]
+        }
+      ],
+      "fourth_failure": {
+        "killed_pids": [
+          4547
+        ],
+        "blocked_reached": true,
+        "seconds_to_blocked": 10,
+        "state_when_blocked": {
+          "phase": "blocked",
+          "layer": "app",
+          "reason": "app_process_absent",
+          "ts": "1792041309",
+          "stage": "running",
+          "boot_epoch": "1792041220",
+          "grace_until": "1792041325",
+          "blocked": "1",
+          "recovery_count": "3",
+          "budget_max": "3",
+          "budget_window_s": "600",
+          "monitor_pid": "7",
+          "xvfb_pid": "50",
+          "openbox_pid": "4318",
+          "launcher_pid": "4422",
+          "x11vnc_pid": "711",
+          "websockify_pid": "712",
+          "ui": "unconfirmed",
+          "ui_windows": "0",
+          "image_id": "fp:4b285ea014dd2ba6",
+          "last_budget_reset": ""
+        },
+        "budget_entries_when_blocked": [
+          "1792041246 app_relaunch app_process_absent",
+          "1792041268 app_relaunch app_process_absent",
+          "1792041288 app_relaunch app_process_absent"
+        ]
+      },
+      "observation": {
+        "window_s": 91,
+        "requested_s": 90,
+        "monitor_intervals_covered": 9,
+        "samples": [
+          {
+            "t_s": 1,
+            "at": "2026-10-15T05:15:10Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:15:10Z probe_ms=263 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 7,
+            "at": "2026-10-15T05:15:16Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:15:16Z probe_ms=316 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 13,
+            "at": "2026-10-15T05:15:22Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:15:21Z probe_ms=135 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 22,
+            "at": "2026-10-15T05:15:31Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:15:30Z probe_ms=200 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 27,
+            "at": "2026-10-15T05:15:36Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:15:36Z probe_ms=213 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 33,
+            "at": "2026-10-15T05:15:42Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:15:42Z probe_ms=269 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 39,
+            "at": "2026-10-15T05:15:48Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:15:47Z probe_ms=115 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 44,
+            "at": "2026-10-15T05:15:53Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:15:53Z probe_ms=116 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 50,
+            "at": "2026-10-15T05:15:59Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:15:59Z probe_ms=117 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 59,
+            "at": "2026-10-15T05:16:08Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:16:07Z probe_ms=297 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 65,
+            "at": "2026-10-15T05:16:14Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:16:13Z probe_ms=198 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 70,
+            "at": "2026-10-15T05:16:19Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:16:19Z probe_ms=219 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 76,
+            "at": "2026-10-15T05:16:25Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:16:25Z probe_ms=297 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 82,
+            "at": "2026-10-15T05:16:31Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:16:30Z probe_ms=119 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          },
+          {
+            "t_s": 91,
+            "at": "2026-10-15T05:16:40Z",
+            "probe": {
+              "rc": 1,
+              "phase": "blocked",
+              "layer": "app",
+              "reason": "app_process_absent",
+              "record": "phase=blocked layer=app reason=app_process_absent ts=2026-10-15T05:16:36Z probe_ms=264 recovery_count=3"
+            },
+            "http_status": 200,
+            "rfb_ok": true,
+            "rfb_error": null,
+            "container_status": "running",
+            "restart_count": 0,
+            "started_at": "2026-10-15T05:13:39.004160854Z",
+            "pids": {
+              "xvfb": [
+                50
+              ],
+              "openbox": [
+                4318
+              ],
+              "x11vnc": [
+                711
+              ],
+              "websockify": [
+                712
+              ],
+              "app": [],
+              "entrypoint": []
+            },
+            "stopped_pids": [],
+            "state": {
+              "phase": "blocked",
+              "blocked": "1",
+              "reason": "app_process_absent",
+              "monitor_pid": "7",
+              "recovery_count": "3",
+              "budget_entries": 3
+            },
+            "runtime_log_lines_total": 14
+          }
+        ],
+        "automatic_action_records_before": 3,
+        "automatic_action_records_after": 3,
+        "runtime_log_lines_before": 14,
+        "runtime_log_lines_after": 14
+      },
+      "container": {
+        "restart_count_before": 0,
+        "restart_count_after_window": 0,
+        "started_at_before": "2026-10-15T05:13:39.004160854Z",
+        "started_at_after_window": "2026-10-15T05:13:39.004160854Z",
+        "docker_health_when_blocked": "unhealthy"
+      },
+      "final_runtime_state": {
+        "state": {
+          "phase": "blocked",
+          "layer": "app",
+          "reason": "app_process_absent",
+          "ts": "1792041394",
+          "stage": "running",
+          "boot_epoch": "1792041220",
+          "grace_until": "1792041325",
+          "blocked": "1",
+          "recovery_count": "3",
+          "budget_max": "3",
+          "budget_window_s": "600",
+          "monitor_pid": "7",
+          "xvfb_pid": "50",
+          "openbox_pid": "4318",
+          "launcher_pid": "4422",
+          "x11vnc_pid": "711",
+          "websockify_pid": "712",
+          "ui": "unconfirmed",
+          "ui_windows": "0",
+          "image_id": "fp:4b285ea014dd2ba6",
+          "last_budget_reset": ""
+        },
+        "budget_entries": [
+          "1792041246 app_relaunch app_process_absent",
+          "1792041268 app_relaunch app_process_absent",
+          "1792041288 app_relaunch app_process_absent"
+        ],
+        "failure_log_tail": [
+          "    406 Ss         00:56 dbus-daemon",
+          "    707 Sl         00:51 tint2",
+          "    711 S          00:51 x11vnc",
+          "    712 S          00:51 websockify",
+          "    723 Sl         00:51 xrdp-chansrv",
+          "    802 S          00:49 xrdp",
+          "   2982 Sl         00:16 openbox",
+          "   4202 S          00:00 bash",
+          "   4203 S          00:00 bash",
+          "   4218 S          00:00 timeout",
+          "   4219 S          00:00 head",
+          "   4220 R          00:00 ps",
+          "   4223 S          00:00 bash",
+          "ts=2026-10-15T05:14:48Z phase=degraded layer=app reason=app_process_absent recovery_count=3 action=relaunch_app kind=hard launcher_exit_status=1",
+          "--- diagnostics ts=2026-10-15T05:15:09Z layer=app reason=app_process_absent",
+          "probe: phase=starting layer=app reason=app_process_absent ts=2026-10-15T05:15:09Z probe_ms=267 recovery_count=3",
+          "loadavg: 1.63 0.97 0.68",
+          "mem_available_kb: 14672416",
+          "data_free_kb: 803925568",
+          "processes (pid stat etime comm):",
+          "      1 Ss         01:21 docker-init",
+          "      7 S          01:20 bash",
+          "     50 S          01:20 Xvfb",
+          "    405 S          01:14 dbus-launch",
+          "    406 Ss         01:14 dbus-daemon",
+          "    707 Sl         01:08 tint2",
+          "    711 S          01:08 x11vnc",
+          "    712 S          01:08 websockify",
+          "    723 Sl         01:08 xrdp-chansrv",
+          "    802 S          01:07 xrdp",
+          "   4318 Sl         00:14 openbox",
+          "   4480 S          00:13 bash",
+          "   5274 S          00:00 sleep",
+          "   5322 S          00:00 bash",
+          "   5323 S          00:00 bash",
+          "   5338 S          00:00 timeout",
+          "   5339 S          00:00 head",
+          "   5341 R          00:00 ps",
+          "   5343 S          00:00 bash",
+          "ts=2026-10-15T05:15:09Z phase=blocked layer=app reason=app_process_absent recovery_count=3 action=none budget_exhausted=1 hint=manual-recovery_marker_then_restart"
+        ],
+        "failure_log_bytes": 4114,
+        "wine_initialized_marker": "present",
+        "state_dir_mode": "700",
+        "state_dir_files": [
+          "budget.log",
+          "image_id",
+          "last-failure.log",
+          "state"
+        ]
+      },
+      "runtime_log_lines": [
+        "[kakao-runtime] ts=2026-10-15T05:13:40Z event=boot image=fp:4b285ea014dd2ba6 budget_used=0/3",
+        "[kakao-runtime] ts=2026-10-15T05:13:55Z event=ui_unconfirmed layer=app reason=ui_unconfirmed windows=0 action=none",
+        "[kakao-runtime] ts=2026-10-15T05:13:55Z phase=ready layer=app reason=ok recovery_count=0 consecutive_failures=0",
+        "[kakao-runtime] ts=2026-10-15T05:14:06Z phase=starting layer=app reason=app_process_absent recovery_count=0 consecutive_failures=1",
+        "[kakao-runtime] ts=2026-10-15T05:14:06Z phase=degraded layer=app reason=app_process_absent recovery_count=1 action=relaunch_app kind=hard launcher_exit_status=1",
+        "[kakao-runtime] ts=2026-10-15T05:14:15Z phase=ready layer=app reason=ok recovery_count=1 consecutive_failures=0",
+        "[kakao-runtime] ts=2026-10-15T05:14:28Z phase=starting layer=app reason=app_process_absent recovery_count=1 consecutive_failures=1",
+        "[kakao-runtime] ts=2026-10-15T05:14:28Z phase=degraded layer=app reason=app_process_absent recovery_count=2 action=relaunch_app kind=hard launcher_exit_status=1",
+        "[kakao-runtime] ts=2026-10-15T05:14:38Z phase=ready layer=app reason=ok recovery_count=2 consecutive_failures=0",
+        "[kakao-runtime] ts=2026-10-15T05:14:48Z phase=starting layer=app reason=app_process_absent recovery_count=2 consecutive_failures=1",
+        "[kakao-runtime] ts=2026-10-15T05:14:48Z phase=degraded layer=app reason=app_process_absent recovery_count=3 action=relaunch_app kind=hard launcher_exit_status=1",
+        "[kakao-runtime] ts=2026-10-15T05:14:58Z phase=ready layer=app reason=ok recovery_count=3 consecutive_failures=0",
+        "[kakao-runtime] ts=2026-10-15T05:15:09Z phase=starting layer=app reason=app_process_absent recovery_count=3 consecutive_failures=1",
+        "[kakao-runtime] ts=2026-10-15T05:15:09Z phase=blocked layer=app reason=app_process_absent recovery_count=3 action=none budget_exhausted=1 hint=manual-recovery_marker_then_restart"
+      ],
+      "manual_stop_while_blocked": {
+        "docker_stop_exit_status": 0,
+        "seconds": 1,
+        "container_exit_code": 0,
+        "stayed_exited_20s_no_restart": true,
+        "budget_entries_after_stop": 3,
+        "manual_stop_counted0_log_records": 1
+      },
+      "assertions": {
+        "failures_1_to_3_each_recovered_isolated": true,
+        "recovery_count_grew_one_per_failure": true,
+        "budget_exactly_3_relaunch_entries_when_blocked": true,
+        "fourth_failure_blocked_phase_and_flag": true,
+        "window_long_enough": true,
+        "no_process_started_in_window": true,
+        "every_window_sample_probe_phase_blocked": true,
+        "budget_and_recovery_count_unchanged_in_window": true,
+        "monitor_pid_unchanged_in_window": true,
+        "no_new_automatic_action_records_in_window": true,
+        "no_log_spam_no_loop_in_window": true,
+        "container_not_restart_looping": true,
+        "docker_stop_while_blocked_exit0_no_restart": true,
+        "docker_stop_not_counted": true
+      },
+      "passed": true,
+      "case": "real"
+    }
+  ],
+  "result": {
+    "cases_total": 2,
+    "cases_passed": 2,
+    "passed": true
+  },
+  "production": {
+    "before": {
+      "found": true,
+      "id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+      "image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-15T04:12:03.33004814Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "after": {
+      "found": true,
+      "id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+      "image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-15T04:12:03.33004814Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "unchanged": true,
+    "matches_expected_started_at_and_zero_restarts": true
+  },
+  "worktree": {
+    "before": {
+      "head": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+      "status_excluding_evidence": [
+        " M Dockerfile",
+        " M docker-compose.yml",
+        " M docker/entrypoint.sh",
+        " M docker/run-kakao.sh",
+        "?? docker-compose.qa.yml",
+        "?? docker/healthcheck.sh",
+        "?? scripts/"
+      ],
+      "status_sha256": "IE0gRG9ja2VyZmlsZQogTSBkb2NrZXItY29tcG9zZS55bWwKIE0gZG9ja2VyL2VudHJ5cG9pbnQuc2gKIE0gZG9ja2VyL3J1bi1rYWthby5zaAo/PyBkb2NrZXItY29tcG9zZS5xYS55bWwKPz8gZG9ja2VyL2hlYWx0aGNoZWNrLnNoCj8/IHNjcmlwdHMv",
+      "diff_binary_sha256": "76d6e8df23995459b53ee27be1faa410ef8127f012dfd6566e6a69f44c722316"
+    },
+    "after": {
+      "head": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+      "status_excluding_evidence": [
+        " M Dockerfile",
+        " M docker-compose.yml",
+        " M docker/entrypoint.sh",
+        " M docker/run-kakao.sh",
+        "?? docker-compose.qa.yml",
+        "?? docker/healthcheck.sh",
+        "?? scripts/"
+      ],
+      "status_sha256": "IE0gRG9ja2VyZmlsZQogTSBkb2NrZXItY29tcG9zZS55bWwKIE0gZG9ja2VyL2VudHJ5cG9pbnQuc2gKIE0gZG9ja2VyL3J1bi1rYWthby5zaAo/PyBkb2NrZXItY29tcG9zZS5xYS55bWwKPz8gZG9ja2VyL2hlYWx0aGNoZWNrLnNoCj8/IHNjcmlwdHMv",
+      "diff_binary_sha256": "76d6e8df23995459b53ee27be1faa410ef8127f012dfd6566e6a69f44c722316"
+    },
+    "unchanged_excluding_evidence": true
+  },
+  "subset_run": false,
+  "adversarial": {
+    "flaky_tests": {
+      "probed": true,
+      "finding": "no fixed sleeps as synchronization: every wait is a deadline-bounded state predicate; the observation windows are time-as-behavior and the asserted minimum is checked against the measured elapsed seconds"
+    },
+    "hung_commands": {
+      "probed": true,
+      "finding": "every docker exec/logs/events/curl/python call is wrapped in timeout; all loops carry a deadline"
+    },
+    "stale_state": {
+      "probed": true,
+      "finding": "prep_fresh removes any QA-owned container/volume first: every scenario starts on a fresh QA volume (and fresh runtime-state/budget)"
+    },
+    "misleading_success_output": {
+      "probed": true,
+      "finding": "a pass needs probe ready AND HTTP 200 AND an independent WebSocket RFB banner in EVERY sample, plus pid-set equality and the monitor own recovery_count/budget; a quiet log alone is never accepted"
+    },
+    "repeated_interruptions": {
+      "probed": true,
+      "finding": "circuit breaker: 3 automatic actions per 10 min across ALL layers and boot paths; the 4th failure only sets phase=blocked, no process is started, the log does not grow, the container is not restarted (RestartCount stays 0) and docker stop still exits 0 uncounted"
+    }
+  },
+  "exit_code": 0
+}

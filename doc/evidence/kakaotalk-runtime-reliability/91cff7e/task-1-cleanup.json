@@ -1,0 +1,156 @@
+{
+  "task": "task-1-cleanup",
+  "schema": 1,
+  "command": "docker compose -p kakao-reliability-qa -f docker-compose.qa.yml down -v",
+  "source": {
+    "revision": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+    "short": "91cff7e",
+    "branch": "feature/202610-kakaotalk-runtime-reliability",
+    "git_diff_binary_sha256": "0eeeb626ef5a3e42cc77b7165930be9af23b74e39dcd307b5f23519cbf8825a6",
+    "untracked_files_combined_sha256": "bd7fc23291b93ee296064086ccac6c989dc501836467d7013a07b49071413441",
+    "scripts_worktree": {
+      "entrypoint": "91575d2a9f187daa5b2731379314192e764d502a537b2d98f88f732ccd20725d",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "scripts_embedded_in_candidate": {
+      "entrypoint": "91575d2a9f187daa5b2731379314192e764d502a537b2d98f88f732ccd20725d",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "candidate_embeds_worktree_scripts": true,
+    "qa_app_seed": {
+      "used": false,
+      "note": "image-bundled KakaoTalk (stale on a fresh volume: error dialog, not login)"
+    }
+  },
+  "started_at": "2026-10-15T07:30:18Z",
+  "finished_at": "2026-10-15T07:30:20Z",
+  "exit_code": 0,
+  "cleanup_verified": true,
+  "compose_down_exit_code": 0,
+  "removed": {
+    "container": "kakaotalk-reliability-qa",
+    "container_remaining": 0,
+    "volume": "kakao-reliability-qa_kakao-qa-data",
+    "volume_remaining": 0,
+    "network": "kakao-reliability-qa_default",
+    "network_remaining": 0
+  },
+  "ports_free": {
+    "24500": true,
+    "23389": true
+  },
+  "baseline_image_kept": {
+    "tag": "kakaotalk-wine:reliability-baseline",
+    "id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+    "present": true
+  },
+  "candidate_image_kept": {
+    "tag": "kakaotalk-wine:reliability-qa",
+    "id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+    "present": true
+  },
+  "production": {
+    "before_run": {
+      "found": true,
+      "id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+      "image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-14T23:41:51.739301308Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "now": {
+      "found": true,
+      "id": "dd57b30b534847c4ba5185d2bc8397bc2c8de3b7fe7594c78e8b82c4223e5006",
+      "image_id": "sha256:6aaf2d6d452b06f76b930abe7afea2f66563adba508b03339036bab5926588d0",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-15T06:51:21.846204208Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml,/home/root1/kakao-backup/compose.rollback.yml",
+        "config_hash": "5339e578676f9a9eb1c24cb579d50bb9a754f966199bf44747309b2078255bc9",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "unchanged_since_run_start": false
+  },
+  "mutant": {
+    "tag": "kakaotalk-wine:reliability-mutant",
+    "tag_remaining": false,
+    "temp_dir_pattern": "${TMPDIR:-/tmp}/kakao-mutant.*",
+    "temp_dirs_remaining": 0
+  },
+  "note": "production resources are never cleanup targets; only the QA project volume/network/container were removed; baseline and candidate image tags are kept; the mutant QA tag and its temp copies are removed"
+}

@@ -1,0 +1,57 @@
+{
+  "Id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+  "Image": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+  "Created": "2026-09-23T04:10:17.447289704Z",
+  "State": {
+    "Status": "running",
+    "StartedAt": "2026-10-15T04:12:03.33004814Z",
+    "Health": null
+  },
+  "RestartCount": 0,
+  "HostConfig": {
+    "RestartPolicy": {
+      "Name": "unless-stopped",
+      "MaximumRetryCount": 0
+    },
+    "PortBindings": {
+      "14500/tcp": [
+        {
+          "HostIp": "",
+          "HostPort": "14500"
+        }
+      ],
+      "3389/tcp": [
+        {
+          "HostIp": "",
+          "HostPort": "13389"
+        }
+      ]
+    }
+  },
+  "Mounts": [
+    {
+      "Type": "volume",
+      "Name": "kakaotalk-web_kakao-wine-data",
+      "Source": "/var/lib/docker/volumes/kakaotalk-web_kakao-wine-data/_data",
+      "Destination": "/data"
+    },
+    {
+      "Type": "bind",
+      "Name": null,
+      "Source": "/mnt/c/Users/skkim/Desktop/kakao-share",
+      "Destination": "/share"
+    }
+  ],
+  "Labels": {
+    "com.docker.compose.config-hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+    "com.docker.compose.container-number": "1",
+    "com.docker.compose.depends_on": "",
+    "com.docker.compose.image": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+    "com.docker.compose.oneoff": "False",
+    "com.docker.compose.project": "kakaotalk-web",
+    "com.docker.compose.project.config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+    "com.docker.compose.project.working_dir": "/home/root1/kakaotalk-web",
+    "com.docker.compose.service": "kakaotalk",
+    "com.docker.compose.version": "5.2.0"
+  }
+}

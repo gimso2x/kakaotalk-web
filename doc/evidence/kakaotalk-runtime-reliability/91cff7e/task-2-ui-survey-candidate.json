@@ -1,0 +1,50 @@
+{
+  "task": "task-2-ui-survey-candidate",
+  "schema": 1,
+  "mode": "candidate",
+  "image": "kakaotalk-wine:reliability-qa",
+  "scripts_sha256": {
+    "entrypoint": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+    "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420"
+  },
+  "started_at": "2026-10-15T05:57:49Z",
+  "finished_at": "2026-10-15T06:00:07Z",
+  "fault_injected": false,
+  "windows": {
+    "wmctrl_top_level_windows": 2,
+    "kakaotalk_class_windows": 1,
+    "kakaotalk_classes": [
+      "kakaotalk.exe.kakaotalk.exe"
+    ],
+    "kakaotalk_geometries": [
+      {
+        "w": 322,
+        "h": 89
+      }
+    ],
+    "largest_kakaotalk_window": {
+      "w": 322,
+      "h": 89
+    },
+    "login_ui_windows": 0,
+    "dialog_sized_windows": 1,
+    "min_login_size": {
+      "w": 300,
+      "h": 250
+    },
+    "login_ui_present": false,
+    "only_dialog_sized": true,
+    "xdotool_visible_class_matches": 1,
+    "titles_logged": false
+  },
+  "login_ui_present": false,
+  "only_dialog_sized_windows": true,
+  "outbound_tcp_443": "reachable",
+  "screenshot": "ui-survey/root-candidate.png",
+  "runtime_log_lines": [
+    "[kakao-runtime] ts=2026-10-15T05:57:54Z event=boot image=fp:4b285ea014dd2ba6 budget_used=0/3",
+    "[kakao-runtime] ts=2026-10-15T05:58:09Z event=ui_unconfirmed layer=app reason=ui_unconfirmed windows=0 action=none",
+    "[kakao-runtime] ts=2026-10-15T05:58:09Z phase=ready layer=app reason=ok recovery_count=0 consecutive_failures=0"
+  ],
+  "production_unchanged": true
+}

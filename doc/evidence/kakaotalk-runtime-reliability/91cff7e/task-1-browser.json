@@ -1,0 +1,71 @@
+{
+  "task": "task-1-browser",
+  "schema": 1,
+  "url": "http://localhost:24500/vnc.html?autoconnect=true&resize=scale",
+  "browser_page_checked": false,
+  "browser_tool_available": false,
+  "note": "No browser tool was available to the worker. Recorded instead: curl -i of vnc.html and a real WebSocket RFB handshake through the same websockify path (ws://127.0.0.1:24500/websockify). The orchestrator must perform the real noVNC page check; browser_page_checked is false on purpose.",
+  "substitute_evidence": {
+    "healthy_phase": {
+      "at": "2026-10-15T00:19:25Z",
+      "vnc_html": {
+        "curl_i_url": "http://localhost:24500/vnc.html?autoconnect=true&resize=scale",
+        "http_status": 200,
+        "headers_excerpt": [
+          "HTTP/1.1 200 OK",
+          "Server: WebSockify Python/3.12.3",
+          "Date: Thu, 15 Oct 2026 00:19:25 GMT",
+          "Content-type: text/html",
+          "Content-Length: 15212",
+          "Last-Modified: Fri, 22 Oct 2021 08:40:13 GMT",
+          "",
+          "<!DOCTYPE html>",
+          "<html lang=\"en\" class=\"noVNC_loading\">",
+          "<head>",
+          "",
+          "    <!--"
+        ],
+        "response_bytes": 15396,
+        "response_sha256": "eddc01a2c57f91482f91467330fda3857d13c48ed4e549f952547827a0338659",
+        "mentions_novnc": true
+      },
+      "websocket_rfb": {
+        "ok": true,
+        "banner": "RFB 003.008",
+        "error": null,
+        "elapsed_ms": 170
+      }
+    },
+    "post_fault_phase": {
+      "at": "2026-10-15T00:21:27Z",
+      "vnc_html": {
+        "curl_i_url": "http://localhost:24500/vnc.html?autoconnect=true&resize=scale",
+        "http_status": 200,
+        "headers_excerpt": [
+          "HTTP/1.1 200 OK",
+          "Server: WebSockify Python/3.12.3",
+          "Date: Thu, 15 Oct 2026 00:21:27 GMT",
+          "Content-type: text/html",
+          "Content-Length: 15212",
+          "Last-Modified: Fri, 22 Oct 2021 08:40:13 GMT",
+          "",
+          "<!DOCTYPE html>",
+          "<html lang=\"en\" class=\"noVNC_loading\">",
+          "<head>",
+          "",
+          "    <!--"
+        ],
+        "response_bytes": 15396,
+        "response_sha256": "258b5759b3f4eab94187a392019379d45dfd0ef7cb7e58eaa640685119ca4953",
+        "mentions_novnc": true
+      },
+      "websocket_rfb": {
+        "ok": false,
+        "banner": "",
+        "error": "unexpected first frame",
+        "elapsed_ms": 4
+      }
+    }
+  },
+  "interpretation": "healthy phase: page served and RFB banner received; post-fault phase: page still served (HTTP 200) but no RFB banner, i.e. the noVNC page would sit on a dead connection."
+}

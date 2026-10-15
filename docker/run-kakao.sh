@@ -35,7 +35,9 @@ if wmctrl -l 2>/dev/null | grep -qE "카카오톡|KakaoTalk"; then
   exit 0
 fi
 
-# 2. If process exists but window is unmapped, try to map it first before killing
+# 2. If the process exists but no window is visible, try to map it, but NEVER kill it:
+#    the app may be minimized to the tray or waiting on login. The supervisor
+#    (kakao-entrypoint) owns app liveness; this script never terminates KakaoTalk.exe.
 if pgrep -x "KakaoTalk.exe" >/dev/null 2>&1; then
   ids=$(xwininfo -root -tree 2>/dev/null | awk '/"카카오톡"|"KakaoTalk"/ { print $1 }' || true)
   if [ -n "$ids" ]; then
@@ -51,13 +53,9 @@ if pgrep -x "KakaoTalk.exe" >/dev/null 2>&1; then
     fi
   fi
 
-  # If still not recoverable, clean it up
-  pkill -x "KakaoTalk.exe" 2>/dev/null || true
-  for _ in $(seq 1 10); do
-    pgrep -x "KakaoTalk.exe" >/dev/null 2>&1 || break
-    sleep 0.2
-  done
-  pkill -9 -x "KakaoTalk.exe" 2>/dev/null || true
+  # Process alive, window not confirmed: record only (UI-unconfirmed), no kill, no second app.
+  echo "[run-kakao] layer=app reason=ui_unconfirmed action=none (KakaoTalk.exe is running; no window found; nothing was killed)"
+  exit 0
 fi
 
 # 3. Ensure D-Bus session exists for fcitx5

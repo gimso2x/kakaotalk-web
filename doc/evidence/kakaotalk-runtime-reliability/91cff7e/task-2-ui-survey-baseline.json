@@ -1,0 +1,36 @@
+{
+  "task": "task-2-ui-survey-baseline",
+  "schema": 1,
+  "mode": "baseline",
+  "image": "kakaotalk-wine:reliability-baseline",
+  "scripts_sha256": {
+    "entrypoint": "0ab63fb807bb3bb11112b8c61400926f1d88e75160f807bda23adaea2ba9c7e6",
+    "runner": "3d907e76747210b99dfba610892827f9969fc89d6965a71925f21ce291543b5b"
+  },
+  "started_at": "2026-10-15T06:02:30Z",
+  "finished_at": "2026-10-15T06:05:05Z",
+  "fault_injected": false,
+  "windows": {
+    "wmctrl_top_level_windows": 1,
+    "kakaotalk_class_windows": 0,
+    "kakaotalk_classes": [],
+    "kakaotalk_geometries": [],
+    "largest_kakaotalk_window": null,
+    "login_ui_windows": 0,
+    "dialog_sized_windows": 0,
+    "min_login_size": {
+      "w": 300,
+      "h": 250
+    },
+    "login_ui_present": false,
+    "only_dialog_sized": false,
+    "xdotool_visible_class_matches": 0,
+    "titles_logged": false
+  },
+  "login_ui_present": false,
+  "only_dialog_sized_windows": false,
+  "outbound_tcp_443": "reachable",
+  "screenshot": "ui-survey/root-baseline.png",
+  "runtime_log_lines": [],
+  "production_unchanged": true
+}

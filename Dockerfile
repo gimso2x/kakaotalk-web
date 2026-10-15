@@ -55,6 +55,7 @@ RUN dpkg --add-architecture i386 \
 COPY ["default_drive_c/Program Files/Kakao/KakaoTalk", "/opt/kakao/KakaoTalk"]
 COPY docker/entrypoint.sh /usr/local/bin/kakao-entrypoint
 COPY docker/run-kakao.sh /usr/local/bin/run-kakao
+COPY docker/healthcheck.sh /usr/local/bin/kakao-healthcheck
 COPY docker/run-firefox.sh /usr/local/bin/run-firefox
 COPY docker/tint2rc /etc/tint2/tint2rc
 COPY docker/firefox.desktop /usr/share/applications/firefox.desktop
@@ -67,7 +68,7 @@ COPY docker/wine-tuning.reg /etc/wine/wine-tuning.reg
 COPY docker/novnc-index.html /usr/share/novnc/index.html
 COPY docker/open-url.sh /usr/local/bin/open-url
 
-RUN chmod +x /usr/local/bin/kakao-entrypoint /usr/local/bin/run-kakao /usr/local/bin/run-firefox /usr/local/bin/open-url \
+RUN chmod +x /usr/local/bin/kakao-entrypoint /usr/local/bin/run-kakao /usr/local/bin/kakao-healthcheck /usr/local/bin/run-firefox /usr/local/bin/open-url \
     && ln -sf /usr/local/bin/open-url /usr/local/bin/xdg-open \
     && mkdir -p /data /opt/firefox \
     && if [ "$INSTALL_FIREFOX" = "true" ]; then \
@@ -78,5 +79,9 @@ RUN chmod +x /usr/local/bin/kakao-entrypoint /usr/local/bin/run-kakao /usr/local
 
 VOLUME ["/data"]
 EXPOSE 14500 3389
+
+# Same probe the in-container monitor uses (docker/healthcheck.sh). Health status is informational:
+# Docker never restarts an unhealthy container; recovery is done by the entrypoint supervisor.
+HEALTHCHECK --interval=10s --timeout=12s --start-period=90s --retries=3 CMD ["/usr/local/bin/kakao-healthcheck"]
 
 ENTRYPOINT ["/usr/local/bin/kakao-entrypoint"]

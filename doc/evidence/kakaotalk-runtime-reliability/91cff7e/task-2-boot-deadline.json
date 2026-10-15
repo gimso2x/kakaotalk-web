@@ -1,0 +1,441 @@
+{
+  "task": "task-2-boot-deadline",
+  "schema": 1,
+  "command": "bash scripts/qa-runtime.sh boot-deadline",
+  "started_at": "2026-10-15T05:20:32Z",
+  "finished_at": "2026-10-15T05:26:16Z",
+  "source": {
+    "revision": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+    "short": "91cff7e",
+    "branch": "feature/202610-kakaotalk-runtime-reliability",
+    "git_diff_binary_sha256": "76d6e8df23995459b53ee27be1faa410ef8127f012dfd6566e6a69f44c722316",
+    "untracked_files_combined_sha256": "515574409b0d3794492abac6761ef03ed208996900f05ef1947f9195d8d08e0f",
+    "scripts_worktree": {
+      "entrypoint": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "scripts_embedded_in_candidate": {
+      "entrypoint": "c16826ada9a40df6d8d8e3718565c6d1ccc5f2013f88db76d35cd1b9369aaff2",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "candidate_embeds_worktree_scripts": true
+  },
+  "images": {
+    "baseline_tag_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+    "candidate_tag_id": "sha256:bc2aed54f32c84ff0c6c9247a9c0a31887b46a3bc32656c96df65b2aca8fd435"
+  },
+  "cases": [
+    {
+      "case": "boot_deadline",
+      "clock": {
+        "wall_over_monotonic_ratio": 1.0756,
+        "note": "the entrypoint deadline runs on the monotonic uptime clock; docker event timestamps are wall time, so boot_durations_s divides them by the wall/monotonic ratio measured over this case (1.0 = no skew)"
+      },
+      "started_at": "2026-10-15T05:20:34Z",
+      "finished_at": "2026-10-15T05:26:16Z",
+      "fault": {
+        "kind": "boot step hangs",
+        "injection": "QA-only wineboot shim (ignores TERM, sleeps) docker-cp ed into the created container + KAKAO_WINEBOOT_TIMEOUT=600 via docker-compose.qa.yml QA_WINEBOOT_TIMEOUT",
+        "mechanism": "the shared boot deadline (default 90s) caps the wineboot step to the remaining time -> run_bg expires -> boot_fail(boot_deadline_exceeded) -> exit 13 through fail_boot (budget-checked)",
+        "expected_exit_code": 13,
+        "deadline_s": 90
+      },
+      "seconds_to_blocked": 306,
+      "container_events": [
+        {
+          "action": "start",
+          "t_ns": 1792041637787251743,
+          "exit_code": null
+        },
+        {
+          "action": "die",
+          "t_ns": 1792041740849398542,
+          "exit_code": "13"
+        },
+        {
+          "action": "start",
+          "t_ns": 1792041742074288889,
+          "exit_code": null
+        },
+        {
+          "action": "die",
+          "t_ns": 1792041838856938271,
+          "exit_code": "13"
+        },
+        {
+          "action": "start",
+          "t_ns": 1792041840010635070,
+          "exit_code": null
+        },
+        {
+          "action": "die",
+          "t_ns": 1792041941381550767,
+          "exit_code": "13"
+        },
+        {
+          "action": "start",
+          "t_ns": 1792041942558141106,
+          "exit_code": null
+        }
+      ],
+      "boot_durations_s": [
+        95,
+        89,
+        94
+      ],
+      "logged_elapsed_s": [
+        92,
+        92,
+        92
+      ],
+      "probe_when_blocked": {
+        "rc": 1,
+        "phase": "blocked",
+        "layer": "x",
+        "reason": "x_unavailable",
+        "record": "phase=blocked layer=x reason=x_unavailable ts=2026-10-15T05:25:43Z probe_ms=7 recovery_count=3"
+      },
+      "container": {
+        "id": "3d86e7b1309be2c831a8725d79f829c6ab7dccf89f2ba631c906773c540760ec",
+        "restart_count_when_blocked": 3,
+        "restart_count_after_window": 3,
+        "started_at_when_blocked": "2026-10-15T05:25:41.394050962Z",
+        "started_at_after_window": "2026-10-15T05:25:41.394050962Z",
+        "docker_health": "starting"
+      },
+      "observation": {
+        "window_s": 33,
+        "requested_s": 30,
+        "samples": [
+          {
+            "t_s": 0,
+            "container_status": "running",
+            "restart_count": 3,
+            "started_at": "2026-10-15T05:25:41.394050962Z"
+          },
+          {
+            "t_s": 5,
+            "container_status": "running",
+            "restart_count": 3,
+            "started_at": "2026-10-15T05:25:41.394050962Z"
+          },
+          {
+            "t_s": 10,
+            "container_status": "running",
+            "restart_count": 3,
+            "started_at": "2026-10-15T05:25:41.394050962Z"
+          },
+          {
+            "t_s": 15,
+            "container_status": "running",
+            "restart_count": 3,
+            "started_at": "2026-10-15T05:25:41.394050962Z"
+          },
+          {
+            "t_s": 20,
+            "container_status": "running",
+            "restart_count": 3,
+            "started_at": "2026-10-15T05:25:41.394050962Z"
+          },
+          {
+            "t_s": 25,
+            "container_status": "running",
+            "restart_count": 3,
+            "started_at": "2026-10-15T05:25:41.394050962Z"
+          },
+          {
+            "t_s": 33,
+            "container_status": "running",
+            "restart_count": 3,
+            "started_at": "2026-10-15T05:25:41.394050962Z"
+          }
+        ]
+      },
+      "runtime_state_after": {
+        "state": {
+          "phase": "blocked",
+          "layer": "x",
+          "reason": "budget_exhausted_at_boot",
+          "ts": "1792041975",
+          "stage": "blocked",
+          "boot_epoch": "1792041942",
+          "grace_until": "0",
+          "blocked": "1",
+          "recovery_count": "3",
+          "budget_max": "3",
+          "budget_window_s": "600",
+          "monitor_pid": "7",
+          "xvfb_pid": "",
+          "openbox_pid": "",
+          "launcher_pid": "",
+          "x11vnc_pid": "",
+          "websockify_pid": "",
+          "ui": "unknown",
+          "ui_windows": "0",
+          "image_id": "fp:4b285ea014dd2ba6",
+          "last_budget_reset": ""
+        },
+        "budget_entries": [
+          "1792041739 boot_failure boot_deadline_exceeded",
+          "1792041837 boot_failure boot_deadline_exceeded",
+          "1792041940 boot_failure boot_deadline_exceeded"
+        ],
+        "failure_log_tail": [
+          "    966 S          00:00 head",
+          "    967 R          00:00 ps",
+          "    970 R          00:00 bash",
+          "ts=2026-10-15T05:22:19Z phase=degraded layer=app reason=boot_deadline_exceeded recovery_count=1 action=exit code=13",
+          "ts=2026-10-15T05:23:57Z event=boot_deadline step=wine_init_failed elapsed_s=92 limit_s=90",
+          "--- diagnostics ts=2026-10-15T05:23:57Z layer=app reason=boot_deadline_exceeded",
+          "probe: ",
+          "loadavg: 1.44 1.51 1.06",
+          "mem_available_kb: 10381740",
+          "data_free_kb: 805806480",
+          "processes (pid stat etime comm):",
+          "      1 Ss         01:33 docker-init",
+          "      7 S          01:32 bash",
+          "     58 S          01:32 Xvfb",
+          "    971 S          00:00 bash",
+          "    972 S          00:00 bash",
+          "    987 S          00:00 timeout",
+          "    988 S          00:00 head",
+          "    990 R          00:00 ps",
+          "    992 S          00:00 bash",
+          "    993 R          00:00 stat",
+          "ts=2026-10-15T05:23:57Z phase=degraded layer=app reason=boot_deadline_exceeded recovery_count=2 action=exit code=13",
+          "ts=2026-10-15T05:25:40Z event=boot_deadline step=wine_init_failed elapsed_s=92 limit_s=90",
+          "--- diagnostics ts=2026-10-15T05:25:40Z layer=app reason=boot_deadline_exceeded",
+          "probe: ",
+          "loadavg: 0.93 1.29 1.02",
+          "mem_available_kb: 10047988",
+          "data_free_kb: 805790204",
+          "processes (pid stat etime comm):",
+          "      1 Ss         01:33 docker-init",
+          "      8 S          01:32 bash",
+          "     60 S          01:32 Xvfb",
+          "    946 S          00:00 bash",
+          "    947 S          00:00 bash",
+          "    962 S          00:00 timeout",
+          "    963 S          00:00 head",
+          "    964 R          00:00 ps",
+          "    967 S          00:00 bash",
+          "ts=2026-10-15T05:25:40Z phase=degraded layer=app reason=boot_deadline_exceeded recovery_count=3 action=exit code=13",
+          "ts=2026-10-15T05:25:42Z phase=blocked layer=x reason=budget_exhausted_at_boot recovery_count=3 action=none hint=create_manual-recovery_marker_then_restart"
+        ],
+        "failure_log_bytes": 2225,
+        "wine_initialized_marker": "absent",
+        "state_dir_mode": "700",
+        "state_dir_files": [
+          "budget.log",
+          "image_id",
+          "last-failure.log",
+          "state"
+        ]
+      },
+      "runtime_log_lines": [
+        "[kakao-runtime] ts=2026-10-15T05:20:37Z event=boot image=fp:4b285ea014dd2ba6 budget_used=0/3",
+        "[kakao-runtime] ts=2026-10-15T05:22:19Z event=boot_deadline step=wine_init_failed elapsed_s=92 limit_s=90",
+        "[kakao-runtime] ts=2026-10-15T05:22:19Z phase=degraded layer=app reason=boot_deadline_exceeded recovery_count=1 action=exit code=13",
+        "[kakao-runtime] ts=2026-10-15T05:22:19Z event=cleanup_done elapsed_s=0",
+        "[kakao-runtime] ts=2026-10-15T05:22:22Z event=boot image=fp:4b285ea014dd2ba6 budget_used=1/3",
+        "[kakao-runtime] ts=2026-10-15T05:23:57Z event=boot_deadline step=wine_init_failed elapsed_s=92 limit_s=90",
+        "[kakao-runtime] ts=2026-10-15T05:23:57Z phase=degraded layer=app reason=boot_deadline_exceeded recovery_count=2 action=exit code=13",
+        "[kakao-runtime] ts=2026-10-15T05:23:57Z event=cleanup_done elapsed_s=0",
+        "[kakao-runtime] ts=2026-10-15T05:24:00Z event=boot image=fp:4b285ea014dd2ba6 budget_used=2/3",
+        "[kakao-runtime] ts=2026-10-15T05:25:40Z event=boot_deadline step=wine_init_failed elapsed_s=92 limit_s=90",
+        "[kakao-runtime] ts=2026-10-15T05:25:40Z phase=degraded layer=app reason=boot_deadline_exceeded recovery_count=3 action=exit code=13",
+        "[kakao-runtime] ts=2026-10-15T05:25:40Z event=cleanup_done elapsed_s=0",
+        "[kakao-runtime] ts=2026-10-15T05:25:42Z event=boot image=fp:4b285ea014dd2ba6 budget_used=3/3",
+        "[kakao-runtime] ts=2026-10-15T05:25:42Z phase=blocked layer=x reason=budget_exhausted_at_boot recovery_count=3 action=none hint=create_manual-recovery_marker_then_restart"
+      ],
+      "pids_after": {
+        "xvfb": [],
+        "openbox": [],
+        "x11vnc": [],
+        "websockify": [],
+        "app": [],
+        "entrypoint": []
+      },
+      "counts": {
+        "deadline_exit_records": 3,
+        "up_banner_lines": 0
+      },
+      "kakao_env_overrides": [
+        "KAKAO_WINEBOOT_TIMEOUT=600"
+      ],
+      "shim_sha256": {
+        "in_container": "8f0b998c33282726ed2ad1b7b419e7ee05937081a6d7a63f7dd7560223782007",
+        "harness_copy": "8f0b998c33282726ed2ad1b7b419e7ee05937081a6d7a63f7dd7560223782007"
+      },
+      "assertions": {
+        "injection_is_qa_only_hang_plus_env": true,
+        "first_boot_exits_at_deadline_plus_cleanup": true,
+        "every_boot_exits_within_deadline_plus_cleanup": true,
+        "logged_elapsed_at_deadline": true,
+        "every_boot_exit_nonzero_code_13": true,
+        "wine_initialized_marker_not_created": true,
+        "budget_consumed_by_each_deadline_boot": true,
+        "exits_equal_budget_and_restart_count": true,
+        "failure_records_logged_per_boot": true,
+        "diagnostics_in_failure_log": true,
+        "eventually_blocked": true,
+        "no_boot_loop_after_block": true,
+        "kakaotalk_never_launched": true
+      },
+      "passed": true
+    }
+  ],
+  "result": {
+    "cases_total": 1,
+    "cases_passed": 1,
+    "passed": true
+  },
+  "production": {
+    "before": {
+      "found": true,
+      "id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+      "image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-15T04:12:03.33004814Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "after": {
+      "found": true,
+      "id": "bb15808fedec840372890e0a87463447e575869a6013c9676c6cd03c5e580b0f",
+      "image_id": "sha256:dcdc7a66f7ab925ca0d62c166b7407b9b1f635071d28aa92d59eb583e6bfc9a3",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-15T04:12:03.33004814Z",
+      "restart_count": 0,
+      "healthcheck": null,
+      "health_state": null,
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "03af3d297d688e719f8573985aa7f115f764548848d8c9990a4e44170bc8dbef",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "unchanged": true,
+    "matches_expected_started_at_and_zero_restarts": true
+  },
+  "worktree": {
+    "before": {
+      "head": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+      "status_excluding_evidence": [
+        " M Dockerfile",
+        " M docker-compose.yml",
+        " M docker/entrypoint.sh",
+        " M docker/run-kakao.sh",
+        "?? docker-compose.qa.yml",
+        "?? docker/healthcheck.sh",
+        "?? scripts/"
+      ],
+      "status_sha256": "IE0gRG9ja2VyZmlsZQogTSBkb2NrZXItY29tcG9zZS55bWwKIE0gZG9ja2VyL2VudHJ5cG9pbnQuc2gKIE0gZG9ja2VyL3J1bi1rYWthby5zaAo/PyBkb2NrZXItY29tcG9zZS5xYS55bWwKPz8gZG9ja2VyL2hlYWx0aGNoZWNrLnNoCj8/IHNjcmlwdHMv",
+      "diff_binary_sha256": "76d6e8df23995459b53ee27be1faa410ef8127f012dfd6566e6a69f44c722316"
+    },
+    "after": {
+      "head": "91cff7e5378b173c80da823dc1e8b5735b410efa",
+      "status_excluding_evidence": [
+        " M Dockerfile",
+        " M docker-compose.yml",
+        " M docker/entrypoint.sh",
+        " M docker/run-kakao.sh",
+        "?? docker-compose.qa.yml",
+        "?? docker/healthcheck.sh",
+        "?? scripts/"
+      ],
+      "status_sha256": "IE0gRG9ja2VyZmlsZQogTSBkb2NrZXItY29tcG9zZS55bWwKIE0gZG9ja2VyL2VudHJ5cG9pbnQuc2gKIE0gZG9ja2VyL3J1bi1rYWthby5zaAo/PyBkb2NrZXItY29tcG9zZS5xYS55bWwKPz8gZG9ja2VyL2hlYWx0aGNoZWNrLnNoCj8/IHNjcmlwdHMv",
+      "diff_binary_sha256": "76d6e8df23995459b53ee27be1faa410ef8127f012dfd6566e6a69f44c722316"
+    },
+    "unchanged_excluding_evidence": true
+  },
+  "adversarial": {
+    "flaky_tests": {
+      "probed": true,
+      "finding": "no fixed sleeps as synchronization: every wait is a deadline-bounded state predicate; the observation windows are time-as-behavior and the asserted minimum is checked against the measured elapsed seconds"
+    },
+    "hung_commands": {
+      "probed": true,
+      "finding": "a wineboot that ignores SIGTERM and never exits ends the boot at the shared 90s deadline (+2s KILL grace, +bounded cleanup), not at its own 600s cap; boot loops of such failures still end in phase=blocked after 3 budgeted boots"
+    },
+    "stale_state": {
+      "probed": true,
+      "finding": "prep_fresh removes any QA-owned container/volume first: every scenario starts on a fresh QA volume (and fresh runtime-state/budget)"
+    },
+    "misleading_success_output": {
+      "probed": true,
+      "finding": "a pass needs probe ready AND HTTP 200 AND an independent WebSocket RFB banner in EVERY sample, plus pid-set equality and the monitor own recovery_count/budget; a quiet log alone is never accepted"
+    }
+  },
+  "exit_code": 0
+}

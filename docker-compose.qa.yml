@@ -1,0 +1,65 @@
+# Isolated QA stack for the KakaoTalk runtime reliability work.
+#
+# Self-contained declaration (NOT a merge overlay of docker-compose.yml):
+# every name, port and volume below is QA-only. Use it only through
+# scripts/qa-runtime.sh, which refuses to run if the resolved config
+# intersects production names (kakaotalk-web / kakaotalk-wine /
+# kakaotalk-web_kakao-wine-data / 14500 / 13389 / kakaotalk-wine:local).
+#
+#   docker compose -p kakao-reliability-qa -f docker-compose.qa.yml config --quiet
+#
+# Image selection (QA_IMAGE):
+#   kakaotalk-wine:reliability-baseline  default; `docker tag` of the production
+#                                        image ID, no rebuild, no apt.
+#   kakaotalk-wine:reliability-qa        candidate image: `build:` below is FROM the baseline tag
+#                                        + COPY of the changed scripts only, so Wine and KakaoTalk
+#                                        are byte-identical to the baseline (no apt, no drift).
+#                                        Build ONLY via `scripts/qa-runtime.sh build`. The inline
+#                                        Dockerfile refuses (build error, nothing tagged) unless the
+#                                        tag being built is the candidate, so a build can never
+#                                        overwrite the baseline tag even if QA_IMAGE is left default.
+name: kakao-reliability-qa
+
+services:
+  kakaotalk:
+    image: ${QA_IMAGE:-kakaotalk-wine:reliability-baseline}
+    build:
+      context: .
+      args:
+        QA_BUILD_TARGET: ${QA_IMAGE:-kakaotalk-wine:reliability-baseline}
+      dockerfile_inline: |
+        FROM kakaotalk-wine:reliability-baseline
+        ARG QA_BUILD_TARGET
+        RUN test "$$QA_BUILD_TARGET" = "kakaotalk-wine:reliability-qa" || { echo "refusing to build into $$QA_BUILD_TARGET (candidate tag only)" >&2; exit 1; }
+        COPY --chmod=0755 docker/entrypoint.sh /usr/local/bin/kakao-entrypoint
+        COPY --chmod=0755 docker/run-kakao.sh /usr/local/bin/run-kakao
+        COPY --chmod=0755 docker/healthcheck.sh /usr/local/bin/kakao-healthcheck
+        HEALTHCHECK --interval=10s --timeout=12s --start-period=90s --retries=3 CMD ["/usr/local/bin/kakao-healthcheck"]
+    container_name: kakaotalk-reliability-qa
+    init: true
+    shm_size: "1gb"
+    ports:
+      - "127.0.0.1:24500:14500"
+      - "127.0.0.1:23389:3389"
+    volumes:
+      # QA-only named volume (resolves to kakao-reliability-qa_kakao-qa-data).
+      # No /share bind mount: the production share directory is never exposed to QA.
+      - kakao-qa-data:/data
+    restart: unless-stopped
+    stop_grace_period: 30s
+    environment:
+      WINEPREFIX: /data/wineprefix
+      LANG: ko_KR.UTF-8
+      LC_ALL: ko_KR.UTF-8
+      TZ: ${TZ:-Asia/Seoul}
+      ENABLE_FIREFOX: "false"
+      RESOLUTION: ${RESOLUTION:-1280x800}
+      DPI: ${DPI:-96}
+      VNC_PASSWORD: ""
+      # QA fault injection (init-failure and boot-deadline scenarios only): empty by default = entrypoint default (180s), so every
+      # other scenario runs with no KAKAO_* override. 0.2 makes the bounded wineboot expire; 600 (with a QA-only hanging wineboot
+      # shim) leaves only the shared 90s boot deadline able to end the boot.
+      KAKAO_WINEBOOT_TIMEOUT: ${QA_WINEBOOT_TIMEOUT:-}
+
+volumes:
+  kakao-qa-data:
