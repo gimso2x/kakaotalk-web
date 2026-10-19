@@ -183,9 +183,18 @@ bash scripts/kakaoctl.sh restart                 # 진단 스냅샷 저장 → �
 
 기본 대상은 `--project kakaotalk-web --container kakaotalk-wine`이며 다른 대상은 `--project`, `--container`로 지정합니다. 컨테이너가 없거나 Compose project 라벨이 다르면 아무것도 하지 않고 종료 코드 3으로 거부합니다. 비밀값(`VNC_PASSWORD` 등)과 환경변수는 출력하지 않으며, `docker` 명령이 실패하면 그 종료 코드를 그대로 돌려줍니다.
 
-### 한계: UI 멈춤은 자동 감지하지 않음
+### 한계: 창 없음 감지 범위
 
-`ready`는 네 계층이 응답한다는 뜻일 뿐 카카오톡 화면이 반응한다는 보장이 아닙니다. 프로세스는 살아 있는데 화면이 멈추거나 비어 있으면 자동으로 알 수 없으므로 `kakaoctl.sh restart`로 직접 복구하세요. 창이 숨겨졌을 뿐이라면 기존 runner가 다시 앞으로 올립니다.
+`ready`는 네 계층이 응답한다는 뜻일 뿐 카카오톡 화면이 반응한다는 보장이 아닙니다. 다만 "카카오톡 창이 하나도 없고 외부 TCP 연결도 없는 상태"가 5분(`KAKAO_UI_STUCK_SECS`) 이어지면 앱이 기동 초기에 멈춘 것으로 보고 `KakaoTalk.exe`를 다시 띄웁니다(컨테이너 부팅당 최대 2회, 복구 예산에 포함). 이때 `kakaoctl.sh status`의 `ui`는 `stuck`이고 로그에 `reason=ui_stuck`이 남습니다. 로그인한 앱이 트레이로 숨은 경우는 서버 연결이 있어서 고장으로 세지 않습니다. 그래도 화면이 비어 있거나 멈추면 `kakaoctl.sh restart`로 직접 복구하세요. 창이 숨겨졌을 뿐이라면 기존 runner가 다시 앞으로 올립니다.
+
+같은 증상이 재시작으로 풀리지 않으면(2026-10-19 사례) 데이터 볼륨은 그대로 두고 컨테이너만 새로 만듭니다. `--build`와 `down -v`는 쓰지 마세요.
+
+```bash
+docker stop -t 30 kakaotalk-wine && docker commit kakaotalk-wine kakaotalk-wine:rollback-$(date +%Y%m%d)
+docker compose -p kakaotalk-web up -d --no-build --force-recreate
+```
+
+창이 숨겨졌을 뿐일 때는 아래 명령으로 앞으로 올립니다.
 
 ```bash
 docker exec kakaotalk-wine run-kakao

@@ -1,0 +1,352 @@
+{
+  "task": "task-2-nonfaults",
+  "schema": 1,
+  "command": "bash scripts/qa-runtime.sh nonfaults",
+  "started_at": "2026-10-19T06:53:56Z",
+  "finished_at": "2026-10-19T07:02:40Z",
+  "source": {
+    "revision": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+    "short": "6085e9d",
+    "branch": "fix/kakao-ui-stuck-detection",
+    "git_diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec",
+    "untracked_files_combined_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts_worktree": {
+      "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "scripts_embedded_in_candidate": {
+      "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "candidate_embeds_worktree_scripts": true,
+    "qa_app_seed": {
+      "used": false,
+      "note": "image-bundled KakaoTalk (stale on a fresh volume: error dialog, not login)"
+    }
+  },
+  "images": {
+    "baseline_tag_id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+    "candidate_tag_id": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19"
+  },
+  "cases": [
+    {
+      "case": "launcher_exit_app_alive",
+      "passed": false,
+      "error": "precondition: no KakaoTalk top-level window",
+      "source": {
+        "revision": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+        "short": "6085e9d",
+        "branch": "fix/kakao-ui-stuck-detection",
+        "git_diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec",
+        "untracked_files_combined_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "scripts_worktree": {
+          "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+          "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+          "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+        },
+        "scripts_embedded_in_candidate": {
+          "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+          "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+          "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+        },
+        "candidate_embeds_worktree_scripts": true,
+        "qa_app_seed": {
+          "used": false,
+          "note": "image-bundled KakaoTalk (stale on a fresh volume: error dialog, not login)"
+        }
+      }
+    },
+    {
+      "case": "window_minimized_or_hidden",
+      "passed": false,
+      "error": "precondition: no KakaoTalk top-level window",
+      "source": {
+        "revision": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+        "short": "6085e9d",
+        "branch": "fix/kakao-ui-stuck-detection",
+        "git_diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec",
+        "untracked_files_combined_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "scripts_worktree": {
+          "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+          "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+          "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+        },
+        "scripts_embedded_in_candidate": {
+          "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+          "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+          "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+        },
+        "candidate_embeds_worktree_scripts": true,
+        "qa_app_seed": {
+          "used": false,
+          "note": "image-bundled KakaoTalk (stale on a fresh volume: error dialog, not login)"
+        }
+      }
+    },
+    {
+      "case": "login_wait_idle",
+      "passed": false,
+      "error": "precondition: no KakaoTalk top-level window",
+      "source": {
+        "revision": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+        "short": "6085e9d",
+        "branch": "fix/kakao-ui-stuck-detection",
+        "git_diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec",
+        "untracked_files_combined_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "scripts_worktree": {
+          "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+          "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+          "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+        },
+        "scripts_embedded_in_candidate": {
+          "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+          "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+          "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+        },
+        "candidate_embeds_worktree_scripts": true,
+        "qa_app_seed": {
+          "used": false,
+          "note": "image-bundled KakaoTalk (stale on a fresh volume: error dialog, not login)"
+        }
+      }
+    }
+  ],
+  "result": {
+    "cases_total": 3,
+    "cases_passed": 0,
+    "passed": false
+  },
+  "production": {
+    "before": {
+      "found": true,
+      "id": "d50a0f7f0a5189f5b08c42c1c638e7d7e5ce8a1f87b3d4c65b77770cb88407d4",
+      "image_id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-19T05:36:46.106948109Z",
+      "restart_count": 0,
+      "healthcheck": {
+        "Test": [
+          "CMD",
+          "/usr/local/bin/kakao-healthcheck"
+        ],
+        "Interval": 10000000000,
+        "Timeout": 12000000000,
+        "StartPeriod": 90000000000,
+        "Retries": 3
+      },
+      "health_state": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-19T15:53:05.416384954+09:00",
+            "End": "2026-10-19T15:53:05.61346436+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T06:53:05Z probe_ms=148 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T15:53:15.613910235+09:00",
+            "End": "2026-10-19T15:53:15.79517845+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T06:53:15Z probe_ms=117 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T15:53:29.084618851+09:00",
+            "End": "2026-10-19T15:53:29.246876214+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T06:53:29Z probe_ms=114 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T15:53:39.247810725+09:00",
+            "End": "2026-10-19T15:53:39.414173588+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T06:53:39Z probe_ms=112 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T15:53:49.415168359+09:00",
+            "End": "2026-10-19T15:53:49.573599572+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T06:53:49Z probe_ms=113 recovery_count=0\n"
+          }
+        ]
+      },
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "984bcb1f878aad5ec63d470c0cadd8c87fb1e2c4919505430c7e7a89e010905c",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "after": {
+      "found": true,
+      "id": "d50a0f7f0a5189f5b08c42c1c638e7d7e5ce8a1f87b3d4c65b77770cb88407d4",
+      "image_id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-19T05:36:46.106948109Z",
+      "restart_count": 0,
+      "healthcheck": {
+        "Test": [
+          "CMD",
+          "/usr/local/bin/kakao-healthcheck"
+        ],
+        "Interval": 10000000000,
+        "Timeout": 12000000000,
+        "StartPeriod": 90000000000,
+        "Retries": 3
+      },
+      "health_state": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-19T16:01:47.637229195+09:00",
+            "End": "2026-10-19T16:01:47.808941056+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:01:47Z probe_ms=113 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:02:00.665483709+09:00",
+            "End": "2026-10-19T16:02:00.823435047+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:02:00Z probe_ms=113 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:02:10.824552869+09:00",
+            "End": "2026-10-19T16:02:11.0127117+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:02:11Z probe_ms=134 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:02:21.013717598+09:00",
+            "End": "2026-10-19T16:02:21.233673113+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:02:21Z probe_ms=170 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:02:34.096461463+09:00",
+            "End": "2026-10-19T16:02:34.294811931+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:02:34Z probe_ms=145 recovery_count=0\n"
+          }
+        ]
+      },
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "984bcb1f878aad5ec63d470c0cadd8c87fb1e2c4919505430c7e7a89e010905c",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "unchanged": true,
+    "matches_expected_started_at_and_zero_restarts": false
+  },
+  "worktree": {
+    "before": {
+      "head": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+      "status_excluding_evidence": [
+        " M README.md",
+        " M docker/entrypoint.sh"
+      ],
+      "status_sha256": "IE0gUkVBRE1FLm1kCiBNIGRvY2tlci9lbnRyeXBvaW50LnNo",
+      "diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec"
+    },
+    "after": {
+      "head": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+      "status_excluding_evidence": [
+        " M README.md",
+        " M docker/entrypoint.sh"
+      ],
+      "status_sha256": "IE0gUkVBRE1FLm1kCiBNIGRvY2tlci9lbnRyeXBvaW50LnNo",
+      "diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec"
+    },
+    "unchanged_excluding_evidence": true
+  },
+  "subset_run": false,
+  "requirements": {
+    "launcher_exit_min_observe_s": 60,
+    "window_hidden_min_observe_s_per_action": 60,
+    "login_idle_min_s": 120,
+    "note": "launcher/runner exit and window hide use 3 monitor intervals + 1 failure window (3 x 10s); login idle uses startup grace 90s + 3 intervals; each scenario ran on a fresh QA volume"
+  },
+  "adversarial": {
+    "flaky_tests": {
+      "probed": true,
+      "finding": "no fixed sleeps as synchronization: every wait is a deadline-bounded state predicate; the observation windows are time-as-behavior and the asserted minimum is checked against the measured elapsed seconds"
+    },
+    "hung_commands": {
+      "probed": true,
+      "finding": "every docker exec/logs/events/curl/python call is wrapped in timeout; all loops carry a deadline"
+    },
+    "stale_state": {
+      "probed": true,
+      "finding": "prep_fresh removes any QA-owned container/volume first: every scenario starts on a fresh QA volume (and fresh runtime-state/budget)"
+    },
+    "misleading_success_output": {
+      "probed": true,
+      "finding": "a pass needs probe ready AND HTTP 200 AND an independent WebSocket RFB banner in EVERY sample, plus pid-set equality and the monitor own recovery_count/budget; a quiet log alone is never accepted"
+    }
+  },
+  "exit_code": 2
+}

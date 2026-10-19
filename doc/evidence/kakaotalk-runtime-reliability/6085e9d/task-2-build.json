@@ -1,0 +1,140 @@
+{
+  "task": "task-2-build",
+  "schema": 1,
+  "command": "bash scripts/qa-runtime.sh build",
+  "started_at": "2026-10-19T06:53:52Z",
+  "finished_at": "2026-10-19T06:53:55Z",
+  "exit_code": 0,
+  "passed": true,
+  "source": {
+    "revision": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+    "short": "6085e9d",
+    "branch": "fix/kakao-ui-stuck-detection",
+    "git_diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec",
+    "untracked_files_combined_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts_worktree": {
+      "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "scripts_embedded_in_candidate": {
+      "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "candidate_embeds_worktree_scripts": true,
+    "qa_app_seed": {
+      "used": false,
+      "note": "image-bundled KakaoTalk (stale on a fresh volume: error dialog, not login)"
+    }
+  },
+  "baseline_protection": {
+    "baseline_id_before": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+    "after_negative_control": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+    "after_candidate_build": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+    "negative_control_exit_code": 1,
+    "negative_control_output_tail": [
+      "",
+      "   5 |     COPY --chmod=0755 docker/run-kakao.sh /usr/local/bin/run-kakao",
+      "",
+      "--------------------",
+      "",
+      "failed to solve: process \"/bin/sh -c test \\\"$QA_BUILD_TARGET\\\" = \\\"kakaotalk-wine:reliability-qa\\\" || { echo \\\"refusing to build into $QA_BUILD_TARGET (candidate tag only)\\\" >&2; exit 1; }\" did not complete successfully: exit code: 1"
+    ],
+    "baseline_tag_never_overwritten": true,
+    "negative_control_refused": true
+  },
+  "candidate": {
+    "tag": "kakaotalk-wine:reliability-qa",
+    "id": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19",
+    "definition": "docker-compose.qa.yml dockerfile_inline: FROM kakaotalk-wine:reliability-baseline + COPY entrypoint/run-kakao/healthcheck + HEALTHCHECK; no apt/pull"
+  },
+  "image_facts": {
+    "baseline": {
+      "wine": {
+        "version": "wine-11.18 (Staging)"
+      },
+      "kakaotalk": {
+        "exe_path": "/opt/kakao/KakaoTalk/KakaoTalk.exe",
+        "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125",
+        "exe_size": "35817064",
+        "version_from_changelog": "26.1.2"
+      },
+      "scripts_in_container": {
+        "entrypoint": "91575d2a9f187daa5b2731379314192e764d502a537b2d98f88f732ccd20725d",
+        "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420"
+      },
+      "packages": [
+        "novnc=1:1.3.0-2",
+        "openbox=3.6.1-12build5",
+        "websockify=0.10.0+dfsg1-5build2",
+        "wine-staging=11.18~noble-1",
+        "wine-staging-amd64=11.18~noble-1",
+        "wine-staging-i386=11.18~noble-1",
+        "winehq-staging=11.18~noble-1",
+        "x11vnc=0.9.16-10",
+        "xvfb=2:21.1.12-1ubuntu1.6"
+      ]
+    },
+    "candidate": {
+      "wine": {
+        "version": "wine-11.18 (Staging)"
+      },
+      "kakaotalk": {
+        "exe_path": "/opt/kakao/KakaoTalk/KakaoTalk.exe",
+        "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125",
+        "exe_size": "35817064",
+        "version_from_changelog": "26.1.2"
+      },
+      "scripts_in_container": {
+        "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+        "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420"
+      },
+      "packages": [
+        "novnc=1:1.3.0-2",
+        "openbox=3.6.1-12build5",
+        "websockify=0.10.0+dfsg1-5build2",
+        "wine-staging=11.18~noble-1",
+        "wine-staging-amd64=11.18~noble-1",
+        "wine-staging-i386=11.18~noble-1",
+        "winehq-staging=11.18~noble-1",
+        "x11vnc=0.9.16-10",
+        "xvfb=2:21.1.12-1ubuntu1.6"
+      ]
+    },
+    "comparison": {
+      "wine_version_same": true,
+      "kakaotalk_exe_sha256_same": true,
+      "kakaotalk_version_same": true,
+      "packages_same": true,
+      "wine": {
+        "baseline": "wine-11.18 (Staging)",
+        "candidate": "wine-11.18 (Staging)"
+      },
+      "kakaotalk": {
+        "baseline": {
+          "version": "26.1.2",
+          "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125"
+        },
+        "candidate": {
+          "version": "26.1.2",
+          "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125"
+        }
+      },
+      "lifecycle_scripts_differ_as_expected": true
+    }
+  },
+  "scripts": {
+    "worktree": {
+      "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "embedded_in_candidate": {
+      "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "match": true
+  }
+}

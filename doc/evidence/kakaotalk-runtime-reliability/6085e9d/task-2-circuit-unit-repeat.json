@@ -1,0 +1,346 @@
+{
+  "task": "task-2-circuit",
+  "schema": 1,
+  "command": "bash scripts/qa-runtime.sh circuit unit",
+  "started_at": "2026-10-19T07:11:36Z",
+  "finished_at": "2026-10-19T07:11:41Z",
+  "source": {
+    "revision": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+    "short": "6085e9d",
+    "branch": "fix/kakao-ui-stuck-detection",
+    "git_diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec",
+    "untracked_files_combined_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts_worktree": {
+      "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "scripts_embedded_in_candidate": {
+      "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "candidate_embeds_worktree_scripts": true,
+    "qa_app_seed": {
+      "used": false,
+      "note": "image-bundled KakaoTalk (stale on a fresh volume: error dialog, not login)"
+    }
+  },
+  "images": {
+    "baseline_tag_id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+    "candidate_tag_id": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19"
+  },
+  "cases": [
+    {
+      "part": "unit",
+      "method": "real budget_consume/budget_count/budget_exhausted/budget_reset/ready_streak_update/check_manual_recovery/check_image_change/on_signal sourced from /usr/local/bin/kakao-entrypoint with KAKAO_FAKE_NOW (fake clock); throwaway container of the candidate image",
+      "started_at": "2026-10-19T07:11:37Z",
+      "finished_at": "2026-10-19T07:11:41Z",
+      "image": "kakaotalk-wine:reliability-qa",
+      "docker_run_exit_code": 0,
+      "sourced_file_sha256": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "worktree_entrypoint_sha256": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "sourced_file_equals_worktree": true,
+      "config": "max=3 window_s=600 ready_reset_s=600",
+      "script_finished": true,
+      "checks": [
+        {
+          "name": "three_allowed",
+          "passed": true,
+          "detail": "rc=0,0,0 count=3 max=3"
+        },
+        {
+          "name": "fourth_denied",
+          "passed": true,
+          "detail": "rc=1 count=3 file_unchanged=yes"
+        },
+        {
+          "name": "expiry_after_10_min",
+          "passed": true,
+          "detail": "t+599: count=3 consume_rc=1; t+600: count=2 consume_rc=0 count_after=3; t+601 consume_rc=1"
+        },
+        {
+          "name": "entries_expire_individually",
+          "passed": true,
+          "detail": "t+610: 2 t+620: 1 t+1300: 0 (entries at +10,+20,+600 dropped one by one)"
+        },
+        {
+          "name": "ready_600s_resets_budget",
+          "passed": true,
+          "detail": "t+599: count=1 blocked=1; t+600: count=0 blocked=0 last_reset=1800005600:ready_600s"
+        },
+        {
+          "name": "reset_event_logged",
+          "passed": true,
+          "detail": "stdout and last-failure.log carry event=budget_reset reason=ready_600s cleared_entries=1"
+        },
+        {
+          "name": "interrupted_ready_streak_does_not_reset",
+          "passed": true,
+          "detail": "ready,notready@+300,ready@+301: blocked at +601=1 (601s since first ready, 300s continuous) +900=1, lifted at +901=0 (600s continuous)"
+        },
+        {
+          "name": "manual_marker_resets",
+          "passed": true,
+          "detail": "no marker: rc=1 count=3; with marker: rc=0 count=0 marker_removed=yes last_reset=1800000002:manual_recovery"
+        },
+        {
+          "name": "new_image_id_resets",
+          "passed": true,
+          "detail": "same id keeps count=3 exhausted=1; changed id: count=0 exhausted=0 stored=id:img-B reason=new_image cleared_entries=3"
+        },
+        {
+          "name": "fingerprint_when_no_image_id_given",
+          "passed": true,
+          "detail": "fingerprint format ok: fp:<16 hex>"
+        },
+        {
+          "name": "docker_stop_not_counted",
+          "passed": true,
+          "detail": "on_signal TERM: exit=0 count 1 -> 1; stdout: event=manual_stop signal=TERM counted=0"
+        },
+        {
+          "name": "stop_path_never_touches_budget",
+          "passed": true,
+          "detail": "on_signal/on_exit/cleanup_all contain no budget_* call; main traps TERM -> on_signal"
+        }
+      ],
+      "passed": true,
+      "case": "unit"
+    }
+  ],
+  "result": {
+    "cases_total": 1,
+    "cases_passed": 1,
+    "passed": false
+  },
+  "production": {
+    "before": {
+      "found": true,
+      "id": "d50a0f7f0a5189f5b08c42c1c638e7d7e5ce8a1f87b3d4c65b77770cb88407d4",
+      "image_id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-19T05:36:46.106948109Z",
+      "restart_count": 0,
+      "healthcheck": {
+        "Test": [
+          "CMD",
+          "/usr/local/bin/kakao-healthcheck"
+        ],
+        "Interval": 10000000000,
+        "Timeout": 12000000000,
+        "StartPeriod": 90000000000,
+        "Retries": 3
+      },
+      "health_state": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-19T16:10:44.900138243+09:00",
+            "End": "2026-10-19T16:10:45.092578252+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:10:45Z probe_ms=133 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:10:55.093026264+09:00",
+            "End": "2026-10-19T16:10:55.290156668+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:10:55Z probe_ms=133 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:11:08.7253491+09:00",
+            "End": "2026-10-19T16:11:08.884170031+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:11:08Z probe_ms=112 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:11:18.885390999+09:00",
+            "End": "2026-10-19T16:11:19.115975462+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:11:19Z probe_ms=190 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:11:29.116609124+09:00",
+            "End": "2026-10-19T16:11:29.28764603+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:11:29Z probe_ms=113 recovery_count=0\n"
+          }
+        ]
+      },
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "984bcb1f878aad5ec63d470c0cadd8c87fb1e2c4919505430c7e7a89e010905c",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "after": {
+      "found": true,
+      "id": "d50a0f7f0a5189f5b08c42c1c638e7d7e5ce8a1f87b3d4c65b77770cb88407d4",
+      "image_id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-19T05:36:46.106948109Z",
+      "restart_count": 0,
+      "healthcheck": {
+        "Test": [
+          "CMD",
+          "/usr/local/bin/kakao-healthcheck"
+        ],
+        "Interval": 10000000000,
+        "Timeout": 12000000000,
+        "StartPeriod": 90000000000,
+        "Retries": 3
+      },
+      "health_state": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-19T16:10:44.900138243+09:00",
+            "End": "2026-10-19T16:10:45.092578252+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:10:45Z probe_ms=133 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:10:55.093026264+09:00",
+            "End": "2026-10-19T16:10:55.290156668+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:10:55Z probe_ms=133 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:11:08.7253491+09:00",
+            "End": "2026-10-19T16:11:08.884170031+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:11:08Z probe_ms=112 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:11:18.885390999+09:00",
+            "End": "2026-10-19T16:11:19.115975462+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:11:19Z probe_ms=190 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:11:29.116609124+09:00",
+            "End": "2026-10-19T16:11:29.28764603+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:11:29Z probe_ms=113 recovery_count=0\n"
+          }
+        ]
+      },
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "984bcb1f878aad5ec63d470c0cadd8c87fb1e2c4919505430c7e7a89e010905c",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "unchanged": true,
+    "matches_expected_started_at_and_zero_restarts": false
+  },
+  "worktree": {
+    "before": {
+      "head": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+      "status_excluding_evidence": [
+        " M README.md",
+        " M docker/entrypoint.sh"
+      ],
+      "status_sha256": "IE0gUkVBRE1FLm1kCiBNIGRvY2tlci9lbnRyeXBvaW50LnNo",
+      "diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec"
+    },
+    "after": {
+      "head": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+      "status_excluding_evidence": [
+        " M README.md",
+        " M docker/entrypoint.sh"
+      ],
+      "status_sha256": "IE0gUkVBRE1FLm1kCiBNIGRvY2tlci9lbnRyeXBvaW50LnNo",
+      "diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec"
+    },
+    "unchanged_excluding_evidence": true
+  },
+  "subset_run": true,
+  "adversarial": {
+    "flaky_tests": {
+      "probed": true,
+      "finding": "no fixed sleeps as synchronization: every wait is a deadline-bounded state predicate; the observation windows are time-as-behavior and the asserted minimum is checked against the measured elapsed seconds"
+    },
+    "hung_commands": {
+      "probed": true,
+      "finding": "every docker exec/logs/events/curl/python call is wrapped in timeout; all loops carry a deadline"
+    },
+    "stale_state": {
+      "probed": true,
+      "finding": "prep_fresh removes any QA-owned container/volume first: every scenario starts on a fresh QA volume (and fresh runtime-state/budget)"
+    },
+    "misleading_success_output": {
+      "probed": true,
+      "finding": "a pass needs probe ready AND HTTP 200 AND an independent WebSocket RFB banner in EVERY sample, plus pid-set equality and the monitor own recovery_count/budget; a quiet log alone is never accepted"
+    },
+    "repeated_interruptions": {
+      "probed": true,
+      "finding": "circuit breaker: 3 automatic actions per 10 min across ALL layers and boot paths; the 4th failure only sets phase=blocked, no process is started, the log does not grow, the container is not restarted (RestartCount stays 0) and docker stop still exits 0 uncounted"
+    }
+  },
+  "exit_code": 2
+}

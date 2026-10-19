@@ -56,6 +56,8 @@ CLEANUP_MAX=20
 LOG_CAP=65536
 HC_BIN="${KAKAO_HEALTHCHECK_BIN:-/usr/local/bin/kakao-healthcheck}"
 UI_CHECK_EVERY=6
+UI_STUCK_SECS="${KAKAO_UI_STUCK_SECS:-300}"  # window-less + connection-less this long => the app is stuck at start
+UI_STUCK_MAX="${KAKAO_UI_STUCK_MAX:-2}"      # app restarts per container boot for ui_stuck; then report only
 
 EXIT_BOOT_INIT=10   # wine prefix init failed
 EXIT_BOOT_X=11      # Xvfb never became ready
@@ -77,6 +79,9 @@ LAST_RESET=""
 IMAGE_ID=""
 UI_STATE=unknown
 UI_WINDOWS=0
+UI_UNCONF_SINCE=0
+UI_STUCK_TRIES=0
+UI_STUCK_GAVE_UP=0
 READY_SINCE=0
 MON_CONSEC=0
 MON_LAST_LAYER=""
@@ -317,6 +322,58 @@ ui_check() { # window count by class only; informational (UI-unconfirmed is neve
   else
     UI_STATE=unconfirmed
   fi
+}
+
+ui_net_established() { # ESTABLISHED TCP sockets to non-loopback peers, ignoring our own served ports (VNC 5900, noVNC 14500, RDP 3389)
+  cat /proc/net/tcp /proc/net/tcp6 2>/dev/null | awk '
+    $4 == "01" {
+      split($2, l, ":"); split($3, r, ":")
+      lp = toupper(l[2]); rip = toupper(r[1])
+      if (lp == "170C" || lp == "38A4" || lp == "0D3D") next
+      if (rip == "0100007F" || rip == "00000000000000000000000001000000" || rip == "0000000000000000FFFF00000100007F") next
+      c++
+    } END { print c + 0 }'
+}
+
+# A logged-in app that is minimized to the tray has no visible window but holds a server connection; a login screen is
+# a visible window. Only "no window AND no connection for UI_STUCK_SECS" means the app never came up (observed: the
+# process idles forever at 6 threads with no window). Counts only: no titles, no chat data.
+recover_ui_stuck() {
+  local p
+  [ "$BLOCKED" = 1 ] && return 0
+  UI_STATE=stuck
+  if [ "$UI_STUCK_TRIES" -ge "$UI_STUCK_MAX" ]; then
+    if [ "$UI_STUCK_GAVE_UP" != 1 ]; then
+      UI_STUCK_GAVE_UP=1
+      rt_log degraded app ui_stuck_unrecovered "action=none tries=$UI_STUCK_TRIES"
+    fi
+    return 0
+  fi
+  diagnostics app ui_stuck
+  if ! budget_consume app_relaunch ui_stuck; then
+    enter_blocked app ui_stuck
+    return 0
+  fi
+  UI_STUCK_TRIES=$((UI_STUCK_TRIES + 1))
+  rt_log degraded app ui_stuck "action=restart_app tries=$UI_STUCK_TRIES windows=0 connections=0"
+  for p in $(pgrep -x KakaoTalk.exe 2>/dev/null); do stop_pid "$p" 5; done
+  relaunch_app
+  UI_UNCONF_SINCE=0
+  write_state
+}
+
+ui_stuck_check() { # after ui_check: tracks how long the app has had no window, then acts if it also has no connection
+  local now
+  if [ "$UI_STATE" = confirmed ]; then
+    UI_UNCONF_SINCE=0; UI_STUCK_TRIES=0; UI_STUCK_GAVE_UP=0
+    return 0
+  fi
+  now=$(kakao_now)
+  [ "$UI_UNCONF_SINCE" -gt 0 ] || UI_UNCONF_SINCE=$now
+  [ $((now - UI_UNCONF_SINCE)) -ge "$UI_STUCK_SECS" ] || return 0
+  pgrep -x KakaoTalk.exe >/dev/null 2>&1 || return 0   # absent app is the hard-failure path's job
+  [ "$(ui_net_established)" -gt 0 ] && return 0
+  recover_ui_stuck
 }
 
 ############################ service start helpers ############################
@@ -751,9 +808,10 @@ monitor_tick() {
     if [ $((MON_TICKS % UI_CHECK_EVERY)) -eq 1 ]; then
       local prev=$UI_STATE
       ui_check
-      if [ "$UI_STATE" = unconfirmed ] && [ "$prev" != unconfirmed ]; then
+      if [ "$UI_STATE" = unconfirmed ] && { [ "$prev" = confirmed ] || [ "$prev" = unknown ]; }; then
         rt_event ui_unconfirmed "layer=app reason=ui_unconfirmed windows=0 action=none"
       fi
+      ui_stuck_check
     fi
   else
     if [ "$PROBE_LAYER" = "$MON_LAST_LAYER" ]; then

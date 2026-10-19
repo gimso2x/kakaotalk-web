@@ -1,0 +1,1205 @@
+{
+  "task": "task-2-recovery-repeat",
+  "schema": 1,
+  "command": "bash scripts/qa-runtime.sh recovery app freeze",
+  "started_at": "2026-10-19T07:02:40Z",
+  "finished_at": "2026-10-19T07:11:36Z",
+  "source": {
+    "revision": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+    "short": "6085e9d",
+    "branch": "fix/kakao-ui-stuck-detection",
+    "git_diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec",
+    "untracked_files_combined_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scripts_worktree": {
+      "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "scripts_embedded_in_candidate": {
+      "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+      "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+      "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+    },
+    "candidate_embeds_worktree_scripts": true,
+    "qa_app_seed": {
+      "used": false,
+      "note": "image-bundled KakaoTalk (stale on a fresh volume: error dialog, not login)"
+    }
+  },
+  "images": {
+    "baseline_tag_id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+    "candidate_tag_id": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19"
+  },
+  "image_facts": {
+    "baseline": {
+      "wine": {
+        "version": "wine-11.18 (Staging)"
+      },
+      "kakaotalk": {
+        "exe_path": "/opt/kakao/KakaoTalk/KakaoTalk.exe",
+        "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125",
+        "exe_size": "35817064",
+        "version_from_changelog": "26.1.2"
+      },
+      "scripts_in_container": {
+        "entrypoint": "91575d2a9f187daa5b2731379314192e764d502a537b2d98f88f732ccd20725d",
+        "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420"
+      },
+      "packages": [
+        "novnc=1:1.3.0-2",
+        "openbox=3.6.1-12build5",
+        "websockify=0.10.0+dfsg1-5build2",
+        "wine-staging=11.18~noble-1",
+        "wine-staging-amd64=11.18~noble-1",
+        "wine-staging-i386=11.18~noble-1",
+        "winehq-staging=11.18~noble-1",
+        "x11vnc=0.9.16-10",
+        "xvfb=2:21.1.12-1ubuntu1.6"
+      ]
+    },
+    "candidate": {
+      "wine": {
+        "version": "wine-11.18 (Staging)"
+      },
+      "kakaotalk": {
+        "exe_path": "/opt/kakao/KakaoTalk/KakaoTalk.exe",
+        "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125",
+        "exe_size": "35817064",
+        "version_from_changelog": "26.1.2"
+      },
+      "scripts_in_container": {
+        "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+        "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420"
+      },
+      "packages": [
+        "novnc=1:1.3.0-2",
+        "openbox=3.6.1-12build5",
+        "websockify=0.10.0+dfsg1-5build2",
+        "wine-staging=11.18~noble-1",
+        "wine-staging-amd64=11.18~noble-1",
+        "wine-staging-i386=11.18~noble-1",
+        "winehq-staging=11.18~noble-1",
+        "x11vnc=0.9.16-10",
+        "xvfb=2:21.1.12-1ubuntu1.6"
+      ]
+    },
+    "comparison": {
+      "wine_version_same": true,
+      "kakaotalk_exe_sha256_same": true,
+      "kakaotalk_version_same": true,
+      "packages_same": true,
+      "wine": {
+        "baseline": "wine-11.18 (Staging)",
+        "candidate": "wine-11.18 (Staging)"
+      },
+      "kakaotalk": {
+        "baseline": {
+          "version": "26.1.2",
+          "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125"
+        },
+        "candidate": {
+          "version": "26.1.2",
+          "exe_sha256": "f5023ba26ebe86735dea63d4a7fca3d6122f814d8489c0669fb4387bf8766125"
+        }
+      },
+      "lifecycle_scripts_differ_as_expected": true
+    }
+  },
+  "cases": [
+    {
+      "case": "app",
+      "started_at": "2026-10-19T07:02:42Z",
+      "finished_at": "2026-10-19T07:06:14Z",
+      "fault": {
+        "target": "KakaoTalk.exe",
+        "signal": "TERM",
+        "pids": [
+          777
+        ],
+        "injected_at": "2026-10-19T07:04:30Z",
+        "injection_ok": true,
+        "escalated_to_kill": false,
+        "stopped_state_confirmed": null,
+        "expected_full_restart": false
+      },
+      "source": {
+        "revision": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+        "short": "6085e9d",
+        "branch": "fix/kakao-ui-stuck-detection",
+        "git_diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec",
+        "untracked_files_combined_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "scripts_worktree": {
+          "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+          "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+          "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+        },
+        "scripts_embedded_in_candidate": {
+          "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+          "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+          "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+        },
+        "candidate_embeds_worktree_scripts": true,
+        "qa_app_seed": {
+          "used": false,
+          "note": "image-bundled KakaoTalk (stale on a fresh volume: error dialog, not login)"
+        }
+      },
+      "images": {
+        "baseline_tag_id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+        "candidate_tag_id": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19",
+        "image_under_test_tag": "kakaotalk-wine:reliability-qa",
+        "image_under_test_id": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19",
+        "container_image_id_before": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19",
+        "container_image_id_after": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19",
+        "container_runs_candidate": true,
+        "container_runs_image_under_test": true
+      },
+      "container": {
+        "id_before": "fbe3aab5989d42cf03c49a93b5ce277e0e3e6aedece3462234ca64eb21bc139c",
+        "id_after": "fbe3aab5989d42cf03c49a93b5ce277e0e3e6aedece3462234ca64eb21bc139c",
+        "restart_count_before": 0,
+        "restart_count_after": 0,
+        "started_at_before": "2026-10-19T07:02:44.221339525Z",
+        "started_at_after": "2026-10-19T07:02:44.221339525Z"
+      },
+      "pids_before": {
+        "xvfb": [
+          50
+        ],
+        "openbox": [
+          113
+        ],
+        "x11vnc": [
+          727
+        ],
+        "websockify": [
+          728
+        ],
+        "app": [
+          777
+        ],
+        "entrypoint": []
+      },
+      "pids_after": {
+        "xvfb": [
+          50
+        ],
+        "openbox": [
+          2992
+        ],
+        "x11vnc": [
+          727
+        ],
+        "websockify": [
+          728
+        ],
+        "app": [
+          3110
+        ],
+        "entrypoint": []
+      },
+      "pre_fault_sample": {
+        "t_s": 0,
+        "at": "2026-10-19T07:04:30Z",
+        "probe": {
+          "rc": 0,
+          "phase": "ready",
+          "layer": "app",
+          "reason": "ok",
+          "record": "phase=ready layer=app reason=ok ts=2026-10-19T07:04:30Z probe_ms=122 recovery_count=0"
+        },
+        "http_status": 200,
+        "rfb_ok": true,
+        "rfb_error": null,
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-19T07:02:44.221339525Z",
+        "pids": {
+          "xvfb": [
+            50
+          ],
+          "openbox": [
+            113
+          ],
+          "x11vnc": [
+            727
+          ],
+          "websockify": [
+            728
+          ],
+          "app": [
+            777
+          ],
+          "entrypoint": []
+        },
+        "stopped_pids": []
+      },
+      "kakaotalk_window_before": {
+        "wmctrl_top_level_windows": 2,
+        "kakaotalk_class_windows": 1,
+        "kakaotalk_classes": [
+          "kakaotalk.exe.kakaotalk.exe"
+        ],
+        "kakaotalk_geometries": [
+          {
+            "w": 322,
+            "h": 89
+          }
+        ],
+        "largest_kakaotalk_window": {
+          "w": 322,
+          "h": 89
+        },
+        "login_ui_windows": 0,
+        "dialog_sized_windows": 1,
+        "min_login_size": {
+          "w": 300,
+          "h": 250
+        },
+        "login_ui_present": false,
+        "only_dialog_sized": true,
+        "xdotool_visible_class_matches": 1,
+        "titles_logged": false
+      },
+      "kakaotalk_window_after": {
+        "wmctrl_top_level_windows": 2,
+        "kakaotalk_class_windows": 1,
+        "kakaotalk_classes": [
+          "kakaotalk.exe.kakaotalk.exe"
+        ],
+        "kakaotalk_geometries": [
+          {
+            "w": 322,
+            "h": 89
+          }
+        ],
+        "largest_kakaotalk_window": {
+          "w": 322,
+          "h": 89
+        },
+        "login_ui_windows": 0,
+        "dialog_sized_windows": 1,
+        "min_login_size": {
+          "w": 300,
+          "h": 250
+        },
+        "login_ui_present": false,
+        "only_dialog_sized": true,
+        "xdotool_visible_class_matches": 1,
+        "titles_logged": false
+      },
+      "rfb_after": {
+        "ok": true,
+        "banner": "RFB 003.008",
+        "error": null,
+        "elapsed_ms": 210
+      },
+      "docker_health_after": "healthy",
+      "runtime_state_after": {
+        "state": {
+          "phase": "ready",
+          "layer": "app",
+          "reason": "ok",
+          "ts": "1792393566",
+          "stage": "running",
+          "boot_epoch": "1792393365",
+          "grace_until": "1792393468",
+          "blocked": "0",
+          "recovery_count": "1",
+          "budget_max": "3",
+          "budget_window_s": "600",
+          "monitor_pid": "7",
+          "xvfb_pid": "50",
+          "openbox_pid": "2992",
+          "launcher_pid": "2998",
+          "x11vnc_pid": "727",
+          "websockify_pid": "728",
+          "ui": "confirmed",
+          "ui_windows": "1",
+          "image_id": "fp:f7267b5f06c2a8a2",
+          "last_budget_reset": ""
+        },
+        "budget_entries": [
+          "1792393476 app_relaunch app_process_absent"
+        ],
+        "failure_log_tail": [
+          "ts=2026-10-19T07:04:36Z phase=degraded layer=app reason=app_process_absent recovery_count=0 consecutive_failures=1",
+          "--- diagnostics ts=2026-10-19T07:04:36Z layer=app reason=app_process_absent",
+          "probe: phase=degraded layer=app reason=app_process_absent ts=2026-10-19T07:04:36Z probe_ms=117 recovery_count=0",
+          "loadavg: 0.57 0.52 0.39",
+          "mem_available_kb: 12887280",
+          "data_free_kb: 857137600",
+          "processes (pid stat etime comm):",
+          "      1 Ss         01:44 docker-init",
+          "      7 S          01:42 bash",
+          "     50 S          01:42 Xvfb",
+          "    113 Sl         01:42 openbox",
+          "    115 Sl         01:42 tint2",
+          "    534 S          01:35 dbus-launch",
+          "    535 Ss         01:35 dbus-daemon",
+          "    727 S          01:30 x11vnc",
+          "    728 S          01:30 websockify",
+          "    738 Sl         01:30 xrdp-chansrv",
+          "    832 S          01:29 xrdp",
+          "   2791 S          00:00 bash",
+          "   2792 S          00:00 bash",
+          "   2809 S          00:00 timeout",
+          "   2810 S          00:00 head",
+          "   2813 R          00:00 ps",
+          "ts=2026-10-19T07:04:36Z phase=degraded layer=app reason=app_process_absent recovery_count=1 action=relaunch_app kind=hard launcher_exit_status=1"
+        ],
+        "failure_log_bytes": 1078,
+        "wine_initialized_marker": "present",
+        "state_dir_mode": "700",
+        "state_dir_files": [
+          "budget.log",
+          "image_id",
+          "last-failure.log",
+          "state"
+        ]
+      },
+      "runtime_log_lines": [
+        "[kakao-runtime] ts=2026-10-19T07:02:45Z event=boot image=fp:f7267b5f06c2a8a2 budget_used=0/3",
+        "[kakao-runtime] ts=2026-10-19T07:02:59Z event=ui_unconfirmed layer=app reason=ui_unconfirmed windows=0 action=none",
+        "[kakao-runtime] ts=2026-10-19T07:02:59Z phase=ready layer=app reason=ok recovery_count=0 consecutive_failures=0",
+        "[kakao-runtime] ts=2026-10-19T07:04:36Z phase=degraded layer=app reason=app_process_absent recovery_count=0 consecutive_failures=1",
+        "[kakao-runtime] ts=2026-10-19T07:04:36Z phase=degraded layer=app reason=app_process_absent recovery_count=1 action=relaunch_app kind=hard launcher_exit_status=1",
+        "[kakao-runtime] ts=2026-10-19T07:04:46Z phase=ready layer=app reason=ok recovery_count=1 consecutive_failures=0"
+      ],
+      "samples": [
+        {
+          "t_s": 1,
+          "at": "2026-10-19T07:04:31Z",
+          "probe": {
+            "rc": 1,
+            "phase": "degraded",
+            "layer": "app",
+            "reason": "app_process_absent",
+            "record": "phase=degraded layer=app reason=app_process_absent ts=2026-10-19T07:04:31Z probe_ms=296 recovery_count=0"
+          },
+          "http_status": 200,
+          "rfb_ok": true,
+          "rfb_error": null,
+          "container_status": "running",
+          "restart_count": 0,
+          "started_at": "2026-10-19T07:02:44.221339525Z",
+          "pids": {
+            "xvfb": [
+              50
+            ],
+            "openbox": [
+              113
+            ],
+            "x11vnc": [
+              727
+            ],
+            "websockify": [
+              728
+            ],
+            "app": [],
+            "entrypoint": []
+          },
+          "stopped_pids": []
+        },
+        {
+          "t_s": 5,
+          "at": "2026-10-19T07:04:35Z",
+          "probe": {
+            "rc": 1,
+            "phase": "degraded",
+            "layer": "app",
+            "reason": "app_process_absent",
+            "record": "phase=degraded layer=app reason=app_process_absent ts=2026-10-19T07:04:35Z probe_ms=194 recovery_count=0"
+          },
+          "http_status": 200,
+          "rfb_ok": true,
+          "rfb_error": null,
+          "container_status": "running",
+          "restart_count": 0,
+          "started_at": "2026-10-19T07:02:44.221339525Z",
+          "pids": {
+            "xvfb": [
+              50
+            ],
+            "openbox": [
+              113
+            ],
+            "x11vnc": [
+              727
+            ],
+            "websockify": [
+              728
+            ],
+            "app": [],
+            "entrypoint": []
+          },
+          "stopped_pids": []
+        },
+        {
+          "t_s": 9,
+          "at": "2026-10-19T07:04:39Z",
+          "probe": {
+            "rc": 1,
+            "phase": "degraded",
+            "layer": "app",
+            "reason": "app_process_absent",
+            "record": "phase=degraded layer=app reason=app_process_absent ts=2026-10-19T07:04:38Z probe_ms=298 recovery_count=0"
+          },
+          "http_status": 200,
+          "rfb_ok": true,
+          "rfb_error": null,
+          "container_status": "running",
+          "restart_count": 0,
+          "started_at": "2026-10-19T07:02:44.221339525Z",
+          "pids": {
+            "xvfb": [
+              50
+            ],
+            "openbox": [
+              113
+            ],
+            "x11vnc": [
+              727
+            ],
+            "websockify": [
+              728
+            ],
+            "app": [],
+            "entrypoint": []
+          },
+          "stopped_pids": []
+        },
+        {
+          "t_s": 13,
+          "at": "2026-10-19T07:04:43Z",
+          "probe": {
+            "rc": 0,
+            "phase": "ready",
+            "layer": "app",
+            "reason": "ok",
+            "record": "phase=ready layer=app reason=ok ts=2026-10-19T07:04:42Z probe_ms=278 recovery_count=1"
+          },
+          "http_status": 200,
+          "rfb_ok": true,
+          "rfb_error": null,
+          "container_status": "running",
+          "restart_count": 0,
+          "started_at": "2026-10-19T07:02:44.221339525Z",
+          "pids": {
+            "xvfb": [
+              50
+            ],
+            "openbox": [
+              2992
+            ],
+            "x11vnc": [
+              727
+            ],
+            "websockify": [
+              728
+            ],
+            "app": [
+              3110
+            ],
+            "entrypoint": []
+          },
+          "stopped_pids": []
+        }
+      ],
+      "observations": {
+        "degraded_vnc_phase_seen": false,
+        "http200_while_rfb_dead_seen": false,
+        "openbox_replaced": true,
+        "openbox_replaced_reason": "orchestrator decision: app relaunch may replace openbox because a relaunched KakaoTalk login window stays unmapped under the old openbox; openbox is therefore excluded from the app-case unchanged-PID equality (xvfb, x11vnc, websockify, entrypoint, container id and RestartCount are still asserted unchanged)"
+      },
+      "assertions": {
+        "recovered_with_probe_ready_and_rfb_ok": true,
+        "seconds_from_injection_to_ready_and_rfb": 13,
+        "within_deadline": true,
+        "container_id_unchanged": true,
+        "restart_count_as_expected": true,
+        "other_layers_unchanged": true,
+        "faulted_layer_has_new_pids": true,
+        "kakaotalk_window_present_after": true,
+        "kakaotalk_login_ui_not_error_dialog_after": false,
+        "docker_health_healthy_after": true,
+        "budget_entries_exactly_one": true,
+        "container_runs_candidate_image": true,
+        "degraded_vnc_observed_when_frozen": null
+      },
+      "passed": false
+    },
+    {
+      "case": "freeze",
+      "started_at": "2026-10-19T07:06:15Z",
+      "finished_at": "2026-10-19T07:11:36Z",
+      "fault": {
+        "target": "x11vnc",
+        "signal": "STOP",
+        "pids": [
+          733
+        ],
+        "injected_at": "2026-10-19T07:09:36Z",
+        "injection_ok": true,
+        "escalated_to_kill": false,
+        "stopped_state_confirmed": true,
+        "expected_full_restart": false
+      },
+      "source": {
+        "revision": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+        "short": "6085e9d",
+        "branch": "fix/kakao-ui-stuck-detection",
+        "git_diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec",
+        "untracked_files_combined_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "scripts_worktree": {
+          "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+          "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+          "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+        },
+        "scripts_embedded_in_candidate": {
+          "entrypoint": "c5b15615d44f47f91e97f2996d97facee13cb6059116164c6f24efb5ef065c06",
+          "runner": "c05105b897a1ac98f89ed909dc8835f47cc60d3058271e594090883d9ffa7420",
+          "healthcheck": "7ea1b8fe70137408c2af4508e42f15fbdb6a5fd01fa9e45000da1147bbf577a5"
+        },
+        "candidate_embeds_worktree_scripts": true,
+        "qa_app_seed": {
+          "used": false,
+          "note": "image-bundled KakaoTalk (stale on a fresh volume: error dialog, not login)"
+        }
+      },
+      "images": {
+        "baseline_tag_id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+        "candidate_tag_id": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19",
+        "image_under_test_tag": "kakaotalk-wine:reliability-qa",
+        "image_under_test_id": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19",
+        "container_image_id_before": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19",
+        "container_image_id_after": "sha256:c6e5b49aabae0adc5937123503851d813ad54dccdced973556fd1b3f611cee19",
+        "container_runs_candidate": true,
+        "container_runs_image_under_test": true
+      },
+      "container": {
+        "id_before": "3df7d04d851f17548619fe392c0de3bf09848ad9be6c83713769fa62cb722da8",
+        "id_after": "3df7d04d851f17548619fe392c0de3bf09848ad9be6c83713769fa62cb722da8",
+        "restart_count_before": 0,
+        "restart_count_after": 0,
+        "started_at_before": "2026-10-19T07:06:17.308437324Z",
+        "started_at_after": "2026-10-19T07:06:17.308437324Z"
+      },
+      "pids_before": {
+        "xvfb": [
+          50
+        ],
+        "openbox": [
+          76
+        ],
+        "x11vnc": [
+          733
+        ],
+        "websockify": [
+          734
+        ],
+        "app": [
+          783
+        ],
+        "entrypoint": []
+      },
+      "pids_after": {
+        "xvfb": [
+          50
+        ],
+        "openbox": [
+          76
+        ],
+        "x11vnc": [
+          3573
+        ],
+        "websockify": [
+          734
+        ],
+        "app": [
+          783
+        ],
+        "entrypoint": []
+      },
+      "pre_fault_sample": {
+        "t_s": 1,
+        "at": "2026-10-19T07:09:36Z",
+        "probe": {
+          "rc": 0,
+          "phase": "ready",
+          "layer": "app",
+          "reason": "ok",
+          "record": "phase=ready layer=app reason=ok ts=2026-10-19T07:09:35Z probe_ms=134 recovery_count=0"
+        },
+        "http_status": 200,
+        "rfb_ok": true,
+        "rfb_error": null,
+        "container_status": "running",
+        "restart_count": 0,
+        "started_at": "2026-10-19T07:06:17.308437324Z",
+        "pids": {
+          "xvfb": [
+            50
+          ],
+          "openbox": [
+            76
+          ],
+          "x11vnc": [
+            733
+          ],
+          "websockify": [
+            734
+          ],
+          "app": [
+            783
+          ],
+          "entrypoint": []
+        },
+        "stopped_pids": []
+      },
+      "kakaotalk_window_before": {
+        "wmctrl_top_level_windows": 2,
+        "kakaotalk_class_windows": 1,
+        "kakaotalk_classes": [
+          "kakaotalk.exe.kakaotalk.exe"
+        ],
+        "kakaotalk_geometries": [
+          {
+            "w": 322,
+            "h": 89
+          }
+        ],
+        "largest_kakaotalk_window": {
+          "w": 322,
+          "h": 89
+        },
+        "login_ui_windows": 0,
+        "dialog_sized_windows": 1,
+        "min_login_size": {
+          "w": 300,
+          "h": 250
+        },
+        "login_ui_present": false,
+        "only_dialog_sized": true,
+        "xdotool_visible_class_matches": 1,
+        "titles_logged": false
+      },
+      "kakaotalk_window_after": {
+        "wmctrl_top_level_windows": 2,
+        "kakaotalk_class_windows": 1,
+        "kakaotalk_classes": [
+          "kakaotalk.exe.kakaotalk.exe"
+        ],
+        "kakaotalk_geometries": [
+          {
+            "w": 322,
+            "h": 89
+          }
+        ],
+        "largest_kakaotalk_window": {
+          "w": 322,
+          "h": 89
+        },
+        "login_ui_windows": 0,
+        "dialog_sized_windows": 1,
+        "min_login_size": {
+          "w": 300,
+          "h": 250
+        },
+        "login_ui_present": false,
+        "only_dialog_sized": true,
+        "xdotool_visible_class_matches": 1,
+        "titles_logged": false
+      },
+      "rfb_after": {
+        "ok": true,
+        "banner": "RFB 003.008",
+        "error": null,
+        "elapsed_ms": 202
+      },
+      "docker_health_after": "healthy",
+      "runtime_state_after": {
+        "state": {
+          "phase": "ready",
+          "layer": "app",
+          "reason": "ok",
+          "ts": "1792393895",
+          "stage": "running",
+          "boot_epoch": "1792393578",
+          "grace_until": "1792393682",
+          "blocked": "0",
+          "recovery_count": "1",
+          "budget_max": "3",
+          "budget_window_s": "600",
+          "monitor_pid": "7",
+          "xvfb_pid": "50",
+          "openbox_pid": "76",
+          "launcher_pid": "732",
+          "x11vnc_pid": "3573",
+          "websockify_pid": "734",
+          "ui": "confirmed",
+          "ui_windows": "1",
+          "image_id": "fp:f7267b5f06c2a8a2",
+          "last_budget_reset": ""
+        },
+        "budget_entries": [
+          "1792393801 vnc_relaunch probe_vnc_short_banner"
+        ],
+        "failure_log_tail": [
+          "ts=2026-10-19T07:09:40Z phase=degraded layer=vnc reason=vnc_short_banner recovery_count=0 consecutive_failures=1",
+          "--- diagnostics ts=2026-10-19T07:10:01Z layer=vnc reason=probe_vnc_short_banner",
+          "probe: phase=degraded layer=vnc reason=vnc_short_banner ts=2026-10-19T07:10:01Z probe_ms=2509 recovery_count=0",
+          "loadavg: 0.43 0.71 0.53",
+          "mem_available_kb: 12541472",
+          "data_free_kb: 857136508",
+          "processes (pid stat etime comm):",
+          "      1 Ss         03:22 docker-init",
+          "      7 S          03:21 bash",
+          "     50 S          03:21 Xvfb",
+          "     76 Sl         03:21 openbox",
+          "     78 Sl         03:21 tint2",
+          "    164 Ss         03:21 wineserver",
+          "    168 Ssl        03:20 services.exe",
+          "    174 Ssl        03:20 explorer.exe",
+          "    249 Ssl        03:20 winedevice.exe",
+          "    365 Ssl        03:17 svchost.exe",
+          "    370 Ssl        03:17 plugplay.exe",
+          "    526 Ssl        03:14 winedevice.exe",
+          "    535 S          03:14 dbus-launch",
+          "    536 Ss         03:14 dbus-daemon",
+          "    732 S          03:09 dbus-run-sessio",
+          "    733 T          03:09 x11vnc",
+          "    734 S          03:09 websockify",
+          "    744 Sl         03:09 xrdp-chansrv",
+          "    746 S          03:09 dbus-daemon",
+          "    747 S          03:09 bash",
+          "    755 Sl         03:09 fcitx5",
+          "    768 S          03:08 start.exe",
+          "    783 SLl        03:08 KakaoTalk.exe",
+          "    804 Ssl        03:08 lsass.exe",
+          "    848 S          03:08 xrdp",
+          "   3463 S          00:00 bash",
+          "   3464 S          00:00 bash",
+          "   3479 S          00:00 timeout",
+          "   3480 S          00:00 head",
+          "   3483 R          00:00 ps",
+          "   3484 R          00:00 bash",
+          "ts=2026-10-19T07:10:01Z phase=degraded layer=vnc reason=probe_vnc_short_banner recovery_count=1 action=relaunch_vnc kind=soft"
+        ],
+        "failure_log_bytes": 1606,
+        "wine_initialized_marker": "present",
+        "state_dir_mode": "700",
+        "state_dir_files": [
+          "budget.log",
+          "image_id",
+          "last-failure.log",
+          "state"
+        ]
+      },
+      "runtime_log_lines": [
+        "[kakao-runtime] ts=2026-10-19T07:06:18Z event=boot image=fp:f7267b5f06c2a8a2 budget_used=0/3",
+        "[kakao-runtime] ts=2026-10-19T07:06:32Z event=ui_unconfirmed layer=app reason=ui_unconfirmed windows=0 action=none",
+        "[kakao-runtime] ts=2026-10-19T07:06:32Z phase=ready layer=app reason=ok recovery_count=0 consecutive_failures=0",
+        "[kakao-runtime] ts=2026-10-19T07:09:40Z phase=degraded layer=vnc reason=vnc_short_banner recovery_count=0 consecutive_failures=1",
+        "[kakao-runtime] ts=2026-10-19T07:10:01Z phase=degraded layer=vnc reason=probe_vnc_short_banner recovery_count=1 action=relaunch_vnc kind=soft",
+        "[kakao-runtime] ts=2026-10-19T07:10:09Z phase=ready layer=app reason=ok recovery_count=1 consecutive_failures=0"
+      ],
+      "samples": [
+        {
+          "t_s": 8,
+          "at": "2026-10-19T07:09:44Z",
+          "probe": {
+            "rc": 1,
+            "phase": "degraded",
+            "layer": "vnc",
+            "reason": "vnc_short_banner",
+            "record": "phase=degraded layer=vnc reason=vnc_short_banner ts=2026-10-19T07:09:39Z probe_ms=2507 recovery_count=0"
+          },
+          "http_status": 200,
+          "rfb_ok": false,
+          "rfb_error": "WebSocketTimeoutException: Connection timed out",
+          "container_status": "running",
+          "restart_count": 0,
+          "started_at": "2026-10-19T07:06:17.308437324Z",
+          "pids": {
+            "xvfb": [
+              50
+            ],
+            "openbox": [
+              76
+            ],
+            "x11vnc": [
+              733
+            ],
+            "websockify": [
+              734
+            ],
+            "app": [
+              783
+            ],
+            "entrypoint": []
+          },
+          "stopped_pids": [
+            733
+          ]
+        },
+        {
+          "t_s": 23,
+          "at": "2026-10-19T07:09:59Z",
+          "probe": {
+            "rc": 1,
+            "phase": "degraded",
+            "layer": "vnc",
+            "reason": "vnc_short_banner",
+            "record": "phase=degraded layer=vnc reason=vnc_short_banner ts=2026-10-19T07:09:54Z probe_ms=7159 recovery_count=0"
+          },
+          "http_status": 200,
+          "rfb_ok": false,
+          "rfb_error": "WebSocketTimeoutException: Connection timed out",
+          "container_status": "running",
+          "restart_count": 0,
+          "started_at": "2026-10-19T07:06:17.308437324Z",
+          "pids": {
+            "xvfb": [
+              50
+            ],
+            "openbox": [
+              76
+            ],
+            "x11vnc": [
+              733
+            ],
+            "websockify": [
+              734
+            ],
+            "app": [
+              783
+            ],
+            "entrypoint": []
+          },
+          "stopped_pids": [
+            733
+          ]
+        },
+        {
+          "t_s": 27,
+          "at": "2026-10-19T07:10:03Z",
+          "probe": {
+            "rc": 0,
+            "phase": "ready",
+            "layer": "app",
+            "reason": "ok",
+            "record": "phase=ready layer=app reason=ok ts=2026-10-19T07:10:03Z probe_ms=311 recovery_count=1"
+          },
+          "http_status": 200,
+          "rfb_ok": true,
+          "rfb_error": null,
+          "container_status": "running",
+          "restart_count": 0,
+          "started_at": "2026-10-19T07:06:17.308437324Z",
+          "pids": {
+            "xvfb": [
+              50
+            ],
+            "openbox": [
+              76
+            ],
+            "x11vnc": [
+              3573
+            ],
+            "websockify": [
+              734
+            ],
+            "app": [
+              783
+            ],
+            "entrypoint": []
+          },
+          "stopped_pids": []
+        }
+      ],
+      "observations": {
+        "degraded_vnc_phase_seen": true,
+        "http200_while_rfb_dead_seen": true,
+        "openbox_replaced": null,
+        "openbox_replaced_reason": null
+      },
+      "assertions": {
+        "recovered_with_probe_ready_and_rfb_ok": true,
+        "seconds_from_injection_to_ready_and_rfb": 27,
+        "within_deadline": true,
+        "container_id_unchanged": true,
+        "restart_count_as_expected": true,
+        "other_layers_unchanged": true,
+        "faulted_layer_has_new_pids": true,
+        "kakaotalk_window_present_after": true,
+        "kakaotalk_login_ui_not_error_dialog_after": false,
+        "docker_health_healthy_after": true,
+        "budget_entries_exactly_one": true,
+        "container_runs_candidate_image": true,
+        "degraded_vnc_observed_when_frozen": true
+      },
+      "passed": false
+    }
+  ],
+  "result": {
+    "cases_total": 2,
+    "cases_passed": 0,
+    "deadline_s": 240,
+    "passed": false,
+    "note": "each case ran on a fresh QA volume; fault = signal to the exact QA PID; recovery measured from injection to probe ready + WS RFB banner"
+  },
+  "production": {
+    "before": {
+      "found": true,
+      "id": "d50a0f7f0a5189f5b08c42c1c638e7d7e5ce8a1f87b3d4c65b77770cb88407d4",
+      "image_id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-19T05:36:46.106948109Z",
+      "restart_count": 0,
+      "healthcheck": {
+        "Test": [
+          "CMD",
+          "/usr/local/bin/kakao-healthcheck"
+        ],
+        "Interval": 10000000000,
+        "Timeout": 12000000000,
+        "StartPeriod": 90000000000,
+        "Retries": 3
+      },
+      "health_state": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-19T16:01:47.637229195+09:00",
+            "End": "2026-10-19T16:01:47.808941056+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:01:47Z probe_ms=113 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:02:00.665483709+09:00",
+            "End": "2026-10-19T16:02:00.823435047+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:02:00Z probe_ms=113 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:02:10.824552869+09:00",
+            "End": "2026-10-19T16:02:11.0127117+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:02:11Z probe_ms=134 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:02:21.013717598+09:00",
+            "End": "2026-10-19T16:02:21.233673113+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:02:21Z probe_ms=170 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:02:34.096461463+09:00",
+            "End": "2026-10-19T16:02:34.294811931+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:02:34Z probe_ms=145 recovery_count=0\n"
+          }
+        ]
+      },
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "984bcb1f878aad5ec63d470c0cadd8c87fb1e2c4919505430c7e7a89e010905c",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "after": {
+      "found": true,
+      "id": "d50a0f7f0a5189f5b08c42c1c638e7d7e5ce8a1f87b3d4c65b77770cb88407d4",
+      "image_id": "sha256:8163bb6e5babad17ab0b27c5fc7502b13a377be0ed3cab5e7c2c82dace962df0",
+      "status": "running",
+      "running": true,
+      "started_at": "2026-10-19T05:36:46.106948109Z",
+      "restart_count": 0,
+      "healthcheck": {
+        "Test": [
+          "CMD",
+          "/usr/local/bin/kakao-healthcheck"
+        ],
+        "Interval": 10000000000,
+        "Timeout": 12000000000,
+        "StartPeriod": 90000000000,
+        "Retries": 3
+      },
+      "health_state": {
+        "Status": "healthy",
+        "FailingStreak": 0,
+        "Log": [
+          {
+            "Start": "2026-10-19T16:10:44.900138243+09:00",
+            "End": "2026-10-19T16:10:45.092578252+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:10:45Z probe_ms=133 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:10:55.093026264+09:00",
+            "End": "2026-10-19T16:10:55.290156668+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:10:55Z probe_ms=133 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:11:08.7253491+09:00",
+            "End": "2026-10-19T16:11:08.884170031+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:11:08Z probe_ms=112 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:11:18.885390999+09:00",
+            "End": "2026-10-19T16:11:19.115975462+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:11:19Z probe_ms=190 recovery_count=0\n"
+          },
+          {
+            "Start": "2026-10-19T16:11:29.116609124+09:00",
+            "End": "2026-10-19T16:11:29.28764603+09:00",
+            "ExitCode": 0,
+            "Output": "phase=ready layer=app reason=ok ts=2026-10-19T07:11:29Z probe_ms=113 recovery_count=0\n"
+          }
+        ]
+      },
+      "restart_policy": {
+        "Name": "unless-stopped",
+        "MaximumRetryCount": 0
+      },
+      "compose": {
+        "project": "kakaotalk-web",
+        "service": "kakaotalk",
+        "working_dir": "/home/root1/kakaotalk-web",
+        "config_files": "/home/root1/kakaotalk-web/docker-compose.yml",
+        "config_hash": "984bcb1f878aad5ec63d470c0cadd8c87fb1e2c4919505430c7e7a89e010905c",
+        "compose_version": "5.2.0"
+      },
+      "volumes": [
+        {
+          "name": "kakaotalk-web_kakao-wine-data",
+          "destination": "/data"
+        }
+      ],
+      "bind_mount_destinations": [
+        "/share"
+      ],
+      "port_bindings": {
+        "14500/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "14500"
+          }
+        ],
+        "3389/tcp": [
+          {
+            "HostIp": "",
+            "HostPort": "13389"
+          }
+        ]
+      }
+    },
+    "unchanged": true
+  },
+  "worktree": {
+    "before": {
+      "head": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+      "status_excluding_evidence": [
+        " M README.md",
+        " M docker/entrypoint.sh"
+      ],
+      "status_sha256": "IE0gUkVBRE1FLm1kCiBNIGRvY2tlci9lbnRyeXBvaW50LnNo",
+      "diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec"
+    },
+    "after": {
+      "head": "6085e9df6cf4bb2d3e6343b969bb743bc144fe1d",
+      "status_excluding_evidence": [
+        " M README.md",
+        " M docker/entrypoint.sh"
+      ],
+      "status_sha256": "IE0gUkVBRE1FLm1kCiBNIGRvY2tlci9lbnRyeXBvaW50LnNo",
+      "diff_binary_sha256": "71ff3d31f7897502368be3a2aeea046115de2599b410fdde87b93d6bddfc7eec"
+    },
+    "unchanged_excluding_evidence": true
+  },
+  "bounds": {
+    "recovery_deadline_s": 240,
+    "fixed_sleep_synchronization": false,
+    "note": "waits are deadline-bounded predicate polls; startup grace/observation windows are time-as-behavior"
+  },
+  "adversarial": {
+    "misleading_success_output": {
+      "probed": true,
+      "finding": "samples record HTTP 200 next to a failing probe/RFB while a layer is down (freeze case); recovery requires probe ready AND independent WS RFB banner"
+    },
+    "stale_state": {
+      "probed": true,
+      "finding": "fresh QA volume and container per case (prep_fresh down -v before every case)"
+    },
+    "hung_commands": {
+      "probed": true,
+      "finding": "every docker/curl/python call is bounded by timeout; the freeze case proves a SIGSTOPped x11vnc cannot hang the probe or the monitor"
+    },
+    "flaky_tests": {
+      "probed": true,
+      "finding": "no fixed sleeps as synchronization; each case is a single run with deadline polling; recovery times are recorded, not assumed"
+    },
+    "cancel_resume": {
+      "probed": true,
+      "finding": "case stop: docker stop while degraded exits 0 inside the 30s grace, is not restarted, does not consume budget, and a later start recovers"
+    },
+    "dirty_worktree": {
+      "probed": true,
+      "finding": "source revision + tracked diff hash + untracked-files hash recorded per run; candidate image script hashes verified equal to the worktree"
+    },
+    "production_interference": {
+      "probed": true,
+      "finding": "production only inspected; before/after snapshot compared (production.unchanged)"
+    },
+    "secrets_leak": {
+      "probed": true,
+      "finding": "N/A: QA uses an empty VNC_PASSWORD and no account; records contain phase/layer/reason/time/counts and class names only"
+    },
+    "data_loss": {
+      "probed": true,
+      "finding": "N/A: only the QA-only volume is created/removed; no wineserver -k in normal recovery"
+    },
+    "network_exposure": {
+      "probed": true,
+      "finding": "QA ports bound to 127.0.0.1 only (guard-enforced)"
+    }
+  },
+  "exit_code": 2,
+  "subset_run": true
+}
