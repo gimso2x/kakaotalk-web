@@ -7,9 +7,11 @@ ENV LC_ALL=ko_KR.UTF-8
 ENV DISPLAY=:100
 ARG INSTALL_FIREFOX=false
 
-RUN dpkg --add-architecture i386 \
-    && apt-get update \
-    && apt-get install -y --fix-missing --no-install-recommends \
+RUN echo 'Acquire::Retries "5";' > /etc/apt/apt.conf.d/80retries \
+    && dpkg --add-architecture i386 \
+    && apt_retry() { for n in 1 2 3 4 5; do "$@" && return 0; echo "[apt-get attempt $n failed, retrying in 3s]"; sleep 3; done; return 1; } \
+    && apt_retry apt-get update \
+    && apt_retry apt-get install -y --no-install-recommends \
         ca-certificates \
         bzip2 \
         xz-utils \
@@ -47,8 +49,8 @@ RUN dpkg --add-architecture i386 \
     && mkdir -pm755 /etc/apt/keyrings \
     && wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key \
     && wget -O /etc/apt/sources.list.d/winehq-noble.sources https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources \
-    && apt-get update \
-    && apt-get install -y --install-recommends winehq-staging \
+    && apt_retry apt-get update \
+    && apt_retry apt-get install -y --install-recommends winehq-staging \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /var/cache/apt/*
 
