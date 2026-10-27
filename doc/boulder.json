@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "active_work_id": "kakaotalk-runtime-reliability",
+  "works": {
+    "kakaotalk-runtime-reliability": {
+      "work_id": "kakaotalk-runtime-reliability",
+      "active_plan": "doc/plans/kakaotalk-runtime-reliability.md",
+      "plan_name": "kakaotalk-runtime-reliability",
+      "session_ids": ["omp:01a13cca-c299-76f7-9066-3038690c6664", "omp:01a13cda-59cd-71ea-9aab-dc63af6c90d1"],
+      "status": "paused",
+      "worktree_path": "/home/root1/work/kakaotalk-runtime-reliability"
+    }
+  }
+}
